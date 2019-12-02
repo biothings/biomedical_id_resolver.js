@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/kevinxin90/id_converter.js#readme",
   "devDependencies": {
+    "chai": "^4.2.0",
     "coveralls": "^3.0.9",
     "istanbul": "^0.4.5",
     "mocha": "^6.2.2",
