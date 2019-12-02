@@ -22,5 +22,15 @@ describe("Test helper functions", function() {
             let res = helper.groupIdByPrefix(_input);
             expect(res).to.deep.equal({'go': ['GO:0000123', 'GO:00123'], 'hp': ['HP:1234'], 'entrez': ['1018']})
         });
+        it("non-string value of the input will be skipped", function() {
+            let _input = [undefined];
+            let res = helper.groupIdByPrefix(_input);
+            expect(res).to.be.an('object').that.is.empty;
+        });
+        it("input element which is not prefixed will be skipeed", function() {
+            let _input = ['1234'];
+            let res = helper.groupIdByPrefix(_input);
+            expect(res).to.be.an('object').that.is.empty;
+        })
     })
 })

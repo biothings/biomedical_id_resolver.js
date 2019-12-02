@@ -3,6 +3,10 @@ exports.groupIdByPrefix = function(ids) {
     //some IDs always appear in CURIE format, e.g. GO, HP
     const ALWAYS_PREFIXED = ['go', 'hp'];
     for (let i = 0; i < ids.length; i++) {
+        if (typeof ids[i] !== 'string') {
+            console.log('not string');
+            continue
+        }
         let splitted = ids[i].split(':');
         if (splitted.length === 1) {
             continue
