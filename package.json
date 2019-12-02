@@ -1,0 +1,30 @@
+{
+  "name": "id_converter",
+  "version": "0.0.1",
+  "description": "js library for converting biomedical entity ids in batch",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha",
+    "cover": "istanbul cover _mocha",
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinxin90/id_converter.js.git"
+  },
+  "keywords": [
+    "id",
+    "conversion",
+    "biomedical"
+  ],
+  "author": "jiwen xin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevinxin90/id_converter.js/issues"
+  },
+  "homepage": "https://github.com/kevinxin90/id_converter.js#readme",
+  "devDependencies": {
+    "istanbul": "^0.4.5",
+    "mocha": "^6.2.2"
+  }
+}
