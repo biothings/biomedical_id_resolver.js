@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/kevinxin90/id_converter.js.svg?branch=master)](https://travis-ci.com/kevinxin90/id_converter.js)
+
 # id_converter.js
 js library for converting biological ids in batch
 
