@@ -121,15 +121,15 @@ describe("test transform API response function", function() {
         expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
     });
     it("if scope info could not be extracted, return empty dict", function() {
-        let res = {config: {url: 'http://mygene.info/v3/query', data: 'q=1017'}};
+        let res = {config: {url: 'http://mygene.info/v3/query', data: 'q=1017'}, data: {'entrez': 1}};
         expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
     });
     it("if scope could not be converted to biolink prefix, return empty dict", function() {
-        let res = {config: {url: 'http://mygene.info/v3/query', data: 'q=1017&scopes=entrez&fiedlds=...'}};
+        let res = {config: {url: 'http://mygene.info/v3/query', data: 'q=1017&scopes=entrez&fiedlds=...'}, data: {'entrez': 1}};
         expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
     });
     it("if scope could not be converted to biolink prefix, return empty dict", function() {
-        let res = {config: {url: 'http://mygene.info/v3/query', data: 'q=1017&scopes=entrez&fiedlds=...'}};
+        let res = {config: {url: 'http://mygene.info/v3/query', data: 'q=1017&scopes=entrez&fiedlds=...'}, data: {'entrez': 1}};
         expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
     });
     it("API response should be transformed correctly", async function() {
