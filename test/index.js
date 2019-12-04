@@ -29,7 +29,7 @@ describe("Test findAPIByType functions", function() {
 
 describe("Test constructPostQuery function", function() {
     it("if inputs is empty, should return undefined", function() {
-        expect(apiCall([], 'hgnc', api)).undefined;
+        expect(apiCall([], 'hgnc', 'mygene.info')).undefined;
     });
     it("if api is not in config, return undefined", function() {
         let api = 'mykkk.com';
