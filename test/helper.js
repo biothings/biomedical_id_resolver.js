@@ -33,4 +33,16 @@ describe("Test helper functions", function() {
             expect(res).to.be.an('object').that.is.empty;
         })
     })
+    describe("Test extract scope function", function() {
+        it('if matched, return the scope', function(){
+            let url = 'q=1017&scopes=entrezgene&fields=name,symbol,entrezgene,MIM,HGNC,umls.cui&dotfield=true';
+            expect(helper.extractScopeFromUrl(url)).to.equal('entrezgene');
+        })
+        it('if unmatched, return undefined', function(){
+            let url = 'q=1017&scope=entrezgene&fields=name,symbol,entrezgene,MIM,HGNC,umls.cui&dotfield=true';
+            expect(helper.extractScopeFromUrl(url)).undefined;
+            url = 'q=1017&scopes=entrezgene';
+            expect(helper.extractScopeFromUrl(url)).undefined;
+        })
+    })
 })

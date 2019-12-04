@@ -24,3 +24,18 @@ exports.groupIdByPrefix = function(ids) {
     }
     return res;
 }
+
+/**
+ * extract the scope information from post query data
+ * @param {string} url - the post query data
+ * @returns - the value of the scope field
+ */
+exports.extractScopeFromUrl = function(url) {
+    let myRegexp = /scopes=(.*)&fields/;
+    let matched = myRegexp.exec(url);
+    if (matched) {
+        return matched[1];
+    } else {
+        return undefined;
+    }
+}
