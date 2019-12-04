@@ -89,9 +89,72 @@ function generateAPIPromisesByCuries(curies, semanticType) {
 
 // make API call
 
+/**
+ * Find API based on baseUrl
+ * @param {string} baseUrl - the base url returned by axios response config
+ * @returns - the name of the API corresponding to the baseUrl
+ */
+function findAPIByBaseUrl(baseUrl) {
+    if (typeof baseUrl !== "string") {
+        return undefined
+    }
+    return _.findKey(APIMETA, function(o) {
+        return o.base_url === baseUrl;
+    })
+}
+
 // transform API response into BioLink model
+/**
+ * Tansform the API response into BioLink Model
+ * @param {array} res - API response from post query
+ * @returns - an object with keys being input id and values being resolved ids
+ */
+function transformAPIResponse(res) {
+    let result = {}
+    if (_.isEmpty(res.data)) {
+        return result;
+    };
+    let api = findAPIByBaseUrl(res.config.url);
+    if (_.isUndefined(api)) {
+        return result;
+    }
+    let mapping = APIMETA[api]['field_mapping'];
+    let scope = helper.extractScopeFromUrl(res.config.data);
+    if (_.isUndefined(scope)){
+        return result;
+    }
+    let prefix = _.findKey(mapping, function(o) {return o === scope});
+    if (_.isUndefined(prefix)) {
+        return result;
+    }
+    let curie;
+    for (let i = 0; i < res.data.length; i++) {
+        if (_.isEmpty(res.data[i])) {
+            continue;
+        } else if ('notfound' in res.data[i]) {
+            continue
+        } else {
+            delete res.data[i]['_id'];
+            delete res.data[i]['_score'];
+            for (let [key, value] of Object.entries(mapping)) {
+                if (value in res.data[i] && value !== key) {
+                    res.data[i][key] = res.data[i][value];
+                    delete res.data[i][value];
+                }
+            }
+            //TODO: check on GO terms
+            curie = prefix + ':' + _.toString(res.data[i]['query']);
+            delete res.data[i]['query'];
+            result[curie] = res.data[i];
+        }
+    }
+    return result;
+
+}
 
 // 
 exports.findAPIByType = findAPIByType;
 exports.constructPostQuery = constructPostQuery;
 exports.generateAPIPromisesByCuries = generateAPIPromisesByCuries;
+exports.findAPIByBaseUrl = findAPIByBaseUrl;
+exports.transformAPIResponse = transformAPIResponse;

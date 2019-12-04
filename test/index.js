@@ -1,8 +1,27 @@
 const expect = require("chai").expect;
 const findAPIByType = require('../index').findAPIByType;
+const findAPIByBaseUrl = require('../index').findAPIByBaseUrl
 const apiCall = require('../index').constructPostQuery;
 const generateAPIPromisesByCuries = require("../index").generateAPIPromisesByCuries;
+const transformAPIResponse = require('../index').transformAPIResponse;
 const _ = require('lodash');
+const axios = require('axios').default;
+
+
+describe("Test findAPIByBaseUrl functions", function() {
+    it("if baseUrl provided is not string, return undefined", function() {
+        let baseUrl = ['http://mygene.info'];
+        expect(findAPIByBaseUrl(baseUrl)).undefined;
+    });
+    it("if no API found corresponding to baseUrl, return undefined", function() {
+        let baseUrl = 'http://mygene.info';
+        expect(findAPIByBaseUrl(baseUrl)).undefined;
+    });
+    it("right API found for right baseUrl", function() {
+        let baseUrl = 'http://mygene.info/v3/query';
+        expect(findAPIByBaseUrl(baseUrl)).to.equal('mygene.info');
+    });
+})
 
 describe("Test findAPIByType functions", function() {
     it("if semantic type is not a string, return undefined", function() {
@@ -89,5 +108,36 @@ describe("Test generateAPIPromisesByCuries function", function() {
         curies.push('entrez:1001');
         res = generateAPIPromisesByCuries(curies, 'Gene');
         expect(res).to.be.an('array').of.lengthOf(2);
+    })
+})
+
+describe("test transform API response function", function() {
+    it("if API response is empty, return empty dict", function() {
+        let res = {};
+        expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
+    });
+    it("if base url could not be matched to API, return empty dict", function() {
+        let res = {config: {url: 'http://mygene.info'}};
+        expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
+    });
+    it("if scope info could not be extracted, return empty dict", function() {
+        let res = {config: {url: 'http://mygene.info/v3/query', data: 'q=1017'}};
+        expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
+    });
+    it("if scope could not be converted to biolink prefix, return empty dict", function() {
+        let res = {config: {url: 'http://mygene.info/v3/query', data: 'q=1017&scopes=entrez&fiedlds=...'}};
+        expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
+    });
+    it("if scope could not be converted to biolink prefix, return empty dict", function() {
+        let res = {config: {url: 'http://mygene.info/v3/query', data: 'q=1017&scopes=entrez&fiedlds=...'}};
+        expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
+    });
+    it("API response should be transformed correctly", async function() {
+        const response = await axios.post('http://mygene.info/v3/query',
+                                          data='q=1017,1018&scopes=entrezgene&fields=name,symbol,entrezgene,MIM,HGNC,umls.cui&dotfield=true',
+                                          headers={'content-type': 'application/x-www-form-urlencoded'});
+        const res = transformAPIResponse(response);
+        expect(res).to.have.all.keys('entrez:1017', 'entrez:1018');
+        expect(res['entrez:1017']).to.have.all.keys('name', 'symbol', 'entrez', 'umls', 'hgnc', 'omim');
     })
 })
