@@ -117,7 +117,7 @@ describe("test transform API response function", function() {
         expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
     });
     it("if base url could not be matched to API, return empty dict", function() {
-        let res = {config: {url: 'http://mygene.info'}};
+        let res = {config: {url: 'http://mygene.info'}, data: {'entrez': 1}};
         expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
     });
     it("if scope info could not be extracted, return empty dict", function() {
