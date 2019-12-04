@@ -15,12 +15,12 @@ describe("Test helper functions", function() {
             let _input = ['entrez:1017', 'entrez:1018', 'hgnc:1778', 'symbol:CDK7'];
             let res = helper.groupIdByPrefix(_input);
             expect(res).to.have.all.keys('entrez', 'hgnc', 'symbol');
-            expect(res).to.deep.equal({'entrez': ['1017', '1018'], 'hgnc': ['1778'], 'symbol': ['CDK7']});
+            expect(res).to.deep.equal({'entrez': new Set(['1017', '1018']), 'hgnc': new Set(['1778']), 'symbol': new Set(['CDK7'])});
         });
         it("For IDs naturally prefixed, the prefix should be kept in the value", function() {
             let _input = ['GO:0000123', 'HP:1234', 'entrez:1018', 'GO:GO:00123'];
             let res = helper.groupIdByPrefix(_input);
-            expect(res).to.deep.equal({'go': ['GO:0000123', 'GO:00123'], 'hp': ['HP:1234'], 'entrez': ['1018']})
+            expect(res).to.deep.equal({'go': new Set(['GO:0000123', 'GO:00123']), 'hp': new Set(['HP:1234']), 'entrez': new Set(['1018'])})
         });
         it("non-string value of the input will be skipped", function() {
             let _input = [undefined];
