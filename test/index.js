@@ -1,6 +1,8 @@
 const expect = require("chai").expect;
 const findAPIByType = require('../index').findAPIByType;
 const apiCall = require('../index').constructPostQuery;
+const generateAPIPromisesByCuries = require("../index").generateAPIPromisesByCuries;
+const _ = require('lodash');
 
 describe("Test findAPIByType functions", function() {
     it("if semantic type is not a string, return undefined", function() {
@@ -46,4 +48,43 @@ describe("Test constructPostQuery function", function() {
         let res2 = res.data[1];
         expect(res2).to.include({'entrezgene': '1018', 'symbol': 'CDK3', 'name': 'cyclin dependent kinase 3'});
     });
+})
+
+describe("Test generateAPIPromisesByCuries function", function() {
+    it("if curies is empty, should return an empty array", function() {
+        let curies = [];
+        let res = generateAPIPromisesByCuries(curies, 'Gene');
+        expect(res).to.be.an('array').that.is.empty;
+    });
+    it("if semantic type is not correct, should return an empty array", function() {
+        let curies = ['entrez:1017'];
+        let res = generateAPIPromisesByCuries(curies, 'Gene1');
+        expect(res).to.be.an('array').that.is.empty;
+    });
+    it("if semantic type and curie prefix doesn't match, should return an empty array", function() {
+        let curies = ['entrez:1017'];
+        let res = generateAPIPromisesByCuries(curies, 'SequenceVariant');
+        expect(res).to.be.an('array').that.is.empty;
+    });
+    it("the length of returned array should be equal to the number of prefixes", function() {
+        let curies = ['entrez:1017', 'hgnc:1771'];
+        let res = generateAPIPromisesByCuries(curies, 'Gene');
+        expect(res).to.be.an('array').of.lengthOf(2);
+        curies = ['entrez:1017', 'entrez:1771'];
+        res = generateAPIPromisesByCuries(curies, 'Gene');
+        expect(res).to.be.an('array').of.lengthOf(1);
+    });
+    it("if the input ids > 1000, should be chuncked into multiple promises", function() {
+        let curies = [];
+        let curie
+        for (i=1; i<1001; i++) {
+            curie = 'entrez:' + _.toString(i);
+            curies.push(curie);
+        };
+        res = generateAPIPromisesByCuries(curies, 'Gene');
+        expect(res).to.be.an('array').of.lengthOf(1);
+        curies.push('entrez:1001');
+        res = generateAPIPromisesByCuries(curies, 'Gene');
+        expect(res).to.be.an('array').of.lengthOf(2);
+    })
 })
