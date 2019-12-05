@@ -13,7 +13,7 @@ exports.groupIdByPrefix = function(ids) {
     }
     let res = {'invalid': new Set(), 'mapping': {}};
     //some IDs always appear in CURIE format, e.g. GO, HP
-    const ALWAYS_PREFIXED = ['go', 'hp'];
+    const ALWAYS_PREFIXED = ['go', 'hp', 'mondo', 'doid'];
     for (let i = 0; i < ids.length; i++) {
         if (_.isNumber(ids[i])) {
             res['invalid'].add(_.toString(ids[i]));
