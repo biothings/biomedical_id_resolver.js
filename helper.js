@@ -42,6 +42,9 @@ exports.groupIdByPrefix = function(ids) {
     if (_.isEmpty(res['invalid'])){
         delete res['invalid'];
     }
+    if (_.isEmpty(res['mapping'])){
+        delete res['mapping'];
+    }
     return res;
 }
 
