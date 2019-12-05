@@ -3,13 +3,33 @@ const helper = require('../helper');
 
 describe("Test helper functions", function() {
     describe("Test group IDs by prefix helper", function() {
-        it("if input is not a non-empty array, return empty object", function() {
-            let _input = 'hello';
+        it("if input is not an array, return empty object", function() {
+            let _input = 1017;
             let res = helper.groupIdByPrefix(_input);
             expect(res).to.be.an('object').that.is.empty;
-            _input = [];
+            _input = undefined;
             res = helper.groupIdByPrefix(_input);
             expect(res).to.be.an('object').that.is.empty;
+            _input = '1017';
+            res = helper.groupIdByPrefix(_input);
+            expect(res).to.be.an('object').that.is.empty;
+            _input = {'1017': '1018'};
+            res = helper.groupIdByPrefix(_input);
+            expect(res).to.be.an('object').that.is.empty;
+            _input = ['entrez:1017', 'entrez:1018'];
+            res = helper.groupIdByPrefix(_input);
+            expect(res).to.be.an('object').that.is.not.empty;
+        });
+        it("if one of the input is a number, add to invalid category", function() {
+            _input = ['entrez:1017', 1018];
+            res = helper.groupIdByPrefix(_input);
+            expect(res['invalid']).to.be.a('set').that.includes('1018');
+            expect(res['invalid']).to.be.a('set').that.does.not.includes('entrez:1017');
+        });
+        it("if one of the input is neither a number nor a string, it should be excluded", function() {
+            _input = ['entrez:1017', ['kevin']];
+            res = helper.groupIdByPrefix(_input);
+            expect(res).to.be.an('object').to.not.have.any.keys('invalid');
         });
         it("IDs grouped based on prefix", function() {
             let _input = ['entrez:1017', 'entrez:1018', 'hgnc:1778', 'symbol:CDK7'];
@@ -27,11 +47,6 @@ describe("Test helper functions", function() {
             let res = helper.groupIdByPrefix(_input);
             expect(res).to.be.an('object').that.is.empty;
         });
-        it("input element which is not prefixed will be skipeed", function() {
-            let _input = ['1234'];
-            let res = helper.groupIdByPrefix(_input);
-            expect(res).to.be.an('object').that.is.empty;
-        })
     })
     describe("Test extract scope function", function() {
         it('if matched, return the scope', function(){

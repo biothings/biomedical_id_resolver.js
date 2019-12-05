@@ -1,14 +1,30 @@
+const _ = require('lodash');
+
+/**
+ * group the input ids(curies) based on prefix
+ * @param {Array} ids - input curies
+ * @returns - an object with keys being prefix
+ * note: 'invalid' field contains all ids which are not curie compatible
+ */
 exports.groupIdByPrefix = function(ids) {
-    let res = {};
+    if (!(_.isArray(ids))) {
+        // console.error('The input is not an array');
+        return {};
+    }
+    let res = {'invalid': new Set()};
     //some IDs always appear in CURIE format, e.g. GO, HP
     const ALWAYS_PREFIXED = ['go', 'hp'];
     for (let i = 0; i < ids.length; i++) {
-        if (typeof ids[i] !== 'string') {
+        if (_.isNumber(ids[i])) {
+            res['invalid'].add(_.toString(ids[i]));
+            continue
+        } else if (typeof ids[i] !== 'string') {
+            // console.error('Each element in the input array must be string, invalid input : ', ids[i])
             continue
         }
         let splitted = ids[i].split(':');
         if (splitted.length === 1) {
-            continue
+            res['invalid'].add(ids[i]);
         } else {
             let prefix = splitted[0].toLowerCase();
             // add prefix as a key in res object if not exist, and initialize the value as empty array
@@ -21,6 +37,9 @@ exports.groupIdByPrefix = function(ids) {
             }
             res[prefix].add(value);
         }
+    }
+    if (_.isEmpty(res['invalid'])){
+        delete res['invalid'];
     }
     return res;
 }
