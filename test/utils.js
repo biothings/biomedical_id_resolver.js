@@ -217,13 +217,72 @@ describe("test resolve function", function() {
                 }
             }
         })
-        it("test example with all fields", async function() {
+        it("test example with some fields missing", async function() {
             for (let key in example2) {
                 if (!(['name', 'symbol'].includes(key))){
                     curie = key + ':' + example2[key];
                     res = await resolve([curie], 'Gene');
                     expect(res).deep.equal({[curie]: example2});
                 }
+            }
+        })
+    })
+    describe("test using sequence variant ids", function() {
+        // example containing all fields
+        const example1 = {
+            'hgvs': 'chr6:g.42454850G>A',
+            'dbsnp': 'rs12190874'
+        }
+        // example with some missing fields
+        const example2 = {
+            'hgvs': 'chr17:g.7230032C>T'
+        }
+        let res;
+        let curie;
+        it("test first example with all fields available", async function() {
+            for (let key in example1) {
+                curie = key + ':' + example1[key];
+                res = await resolve([curie], 'SequenceVariant');
+                expect(res).deep.equal({[curie]: example1});
+            }
+        })
+        it("test example with some fields missing", async function() {
+            for (let key in example2) {
+                curie = key + ':' + example2[key];
+                res = await resolve([curie], 'SequenceVariant');
+                expect(res).deep.equal({[curie]: example2});
+            }
+        })
+    })
+    describe("test using chemical ids", function() {
+        // example containing all fields
+        const example1 = {
+            'chembl': 'CHEMBL744',
+            'drugbank': 'DB00740',
+            'name': 'RILUZOLE',
+            'pubchem': 5070,
+            'umls': 'C0073379',
+            'mesh': 'D019782'
+        }
+        // example with some missing fields
+        const example2 = {
+            'chembl': 'CHEMBL1309',
+            'pubchem': 487643,
+        }
+        let res;
+        let curie;
+        it("test first example with all fields available", async function() {
+            for (let key in example1) {
+                curie = key + ':' + example1[key];
+                res = await resolve([curie], 'ChemicalSubstance');
+                expect(res).deep.equal({[curie]: example1});
+            }
+        })
+        it("test example with some fields missing", async function() {
+            for (let key in example2) {
+                curie = key + ':' + example2[key];
+                res = await resolve([curie], 'ChemicalSubstance');
+                expect(res).deep.equal({[curie]: example2});
             }
         })
     })
