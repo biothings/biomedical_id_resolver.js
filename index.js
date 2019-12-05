@@ -144,7 +144,6 @@ function transformAPIResponse(res, curie_mapping) {
                     delete res.data[i][value];
                 }
             }
-            //TODO: check on GO terms
             curie = prefix + ':' + _.toString(res.data[i]['query']);
             for (let res_key of Object.keys(res.data[i])) {
                 if (!(Object.keys(mapping).includes(res_key))) {
@@ -171,9 +170,13 @@ async function resolve(curies, semanticType) {
     let mapping = promises['mapping'];
     let resolvedIDs = {}
     invalid.forEach((_id) => {resolvedIDs[_id] = {'notfound': true}});
+    console.log(resolvedIDs);
+    console.log(promises);
     if (_.isEmpty(promises['valid'])) {
+        console.log('resolved', resolvedIDs);
         return resolvedIDs;
     }
+    console.log('here');
     let transformedResponse;
     let responses = await Promise.allSettled(promises['valid']);
     responses.forEach((result, num) => {

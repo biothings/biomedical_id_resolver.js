@@ -6,6 +6,7 @@ const generateAPIPromisesByCuries = require("../index").generateAPIPromisesByCur
 const transformAPIResponse = require('../index').transformAPIResponse;
 const _ = require('lodash');
 const axios = require('axios').default;
+const resolve = require('../index').resolve;
 
 
 describe("Test findAPIByBaseUrl functions", function() {
@@ -177,4 +178,13 @@ describe("test transform API response function", function() {
         expect(res['chembl:CHEMBL744']).to.have.all.keys('chembl', 'drugbank', 'mesh', 'name', 'pubchem', 'umls');
         expect(res['chembl:CHEMBL744']).to.not.have.any.keys('chembl._license', 'chebi._license');
     });
+})
+
+describe("test resolve function", function() {
+    it("invalid input should be captured and return as notfound", async function() {
+        const curies = ['1017', '1018', 1019];
+        let result = await resolve(curies, 'Gene');
+        expect(result).to.be.an("Object").to.have.all.keys('1017', '1018', '1019');
+        expect(result['1018']).to.be.an('Object').deep.equal({'notfound': true});
+    })
 })
