@@ -9,3 +9,7 @@ before_script:
 script:
     - "npm test"
 after_success: npm run coveralls
+notifications:
+  slack:
+    rooms:
+	  - suwulab:WDb1ySVv87z5j65bv3slsNnz#kevindev
