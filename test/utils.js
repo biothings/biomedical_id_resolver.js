@@ -286,4 +286,118 @@ describe("test resolve function", function() {
             }
         })
     })
+    describe("test using disease ids", function() {
+        // example containing all fields
+        const example2 = {
+            'mondo': 'MONDO:0016575',
+            'doid': 'DOID:9562',
+            'mesh': 'D002925',
+            'umls': 'C0008780',
+            'name': "primary ciliary dyskinesia"
+        }
+        // example with some missing fields
+        const example1 = {
+            'mondo': 'MONDO:0001561',
+            'doid': 'DOID:3122',
+            'mesh': 'D011707',
+            'umls': 'C0034194',
+            'name': "pyloric stenosis (disease)",
+            'hp': 'HP:0002021'
+        }
+        let res;
+        let curie;
+        it("test first example with all fields available", async function() {
+            
+            for (let key in example1) {
+                if (key !== 'name'){
+                    curie = key + ':' + example1[key];
+                    res = await resolve([curie], 'DiseaseOrPhenotypicFeature');
+                    expect(res).deep.equal({[curie]: example1});
+                }
+            }
+        })
+        it("test example with some fields missing", async function() {
+            for (let key in example2) {
+                if (key !== 'name'){
+                    curie = key + ':' + example2[key];
+                    res = await resolve([curie], 'DiseaseOrPhenotypicFeature');
+                    expect(res).deep.equal({[curie]: example2});
+                }
+            }
+        })
+    })
+    describe("test using pathway ids", function() {
+        // example for wikipathways
+        const example1 = {
+            'wikipathways': 'WP24',
+            'name': 'Peptide GPCRs'
+        }
+        // example for reactome
+        const example2 = {
+            'reactome': 'R-HSA-109582',
+            'name': 'Hemostasis'
+        }
+        // example for kegg pathways
+        const example3 = {
+            'kegg': 'hsa03010',
+            'name': 'Ribosome - Homo sapiens (human)'
+        }
+        // example for pharmgkb pathways
+        const example4 = {
+            'pharmgkb': 'PA165948566',
+            'name': 'Metformin Pathway, Pharmacodynamic'
+        }
+        // example for biocarta pathways
+        const example5 = {
+            'biocarta': 'hdacpathway',
+            'name': 'control of skeletal myogenesis by hdac and calcium/calmodulin-dependent kinase (camk)'
+        }
+        let res;
+        let curie;
+        it("test wikipathways", async function() {
+            for (let key in example1) {
+                if (key !== 'name'){
+                    curie = key + ':' + example1[key];
+                    res = await resolve([curie], 'Pathway');
+                    expect(res).deep.equal({[curie]: example1});
+                }
+            }
+        })
+        it("test reactome", async function() {
+            for (let key in example2) {
+                if (key !== 'name'){
+                    curie = key + ':' + example2[key];
+                    res = await resolve([curie], 'Pathway');
+                    expect(res).deep.equal({[curie]: example2});
+                }
+            }
+        })
+        it("test kegg", async function() {
+            for (let key in example3) {
+                if (key !== 'name'){
+                    curie = key + ':' + example3[key];
+                    res = await resolve([curie], 'Pathway');
+                    expect(res).deep.equal({[curie]: example3});
+                }
+            }
+        })
+        it("test pharmgkb", async function() {
+            for (let key in example4) {
+                if (key !== 'name'){
+                    curie = key + ':' + example4[key];
+                    res = await resolve([curie], 'Pathway');
+                    expect(res).deep.equal({[curie]: example4});
+                }
+            }
+        })
+        it("test biocarta", async function() {
+            for (let key in example5) {
+                if (key !== 'name'){
+                    curie = key + ':' + example5[key];
+                    res = await resolve([curie], 'Pathway');
+                    expect(res).deep.equal({[curie]: example5});
+                }
+            }
+        })
+    })
 })
