@@ -157,7 +157,8 @@ describe("test transform API response function", function() {
         const response = await axios.post('http://mygene.info/v3/query',
                                           data='q=1017,1018&scopes=entrezgene&fields=name,symbol,entrezgene,MIM,HGNC,umls.cui&dotfield=true',
                                           headers={'content-type': 'application/x-www-form-urlencoded'});
-        const res = transformAPIResponse(response);
+        const curie_mapping = {'entrez:1017': 'entrez:1017', 'entrez:1018': 'entrez:1018'}
+        const res = transformAPIResponse(response, curie_mapping);
         expect(res).to.have.all.keys('entrez:1017', 'entrez:1018');
         expect(res['entrez:1017']).to.have.all.keys('name', 'symbol', 'entrez', 'umls', 'hgnc', 'omim');
     })
