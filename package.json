@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kevinxin90/id_converter.js.git"
+    "url": "git+https://github.com/kevinxin90/biomedical_id_resolver.js.git"
   },
   "keywords": [
     "id",
@@ -20,9 +20,9 @@
   "author": "jiwen xin",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kevinxin90/id_converter.js/issues"
+    "url": "https://github.com/kevinxin90/biomedical_id_resolver.js/issues"
   },
-  "homepage": "https://github.com/kevinxin90/id_converter.js#readme",
+  "homepage": "https://github.com/kevinxin90/biomedical_id_resolver.js#readme",
   "devDependencies": {
     "chai": "^4.2.0",
     "coveralls": "^3.0.9",
