@@ -61,8 +61,12 @@ function generateAPIPromisesByCuries(curies, semanticType) {
     };
     for (let [prefix, ids] of Object.entries(inputs)) {
         if (prefix === 'invalid') {
-            console.log('ids', ids);
             res['invalid'] = Array.from(ids);
+            continue
+        }
+        if (prefix === 'mapping') {
+            res['mapping'] = ids;
+            continue
         }
         let api = findAPIByType(semanticType, prefix);
         if (_.isUndefined(api)) {
@@ -113,7 +117,7 @@ function findAPIByBaseUrl(baseUrl) {
  * @param {array} res - API response from post query
  * @returns - an object with keys being input id and values being resolved ids
  */
-function transformAPIResponse(res) {
+function transformAPIResponse(res, curie_mapping) {
     let result = {}
     if (_.isEmpty(res.data)) return result;
 
@@ -134,8 +138,6 @@ function transformAPIResponse(res) {
         } else if ('notfound' in res.data[i]) {
             continue
         } else {
-            delete res.data[i]['_id'];
-            delete res.data[i]['_score'];
             for (let [key, value] of Object.entries(mapping)) {
                 if (value in res.data[i] && value !== key) {
                     res.data[i][key] = res.data[i][value];
@@ -144,8 +146,12 @@ function transformAPIResponse(res) {
             }
             //TODO: check on GO terms
             curie = prefix + ':' + _.toString(res.data[i]['query']);
-            delete res.data[i]['query'];
-            result[curie] = res.data[i];
+            for (let res_key of Object.keys(res.data[i])) {
+                if (!(Object.keys(mapping).includes(res_key))) {
+                    delete res.data[i][res_key];
+                }
+            }
+            result[curie_mapping[curie]] = res.data[i];
         }
     }
     return result;
@@ -162,6 +168,7 @@ function transformAPIResponse(res) {
 async function resolve(curies, semanticType) {
     let promises = generateAPIPromisesByCuries(curies, semanticType);
     let invalid = promises['invalid'];
+    let mapping = promises['mapping'];
     let resolvedIDs = {}
     invalid.forEach((_id) => {resolvedIDs[_id] = {'notfound': true}});
     if (_.isEmpty(promises['valid'])) {
@@ -171,7 +178,8 @@ async function resolve(curies, semanticType) {
     let responses = await Promise.allSettled(promises['valid']);
     responses.forEach((result, num) => {
         if (result.status == 'fulfilled') {
-            transformedResponse = transformAPIResponse(result.value);
+            console.log(mapping)
+            transformedResponse = transformAPIResponse(result.value, mapping);
             resolvedIDs = Object.assign(resolvedIDs, transformedResponse);
         } else {
             console.log(result);

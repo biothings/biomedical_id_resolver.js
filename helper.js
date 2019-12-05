@@ -11,7 +11,7 @@ exports.groupIdByPrefix = function(ids) {
         // console.error('The input is not an array');
         return {};
     }
-    let res = {'invalid': new Set()};
+    let res = {'invalid': new Set(), 'mapping': {}};
     //some IDs always appear in CURIE format, e.g. GO, HP
     const ALWAYS_PREFIXED = ['go', 'hp'];
     for (let i = 0; i < ids.length; i++) {
@@ -36,6 +36,7 @@ exports.groupIdByPrefix = function(ids) {
                 value = prefix.toUpperCase() + ':' + value;
             }
             res[prefix].add(value);
+            res['mapping'][(prefix + ":" + value)] = ids[i]
         }
     }
     if (_.isEmpty(res['invalid'])){
