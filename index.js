@@ -49,17 +49,21 @@ function constructPostQuery(inputs, prefix, api) {
 /**
  * Generate an array of API call promises based on the input curies
  * each API call aims at fetching equivalent IDs for the inputs
- * @param {array} curies - input ids in curie format, e.g. ['entrez:1017', 'hgnc:1771'];
- * @param {string} semanticType - the semantic type of the curies, e.g. Gene
- * @returns - An array of API call promises
+ * @param {Array} curies - input ids in curie format, e.g. ['entrez:1017', 'hgnc:1771'];
+ * @param {String} semanticType - the semantic type of the curies, e.g. Gene
+ * @returns - An object, the "valid" field contains an array of API call promises, the "invalid" field contains ids which can not be transformed
  */
 function generateAPIPromisesByCuries(curies, semanticType) {
     let inputs = helper.groupIdByPrefix(curies);
-    let res = [];
+    let res = {'valid': [], 'invalid': []};
     if (_.isEmpty(inputs)){
         return res;
     };
     for (let [prefix, ids] of Object.entries(inputs)) {
+        if (prefix === 'invalid') {
+            console.log('ids', ids);
+            res['invalid'] = Array.from(ids);
+        }
         let api = findAPIByType(semanticType, prefix);
         if (_.isUndefined(api)) {
             continue;
@@ -74,7 +78,7 @@ function generateAPIPromisesByCuries(curies, semanticType) {
             if (_.isUndefined(axiosQuery)) {
                 continue;
             } else {
-                res.push(axiosQuery);
+                res['valid'].push(axiosQuery);
             }
         };
     };
@@ -111,22 +115,18 @@ function findAPIByBaseUrl(baseUrl) {
  */
 function transformAPIResponse(res) {
     let result = {}
-    if (_.isEmpty(res.data)) {
-        return result;
-    };
+    if (_.isEmpty(res.data)) return result;
+
     let api = findAPIByBaseUrl(res.config.url);
-    if (_.isUndefined(api)) {
-        return result;
-    }
+    if (_.isUndefined(api)) return result;
+
     let mapping = APIMETA[api]['field_mapping'];
     let scope = helper.extractScopeFromUrl(res.config.data);
-    if (_.isUndefined(scope)){
-        return result;
-    }
+    if (_.isUndefined(scope)) return result;
+
     let prefix = _.findKey(mapping, function(o) {return o === scope});
-    if (_.isUndefined(prefix)) {
-        return result;
-    }
+    if (_.isUndefined(prefix)) return result;
+
     let curie;
     for (let i = 0; i < res.data.length; i++) {
         if (_.isEmpty(res.data[i])) {
@@ -152,9 +152,38 @@ function transformAPIResponse(res) {
 
 }
 
+/**
+ * resolving biomedical ids
+ * note: this is the main function
+ * @param {Array} curies - input ids in curie format, e.g. ['entrez:1017', 'hgnc:1771'];
+ * @param {String} semanticType - the semantic type of the curies, e.g. Gene
+ * @returns an object with keys been curie and values been equivalent ids
+ */
+async function resolve(curies, semanticType) {
+    let promises = generateAPIPromisesByCuries(curies, semanticType);
+    let invalid = promises['invalid'];
+    let resolvedIDs = {}
+    invalid.forEach((_id) => {resolvedIDs[_id] = {'notfound': true}});
+    if (_.isEmpty(promises['valid'])) {
+        return resolvedIDs;
+    }
+    let transformedResponse;
+    let responses = await Promise.allSettled(promises['valid']);
+    responses.forEach((result, num) => {
+        if (result.status == 'fulfilled') {
+            transformedResponse = transformAPIResponse(result.value);
+            resolvedIDs = Object.assign(resolvedIDs, transformedResponse);
+        } else {
+            console.log(result);
+        }
+    })
+    return resolvedIDs;
+}
+
 // 
 exports.findAPIByType = findAPIByType;
 exports.constructPostQuery = constructPostQuery;
 exports.generateAPIPromisesByCuries = generateAPIPromisesByCuries;
 exports.findAPIByBaseUrl = findAPIByBaseUrl;
 exports.transformAPIResponse = transformAPIResponse;
+exports.resolve = resolve;

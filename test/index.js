@@ -73,28 +73,45 @@ describe("Test constructPostQuery function", function() {
 })
 
 describe("Test generateAPIPromisesByCuries function", function() {
+    it("if curies contain non-curie values, should be stored in invalid field of the response", function() {
+        let curies = [1017, 1018];
+        let res = generateAPIPromisesByCuries(curies, 'Gene');
+        expect(res['valid']).to.be.an('array').that.is.empty;
+        expect(res['invalid']).to.be.an('array').of.lengthOf(2).that.includes('1017', '1018');
+        curies = ['1017', '1018'];
+        res = generateAPIPromisesByCuries(curies, 'Gene');
+        expect(res['valid']).to.be.an('array').that.is.empty;
+        expect(res['invalid']).to.be.an('array').of.lengthOf(2).that.includes('1017', '1018');
+        curies = ['entrez:1017', '1018'];
+        res = generateAPIPromisesByCuries(curies, 'Gene');
+        expect(res['valid']).to.be.an('array').of.lengthOf(1);
+        expect(res['invalid']).to.be.an('array').deep.equal(Array.from(['1018']));
+    })
     it("if curies is empty, should return an empty array", function() {
         let curies = [];
         let res = generateAPIPromisesByCuries(curies, 'Gene');
-        expect(res).to.be.an('array').that.is.empty;
+        expect(res['valid']).to.be.an('array').that.is.empty;
+        expect(res['invalid']).to.be.an('array').that.is.empty;
     });
     it("if semantic type is not correct, should return an empty array", function() {
         let curies = ['entrez:1017'];
         let res = generateAPIPromisesByCuries(curies, 'Gene1');
-        expect(res).to.be.an('array').that.is.empty;
+        expect(res['valid']).to.be.an('array').that.is.empty;
+        expect(res['invalid']).to.be.an('array').that.is.empty;
     });
     it("if semantic type and curie prefix doesn't match, should return an empty array", function() {
         let curies = ['entrez:1017'];
         let res = generateAPIPromisesByCuries(curies, 'SequenceVariant');
-        expect(res).to.be.an('array').that.is.empty;
+        expect(res['valid']).to.be.an('array').that.is.empty;
+        expect(res['invalid']).to.be.an('array').that.is.empty;
     });
     it("the length of returned array should be equal to the number of prefixes", function() {
         let curies = ['entrez:1017', 'hgnc:1771'];
         let res = generateAPIPromisesByCuries(curies, 'Gene');
-        expect(res).to.be.an('array').of.lengthOf(2);
+        expect(res['valid']).to.be.an('array').of.lengthOf(2);
         curies = ['entrez:1017', 'entrez:1771'];
         res = generateAPIPromisesByCuries(curies, 'Gene');
-        expect(res).to.be.an('array').of.lengthOf(1);
+        expect(res['valid']).to.be.an('array').of.lengthOf(1);
     });
     it("if the input ids > 1000, should be chuncked into multiple promises", function() {
         let curies = [];
@@ -104,10 +121,10 @@ describe("Test generateAPIPromisesByCuries function", function() {
             curies.push(curie);
         };
         res = generateAPIPromisesByCuries(curies, 'Gene');
-        expect(res).to.be.an('array').of.lengthOf(1);
+        expect(res['valid']).to.be.an('array').of.lengthOf(1);
         curies.push('entrez:1001');
         res = generateAPIPromisesByCuries(curies, 'Gene');
-        expect(res).to.be.an('array').of.lengthOf(2);
+        expect(res['valid']).to.be.an('array').of.lengthOf(2);
     })
 })
 
@@ -129,6 +146,10 @@ describe("test transform API response function", function() {
         expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
     });
     it("if scope could not be converted to biolink prefix, return empty dict", function() {
+        let res = {config: {url: 'http://mygene.info/v3/query', data: 'q=1017&scopes=entrez&fiedlds=...'}, data: {'entrez': 1}};
+        expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
+    });
+    it("if data is, return empty dict", function() {
         let res = {config: {url: 'http://mygene.info/v3/query', data: 'q=1017&scopes=entrez&fiedlds=...'}, data: {'entrez': 1}};
         expect(transformAPIResponse(res)).to.be.an('object').that.is.empty;
     });
