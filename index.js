@@ -150,7 +150,12 @@ function transformAPIResponse(res, curie_mapping) {
                     delete res.data[i][res_key];
                 }
             }
-            result[curie_mapping[curie]] = res.data[i];
+
+            if (curie in curie_mapping) {
+                if (!(curie_mapping[curie] in result)) {
+                    result[curie_mapping[curie]] = res.data[i];
+                }
+            }
         }
     }
     return result;
@@ -170,13 +175,9 @@ async function resolve(curies, semanticType) {
     let mapping = promises['mapping'];
     let resolvedIDs = {}
     invalid.forEach((_id) => {resolvedIDs[_id] = {'notfound': true}});
-    console.log(resolvedIDs);
-    console.log(promises);
     if (_.isEmpty(promises['valid'])) {
-        console.log('resolved', resolvedIDs);
         return resolvedIDs;
     }
-    console.log('here');
     let transformedResponse;
     let responses = await Promise.allSettled(promises['valid']);
     responses.forEach((result, num) => {

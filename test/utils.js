@@ -187,4 +187,44 @@ describe("test resolve function", function() {
         expect(result).to.be.an("Object").to.have.all.keys('1017', '1018', '1019');
         expect(result['1018']).to.be.an('Object').deep.equal({'notfound': true});
     })
+    describe("test using gene ids", function() {
+        // example containing all fields
+        const example1 = {
+            'entrez': '1017',
+            'hgnc': '1771',
+            'ensembl': 'ENSG00000123374',
+            'omim': '116953',
+            'symbol': 'CDK2',
+            'umls': 'C1332733',
+            'name': "cyclin dependent kinase 2"
+        }
+        // example with some missing fields
+        const example2 = {
+            'entrez': '100507480',
+            'hgnc': "54390",
+            "symbol": "LINC02853",
+            "name": "long intergenic non-protein coding RNA 2853"
+        }
+        let res;
+        let curie;
+        it("test first example with all fields available", async function() {
+            
+            for (let key in example1) {
+                if (key !== 'name'){
+                    curie = key + ':' + example1[key];
+                    res = await resolve([curie], 'Gene');
+                    expect(res).deep.equal({[curie]: example1});
+                }
+            }
+        })
+        it("test example with all fields", async function() {
+            for (let key in example2) {
+                if (!(['name', 'symbol'].includes(key))){
+                    curie = key + ':' + example2[key];
+                    res = await resolve([curie], 'Gene');
+                    expect(res).deep.equal({[curie]: example2});
+                }
+            }
+        })
+    })
 })
