@@ -178,11 +178,10 @@ async function resolve(curies, semanticType) {
     let responses = await Promise.allSettled(promises['valid']);
     responses.forEach((result, num) => {
         if (result.status == 'fulfilled') {
-            console.log(mapping)
             transformedResponse = transformAPIResponse(result.value, mapping);
             resolvedIDs = Object.assign(resolvedIDs, transformedResponse);
         } else {
-            console.log(result);
+            console.error(result);
         }
     })
     return resolvedIDs;

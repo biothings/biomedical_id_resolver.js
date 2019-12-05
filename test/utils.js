@@ -161,5 +161,20 @@ describe("test transform API response function", function() {
         const res = transformAPIResponse(response, curie_mapping);
         expect(res).to.have.all.keys('entrez:1017', 'entrez:1018');
         expect(res['entrez:1017']).to.have.all.keys('name', 'symbol', 'entrez', 'umls', 'hgnc', 'omim');
-    })
+    });
+    it("keys not in the mapping file should be removed", async function() {
+        let response = await axios.post('http://mygene.info/v3/query',
+                                          data='q=1017,1018&scopes=entrezgene&fields=name,symbol,entrezgene,MIM,HGNC,umls.cui&dotfield=true',
+                                          headers={'content-type': 'application/x-www-form-urlencoded'});
+        let curie_mapping = {'entrez:1017': 'entrez:1017', 'entrez:1018': 'entrez:1018'}
+        let res = transformAPIResponse(response, curie_mapping);
+        expect(res['entrez:1017']).to.not.have.any.keys('taxid');
+        response = await axios.post('http://mychem.info/v1/query',
+                                          data='q=CHEMBL744,CHEMBL1306&scopes=chembl.molecule_chembl_id&fields=chembl.molecule_chembl_id,drugbank.id,chembl.pref_name,pubchem.cid,drugcentral.xrefs.umlscui,drugcentral.xrefs.mesh_descriptor_ui&dotfield=true',
+                                          headers={'content-type': 'application/x-www-form-urlencoded'});
+        curie_mapping = {'chembl:CHEMBL744': 'chembl:CHEMBL744', 'chembl:CHEMBL1306': 'chembl:CHEMBL1306'};
+        res = transformAPIResponse(response, curie_mapping);
+        expect(res['chembl:CHEMBL744']).to.have.all.keys('chembl', 'drugbank', 'mesh', 'name', 'pubchem', 'umls');
+        expect(res['chembl:CHEMBL744']).to.not.have.any.keys('chembl._license', 'chebi._license');
+    });
 })
