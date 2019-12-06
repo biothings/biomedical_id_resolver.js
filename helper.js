@@ -14,6 +14,7 @@ exports.groupIdByPrefix = function(ids) {
     let res = {'invalid': new Set(), 'mapping': {}};
     //some IDs always appear in CURIE format, e.g. GO, HP
     const ALWAYS_PREFIXED = ['go', 'hp', 'mondo', 'doid'];
+    const STRINGIFY = ['go', 'hp', 'mondo', 'doid', 'name']
     for (let i = 0; i < ids.length; i++) {
         if (_.isNumber(ids[i])) {
             res['invalid'].add(_.toString(ids[i]));
@@ -35,8 +36,11 @@ exports.groupIdByPrefix = function(ids) {
             if ((ALWAYS_PREFIXED.includes(prefix)) && (prefix !== splitted[1].toLowerCase())) {
                 value = prefix.toUpperCase() + ':' + value;
             }
+            res['mapping'][(prefix + ":" + value)] = ids[i];
+            if (STRINGIFY.includes(prefix)){
+                value = '"' + value + '"';
+            }
             res[prefix].add(value);
-            res['mapping'][(prefix + ":" + value)] = ids[i]
         }
     }
     if (_.isEmpty(res['invalid'])){
@@ -55,6 +59,21 @@ exports.groupIdByPrefix = function(ids) {
  */
 exports.extractScopeFromUrl = function(url) {
     let myRegexp = /scopes=(.*)&fields/;
+    let matched = myRegexp.exec(url);
+    if (matched) {
+        return matched[1];
+    } else {
+        return undefined;
+    }
+}
+
+/**
+ * extract the API information from post query data
+ * @param {string} url - the post query data
+ * @returns - the value of the scope field
+ */
+exports.extractAPIFromUrl = function(url) {
+    let myRegexp = /&api=(.*)/;
     let matched = myRegexp.exec(url);
     if (matched) {
         return matched[1];
