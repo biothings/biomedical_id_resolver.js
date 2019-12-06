@@ -24,7 +24,7 @@ function findAPIByType(semanticType, idType) {
  * @returns - an axios post query promise
  */
 function constructPostQuery(inputs, prefix, api) {
-    let query = 'q={inputs}&scopes={scopes}&fields={fields}&dotfield=true';
+    let query = 'q={inputs}&scopes={scopes}&fields={fields}&dotfield=true&api={api}';
     if (_.isEmpty(inputs)) {
         return undefined;
     }
@@ -38,10 +38,12 @@ function constructPostQuery(inputs, prefix, api) {
         return undefined;
     }
     let scopes = meta['field_mapping'][prefix];
+    query = query.replace('{inputs}', inputs).replace('{scopes}', scopes).replace('{fields}', fields).replace('{api}', api);
     return axios({
         method: 'post',
         url: meta['base_url'],
-        data: query.replace('{inputs}', inputs).replace('{scopes}', scopes).replace('{fields}', fields),
+        timeout: 3000,
+        data: query,
         headers: {'content-type': 'application/x-www-form-urlencoded'}
     })
 }
@@ -120,10 +122,8 @@ function findAPIByBaseUrl(baseUrl) {
 function transformAPIResponse(res, curie_mapping) {
     let result = {}
     if (_.isEmpty(res.data)) return result;
-
-    let api = findAPIByBaseUrl(res.config.url);
+    let api = helper.extractAPIFromUrl(res.config.data);
     if (_.isUndefined(api)) return result;
-
     let mapping = APIMETA[api]['field_mapping'];
     let scope = helper.extractScopeFromUrl(res.config.data);
     if (_.isUndefined(scope)) return result;
@@ -150,7 +150,6 @@ function transformAPIResponse(res, curie_mapping) {
                     delete res.data[i][res_key];
                 }
             }
-
             if (curie in curie_mapping) {
                 if (!(curie_mapping[curie] in result)) {
                     result[curie_mapping[curie]] = res.data[i];
