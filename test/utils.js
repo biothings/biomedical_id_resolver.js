@@ -156,7 +156,7 @@ describe("test transform API response function", function() {
     });
     it("API response should be transformed correctly", async function() {
         const response = await axios.post('http://mygene.info/v3/query',
-                                          data='q=1017,1018&scopes=entrezgene&fields=name,symbol,entrezgene,MIM,HGNC,umls.cui&dotfield=true',
+                                          data='q=1017,1018&scopes=entrezgene&fields=name,symbol,entrezgene,MIM,HGNC,umls.cui&dotfield=true&api=mygene.info',
                                           headers={'content-type': 'application/x-www-form-urlencoded'});
         const curie_mapping = {'entrez:1017': 'entrez:1017', 'entrez:1018': 'entrez:1018'}
         const res = transformAPIResponse(response, curie_mapping);
@@ -165,13 +165,13 @@ describe("test transform API response function", function() {
     });
     it("keys not in the mapping file should be removed", async function() {
         let response = await axios.post('http://mygene.info/v3/query',
-                                          data='q=1017,1018&scopes=entrezgene&fields=name,symbol,entrezgene,MIM,HGNC,umls.cui&dotfield=true',
+                                          data='q=1017,1018&scopes=entrezgene&fields=name,symbol,entrezgene,MIM,HGNC,umls.cui&dotfield=true&api=mygene.info',
                                           headers={'content-type': 'application/x-www-form-urlencoded'});
         let curie_mapping = {'entrez:1017': 'entrez:1017', 'entrez:1018': 'entrez:1018'}
         let res = transformAPIResponse(response, curie_mapping);
         expect(res['entrez:1017']).to.not.have.any.keys('taxid');
         response = await axios.post('http://mychem.info/v1/query',
-                                          data='q=CHEMBL744,CHEMBL1306&scopes=chembl.molecule_chembl_id&fields=chembl.molecule_chembl_id,drugbank.id,chembl.pref_name,pubchem.cid,drugcentral.xrefs.umlscui,drugcentral.xrefs.mesh_descriptor_ui&dotfield=true',
+                                          data='q=CHEMBL744,CHEMBL1306&scopes=chembl.molecule_chembl_id&fields=chembl.molecule_chembl_id,drugbank.id,chembl.pref_name,pubchem.cid,drugcentral.xrefs.umlscui,drugcentral.xrefs.mesh_descriptor_ui&dotfield=true&api=mychem.info',
                                           headers={'content-type': 'application/x-www-form-urlencoded'});
         curie_mapping = {'chembl:CHEMBL744': 'chembl:CHEMBL744', 'chembl:CHEMBL1306': 'chembl:CHEMBL1306'};
         res = transformAPIResponse(response, curie_mapping);
@@ -396,6 +396,24 @@ describe("test resolve function", function() {
                     curie = key + ':' + example5[key];
                     res = await resolve([curie], 'Pathway');
                     expect(res).deep.equal({[curie]: example5});
+                }
+            }
+        })
+    })
+    describe("test using mf ids", function() {
+
+        const example1 = {
+            'go': 'GO:0000010',
+            'name': "trans-hexaprenyltranstransferase activity"
+        }
+        let res;
+        let curie;
+        it("test first example with all fields available", async function() {
+            for (let key in example1) {
+                if (key !== 'name'){
+                    curie = key + ':' + example1[key];
+                    res = await resolve([curie], 'MolecularActivity');
+                    expect(res).deep.equal({[curie]: example1});
                 }
             }
         })

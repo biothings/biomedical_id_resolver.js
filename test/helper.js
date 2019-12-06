@@ -40,8 +40,9 @@ describe("Test helper functions", function() {
         it("For IDs naturally prefixed, the prefix should be kept in the value", function() {
             let _input = ['GO:0000123', 'HP:1234', 'entrez:1018', 'GO:GO:00123'];
             let res = helper.groupIdByPrefix(_input);
-            expect(res).to.deep.equal({'go': new Set(['GO:0000123', 'GO:00123']),
-                                       'hp': new Set(['HP:1234']), 
+            console.log(res);
+            expect(res).to.deep.equal({'go': new Set(['"GO:0000123"', '"GO:00123"']),
+                                       'hp': new Set(['"HP:1234"']), 
                                        'entrez': new Set(['1018']),
                                        'mapping': {
                                            "go:GO:0000123": "GO:0000123",
