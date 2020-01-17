@@ -13,12 +13,12 @@ $ npm install biomedical-id-resolver
 ## Usage
 
 ```js
-const convert = require('biomedical-id-resolver');
+const resolver = require('biomedical-id-resolver');
 
 const ids = ['entrez:1017', 'entrez:1018', 'hgnc:1177'];
 
 (async () => {
-	console.log(await convert(ids, semantic_type='Gene'));
+	console.log(await resolver.resolve(ids, semantic_type='Gene'));
 	//=> {'entrez:1017': {...}, 'entrez:1018': {...}, 'hgnc:1177': {...}}
 })();
 ```
