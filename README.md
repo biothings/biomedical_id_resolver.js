@@ -15,11 +15,19 @@ $ npm install biomedical_id_resolver
 ```js
 const resolver = require('biomedical_id_resolver');
 
+// resolve a list of gene ids
 const ids = ['entrez:1017', 'entrez:1018', 'hgnc:1177'];
 
 (async () => {
 	console.log(await resolver.resolve(ids, semantic_type='Gene'));
 	//=> {'entrez:1017': {...}, 'entrez:1018': {...}, 'hgnc:1177': {...}}
+})();
+
+// resolve a list of chemical ids
+const ids = ['chembl:CHEMBL744', 'pubchem:10976469', 'drugbank:DB00022'];
+(async () => {
+	console.log(await resolver.resolve(ids, semantic_type='ChemicalSubstance'));
+	//=> {'chembl:CHEMBL744': {...}, 'pubchem:10976469': {...}, 'drugbank:DB00022': {...}}
 })();
 ```
 
