@@ -7,13 +7,13 @@ js library for resolving biological ids to their equivalent ids in batch
 ## Install
 
 ```
-$ npm install biomedical-id-resolver
+$ npm install biomedical_id_resolver
 ```
 
 ## Usage
 
 ```js
-const resolver = require('biomedical-id-resolver');
+const resolver = require('biomedical_id_resolver');
 
 const ids = ['entrez:1017', 'entrez:1018', 'hgnc:1177'];
 
