@@ -23,7 +23,8 @@ exports.APIMETA = {
             "name": "name",
             "symbol": "symbol",
             "hgnc": "HGNC",
-            "omim": "MIM"
+            "omim": "MIM",
+            "biothings": "_id"
         }
     },
     "myvariant.info": {
@@ -31,7 +32,8 @@ exports.APIMETA = {
         "semantic": "SequenceVariant",
         "field_mapping": {
             "hgvs": "_id",
-            "dbsnp": "dbsnp.rsid"
+            "dbsnp": "dbsnp.rsid",
+            "biothings": "_id"
         }
     },
     "mychem.info": {
@@ -43,7 +45,8 @@ exports.APIMETA = {
             "name": "chembl.pref_name",
             "pubchem": "pubchem.cid",
             "umls": "drugcentral.xrefs.umlscui",
-            "mesh": "drugcentral.xrefs.mesh_descriptor_ui"
+            "mesh": "drugcentral.xrefs.mesh_descriptor_ui",
+            "biothings": "_id"
         }
     },
     "mydisease.info": {
@@ -55,7 +58,8 @@ exports.APIMETA = {
             "hp": "mondo.xrefs.hp",
             "umls": "mondo.xrefs.umls",
             "mesh": "mondo.xrefs.mesh",
-            "name": "mondo.label"
+            "name": "mondo.label",
+            "biothings": "_id"
         }
     },
     "pathway": {
@@ -68,7 +72,8 @@ exports.APIMETA = {
             "wikipathways": "wikipathways",
             "kegg": "kegg",
             "pharmgkb": "pharmgkb",
-            "biocarta": "biocarta"
+            "biocarta": "biocarta",
+            "biothings": "_id"
         }
     },
     "mf": {
@@ -77,7 +82,8 @@ exports.APIMETA = {
         "semantic": "MolecularActivity",
         "field_mapping": {
             "name": "name",
-            "go": "go"
+            "go": "go",
+            "biothings": "_id"
         }
     },
     "cc": {
@@ -87,7 +93,8 @@ exports.APIMETA = {
         "field_mapping": {
             "name": "name",
             "go": "go",
-            "umls": "umls"
+            "umls": "umls",
+            "biothings": "_id"
         }
     },
     "bp": {
@@ -97,7 +104,8 @@ exports.APIMETA = {
         "field_mapping": {
             "name": "name",
             "go": "go",
-            "umls": "umls"
+            "umls": "umls",
+            "biothings": "_id"
         }
     },
     "anatomy": {
@@ -105,7 +113,8 @@ exports.APIMETA = {
         "semantic": "AnatomicalEntity",
         "field_mapping": {
             "name": "name",
-            "umls": "umls"
+            "umls": "umls",
+            "biothings": "_id"
         }
     },
     "phenotype": {
@@ -113,7 +122,8 @@ exports.APIMETA = {
         "semantic": "PhenotypicFeature",
         "field_mapping": {
             "name": "name",
-            "umls": "umls"
+            "umls": "umls",
+            "biothings": "_id"
         }
     }
 }
