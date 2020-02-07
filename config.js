@@ -46,7 +46,8 @@ exports.APIMETA = {
             "pubchem": "pubchem.cid",
             "umls": "drugcentral.xrefs.umlscui",
             "mesh": "drugcentral.xrefs.mesh_descriptor_ui",
-            "biothings": "_id"
+            "biothings": "_id",
+            "drugPhase": "chembl.max_phase"
         }
     },
     "mydisease.info": {
