@@ -7,7 +7,7 @@ js library for resolving biological ids to their equivalent ids in batch
 ## Install
 
 ```
-$ npm install biomedical_id_resolver
+$ npm i biomedical_id_resolver
 ```
 
 ## Usage
@@ -32,62 +32,122 @@ const ids = ['chembl:CHEMBL744', 'pubchem:10976469', 'drugbank:DB00022'];
 ```
 
 ## Available Semantic Types & prefixes
-* Gene
-    * entrez
-    * ensembl
-    * umls
-    * name
-    * symbol
-    * hgnc
-    * omim
 
-* SequenceVariant
-    * dbsnp
-    * hgvs
+> Gene ID resolution is done through MyGene.info API
 
-* ChemicalSubstance
-    * chembl
-    * drugbank
-    * name
-    * pubchem
-    * umls
-    * mesh
+- Gene
+  1. NCBIGene
+  2. ENSEMBL
+  3. HGNC
+  4. SYMBOL
+  5. OMIM
+  6. UniProtKB
+  7. UMLS
+  8. name
 
-* DiseaseOrPhenotypicFeature
-    * mondo
-    * doid
-    * hp
-    * umls
-    * mesh
-    * name
+> Variant ID resolution is done through MyVariant.info API
 
-* Pathway
-    * name
-    * reactome
-    * wikipathways
-    * kegg
-    * pharmgkb
-    * biocarta
+- SequenceVariant
+  1. HGVS
+  2. DBSNP
+  3. MYVARIANT_HG19
 
-* MolecularActivity
-    * name
-    * go
+> ChemicalSubstance ID resolution is done through MyChem.info API
 
-* CellularComponent
-    * go
-    * name
-    * umls
+- ChemicalSubstance
+    1. CHEBI
+    2. CHEMBL.COMPOUND
+    3. DRUGBANK
+    4. PUBCHEM
+    5. MESH
+    6. INCHI
+    7. INCHIKEY
+    8. UNII
+    9. KEGG
+    10. UMLS
+    11. name
 
-* BiologicalProcess
-    * go
-    * name
-    * umls
+> Disease ID Resolution is done through MyDisease.info API
 
-* AnatomicalEntity
-    * name
-    * umls
+- Disease
 
-* phenotype
-    * name
-    * umls
+  1. MONDO
+  2. DOID
+  3. OMIM
+  4. ORPHANET
+  5. EFO
+  6. UMLS
+  7. MESH
+  8. name
 
+> Pathway ID Resolution is done through biothings.ncats.io/geneset API
+
+- Pathway
+  1. Reactome
+  2. KEGG
+  3. PHARMGKB
+  4. WIKIPATHWAYS
+  5. name
+
+> MolecularActivity ID Resolution is done through nodenormalization API
+
+- MolecularActivity
+  1. GO
+  2. MetaCyc
+  3. RHEA
+  4. KEGG.REACTION
+  5. Reactome
+
+> CellularComponent ID Resolution is done through nodenormalization API
+
+- CellularComponent
+  1. GO
+  2. MESH
+  3. UMLS
+  4. NCIT
+  5. SNOMEDCT
+  6. UBERON
+  7. CL
+  8. name
+
+> BiologicalProcess ID Resolution is done through nodenormalization API
+
+- BiologicalProcess
+
+  1. GO
+  2. MetaCyc
+  3. Reactome
+  4. name
+
+> AnatomicalEntity ID Resolution is done through nodenormalization API
+
+- AnatomicalEntity
+  1. UBERON
+  2. UMLS
+  3. NCIT
+  4. MESH
+  5. name
+
+> PhenotypicFeature ID Resolution is done through nodenormalization API
+
+- PhenotypicFeature
+  1. UMLS
+  2. SNOMEDCT
+  3. HP
+  4. MEDDRA
+  5. EFO
+  6. NCIT
+  7. MESH
+  8. MP
+  9. name
+
+> Cell ID Resolution is done through nodenormalization API
+
+- Cell
+  1. CL
+  2. UMLS
+  3. NCIT
+  4. MESH
+  5. UBERON
+  6. SNOMEDCT
+  7. name
