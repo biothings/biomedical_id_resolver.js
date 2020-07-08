@@ -13,22 +13,109 @@ $ npm i biomedical_id_resolver
 ## Usage
 
 ```js
-const resolver = require('biomedical_id_resolver');
+const resolve = require('biomedical_id_resolver');
 
-// resolve a list of gene ids
-const ids = ['entrez:1017', 'entrez:1018', 'hgnc:1177'];
+// input should be an object, with semantic type as the key, and array of CURIEs as value
+let input = {
+    "Gene": ["NCBIGene:1017", "NCBIGene:1018", "HGNC:1177"],
+    "ChemicalSubstance": ["CHEBI:15377"],
+    "Disease": ["MONDO:0004976"],
+    "Cell": ["CL:0002372"]
+  };
 
 (async () => {
-	console.log(await resolver.resolve(ids, semantic_type='Gene'));
-	//=> {'entrez:1017': {...}, 'entrez:1018': {...}, 'hgnc:1177': {...}}
+	console.log(await resolve(input);
+	//=> {'NCBIGene:1017': {...}, 'NCBIGene:1018': {...}, 'HGNC:1177': {...}, 'CHEBI:15377': {...}, 'MONDO:0004976': {...}, 'CL:0002372': {...}}
 })();
 
-// resolve a list of chemical ids
-const ids = ['chembl:CHEMBL744', 'pubchem:10976469', 'drugbank:DB00022'];
-(async () => {
-	console.log(await resolver.resolve(ids, semantic_type='ChemicalSubstance'));
-	//=> {'chembl:CHEMBL744': {...}, 'pubchem:10976469': {...}, 'drugbank:DB00022': {...}}
-})();
+```
+
+## Output Schema
+
+- Output is a javascript Object
+
+- The root keys are CURIES (e.g. NCBIGene:1017) which are passed in as input
+
+- The values represents resolved identifiers
+
+- Each CURIE will have 5 required fields
+
+  - id: the primary id (selected based on the ranking described in the next section)
+
+  - ids: an array, each element represents a resolved id in CURIE format
+
+  - type: the semantic type of the identifier
+
+  - bte_ids: equivalent identifiers used as input for biothings explorer
+
+  - equivalent_identifiers: an array of objects, each object has a key "identifier", the value is the CURIE form of the identifier.
+
+- if an ID can not be resolved using the package, it will have an additional field called "flag", with value equal to "failed"
+
+- Example Output
+
+```json
+{
+  "NCBIGene:1017": {
+    "id": {
+      "label": "cyclin dependent kinase 2",
+      "identifier": "NCBIGene:1017"
+    },
+    "equivalent_identifiers": [
+      {
+        "identifier": "NCBIGene:1017"
+      },
+      {
+        "identifier": "ENSEMBL:ENSG00000123374"
+      },
+      {
+        "identifier": "HGNC:1771"
+      },
+      {
+        "identifier": "SYMBOL:CDK2"
+      },
+      {
+        "identifier": "UMLS:C1332733"
+      },
+      {
+        "identifier": "UMLS:C0108855"
+      },
+      {
+        "identifier": "name:cyclin dependent kinase 2"
+      }
+    ],
+    "bte_ids": {
+      "NCBIGene": [
+        "1017"
+      ],
+      "ENSEMBL": [
+        "ENSG00000123374"
+      ],
+      "HGNC": [
+        "1771"
+      ],
+      "SYMBOL": [
+        "CDK2"
+      ],
+      "UMLS": [
+        "C1332733",
+        "C0108855"
+      ],
+      "name": [
+        "cyclin dependent kinase 2"
+      ]
+    },
+    "type": "Gene",
+    "ids": [
+      "NCBIGene:1017",
+      "ENSEMBL:ENSG00000123374",
+      "HGNC:1771",
+      "SYMBOL:CDK2",
+      "UMLS:C1332733",
+      "UMLS:C0108855"
+    ]
+  }
+}
 ```
 
 ## Available Semantic Types & prefixes
@@ -51,6 +138,7 @@ const ids = ['chembl:CHEMBL744', 'pubchem:10976469', 'drugbank:DB00022'];
   1. HGVS
   2. DBSNP
   3. MYVARIANT_HG19
+  4. ClinVar
 
 > ChemicalSubstance ID resolution is done through MyChem.info API
 
@@ -66,6 +154,11 @@ const ids = ['chembl:CHEMBL744', 'pubchem:10976469', 'drugbank:DB00022'];
     9. KEGG
     10. UMLS
     11. name
+    12. id: 
+    query {
+        ChemicalSubstance(CHEBI: 1234)
+        ChemicalSubstance(id: "CHEMBL.COMPOUND:1234")
+    }
 
 > Disease ID Resolution is done through MyDisease.info API
 
