@@ -154,11 +154,7 @@ let input = {
     9. KEGG
     10. UMLS
     11. name
-    12. id: 
-    query {
-        ChemicalSubstance(CHEBI: 1234)
-        ChemicalSubstance(id: "CHEMBL.COMPOUND:1234")
-    }
+    12. id
 
 > Disease ID Resolution is done through MyDisease.info API
 
