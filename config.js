@@ -1,130 +1,106 @@
-exports.SEMANTIC2API = {
-    "Gene": "mygene.info",
-    "SequenceVariant": "myvariant.info",
-    "ChemicalSubstance": ["mychem.info", "umlschem"],
-    "DiseaseOrPhenotypicFeature": "mydisease.info",
-    "AnatomicalEntity": "semmedanatomy",
-    "PhenotypicFeature": "semmedphenotype",
-    "Pathway": "pathway",
-    "MolecularActivity": "mf",
-    "CellularComponent": "cc",
-    "BiologicalProcess": "bp"
+exports.CURIE = {
+    ALWAYS_PREFIXED: ["GO", "CHEBI", "HP", "MONDO", "DOID", "EFO", "UBERON", "MP", "CL"]
 }
-
-
 exports.APIMETA = {
-    "mygene.info": {
-        "base_url": "http://mygene.info/v3/query",
+    "Gene": {
+        "id_ranks": ["NCBIGene", "ENSEMBL", "HGNC", "SYMBOL", "OMIM", "UniProtKB", "UMLS", "name"],
         "semantic": "Gene",
-        "field_mapping": {
-            "entrez": "entrezgene",
-            "ensembl": "ensembl.gene",
-            "umls": "umls.cui",
-            "name": "name",
-            "symbol": "symbol",
-            "hgnc": "HGNC",
-            "omim": "MIM",
-            "biothings": "_id"
+        "api_name": "mygene.info",
+        "url": "https://mygene.info/v3/query",
+        "mapping": {
+            "NCBIGene": ["entrezgene"],
+            "name": ["name"],
+            "SYMBOL": ["symbol"],
+            "UMLS": ["umls.cui", "umls.protein_cui"],
+            "HGNC": ["HGNC"],
+            "UNIPROTKB": ["uniprot.Swiss-Prot"],
+            "ENSEMBL": ["ensembl.gene"],
+            "OMIM": ["OMIM"],
+            "MGI": ["MGI"]
         }
     },
-    "myvariant.info": {
-        "base_url": "http://myvariant.info/v1/query",
+    "SequenceVariant": {
+        "id_ranks": ["HGVS", "DBSNP", "MYVARIANT_HG19", "ClinVar"],
+        "api_name": "myvariant.info",
         "semantic": "SequenceVariant",
-        "field_mapping": {
-            "hgvs": "_id",
-            "dbsnp": "dbsnp.rsid",
-            "biothings": "_id"
+        "url": 'https://myvariant.info/v1/query',
+        "mapping": {
+            "MYVARIANT_HG19": ["_id"],
+            "DBSNP": ["dbsnp.rsid", "clinvar.rsid", "dbnsfp.rsid"],
+            "HGVS": ["clinvar.hgvs.genomic", "clinvar.hgvs.protein", "clinvar.hgvs.coding"],
+            "ClinVar": ["clinvar.rcv.accession"]
         }
     },
-    "mychem.info": {
-        "base_url": "http://mychem.info/v1/query",
+    "ChemicalSubstance": {
+        "id_ranks": ["CHEBI", "CHEMBL.COMPOUND", "DRUGBANK", "PUBCHEM", "MESH", "INCHI", "INCHIKEY", "UNII", "KEGG", "UMLS", "name"],
         "semantic": "ChemicalSubstance",
-        "field_mapping": {
-            "chembl": "chembl.molecule_chembl_id",
-            "drugbank": "drugbank.id",
-            "name": "chembl.pref_name",
-            "pubchem": "pubchem.cid",
-            "umls": "drugcentral.xrefs.umlscui",
-            "mesh": "drugcentral.xrefs.mesh_descriptor_ui",
-            "biothings": "_id",
-            "drugPhase": "chembl.max_phase"
+        "api_name": "mychem.info",
+        "url": "https://mychem.info/v1/query",
+        "mapping": {
+            "CHEMBL.COMPOUND": ["chembl.molecule_chembl_id", "drugbank.xrefs.chembl", "drugcentral.xrefs.chembl_id"],
+            "DRUGBANK": ["drugcentral.xrefs.drugbank_id", "pharmgkb.xrefs.drugbank", "chebi.xrefs.drugbank", "drugbank.id"],
+            "PUBCHEM": ["pubchem.cid", "drugbank.xrefs.pubchem.cid", "drugcentral.xrefs.pubchem_cid", "pharmgkb.xrefs.pubchem.cid"],
+            "CHEBI": ["chebi.id", "chembl.chebi_par_id", "drugbank.xrefs.chebi", "drugcentral.xrefs.chebi"],
+            "UMLS": ["drugcentral.xrefs.umlscui", "pharmgkb.xrefs.umls", "umls.cui"],
+            "MESH": ["umls.mesh", "drugcentral.xrefs.mesh_descriptor_ui", "ginas.xrefs.MESH", "pharmgkb.xrefs.mesh"],
+            "UNII": ["drugcentral.xrefs.unii", "unii.unii", "aeolus.unii", "ginas.unii"],
+            "INCHIKEY": ["drugbank.inchi_key", "ginas.inchikey", "unii.inchikey", "chebi.inchikey"],
+            "INCHI": ["drugbank.inchi", "chebi.inchi", "chembl.inchi"],
+            "KEGG": ["drugbank.xrefs.kegg.cid"],
+            "name": ["chembl.pref_name", "drugbank.name", "umls.name", "ginas.preferred_name", "pharmgkb.name", "chebi.name"]
         }
     },
-    "mydisease.info": {
-        "base_url": "http://mydisease.info/v1/query",
-        "semantic": "DiseaseOrPhenotypicFeature",
-        "field_mapping": {
-            "mondo": "_id",
-            "doid": "mondo.xrefs.doid",
-            "hp": "mondo.xrefs.hp",
-            "umls": "mondo.xrefs.umls",
-            "mesh": "mondo.xrefs.mesh",
-            "name": "mondo.label",
-            "biothings": "_id"
+    "Disease": {
+        "id_ranks": ["MONDO", "DOID", "OMIM", "ORPHANET", "EFO", "UMLS", "MESH", "name"],
+        "semantic": "Disease",
+        "api_name": "mydisease.info",
+        "url": "https://mydisease.info/v1/query",
+        "mapping": {
+            "MONDO": ["mondo.mondo"],
+            "DOID": ["mondo.xrefs.doid"],
+            "UMLS": ['mondo.xrefs.umls', "disgenet.xrefs.umls"],
+            "name": ["mondo.label", "disgenet.xrefs.disease_name"],
+            "MESH": ["mondo.xrefs.mesh", "ctd.mesh"],
+            "OMIM": ["mondo.xrefs.omim", "hpo.omim"],
+            "EFO": ["mondo.xrefs.efo"],
+            "ORPHANET": ["hpo.orphanet", "mondo.xrefs.orphanet"]
         }
     },
-    "pathway": {
-        "base_url": "http://pending.biothings.io/geneset/query",
-        "add": " AND type:pathway",
+    "MolecularActivity": {
+        "api_name": "NodeNormalization API",
+        "url": "https://nodenormalization-sri.renci.org/get_normalized_nodes"
+    },
+    "BiologicalProcess": {
+        "api_name": "NodeNormalization API",
+        "url": "https://nodenormalization-sri.renci.org/get_normalized_nodes"
+    },
+    "CellularComponent": {
+        "api_name": "NodeNormalization API",
+        "url": "https://nodenormalization-sri.renci.org/get_normalized_nodes"
+    },
+    "Pathway": {
+        "id_ranks": ["Reactome", "KEGG", "PHARMGKB", "WIKIPATHWAYS", "name"],
         "semantic": "Pathway",
-        "field_mapping": {
-            "name": "name",
-            "reactome": "reactome",
-            "wikipathways": "wikipathways",
-            "kegg": "kegg",
-            "pharmgkb": "pharmgkb",
-            "biocarta": "biocarta",
-            "biothings": "_id"
+        "api_name": "geneset API",
+        "url": "https://biothings.ncats.io/geneset",
+        "mapping": {
+            "Reactome": ["reactome"],
+            "WIKIPATHWAYS": ["wikipathways"],
+            "KEGG": ["kegg"],
+            "PHARMGKB": ['pharmgkb'],
+            "name": ["name"]
         }
     },
-    "mf": {
-        "base_url": "http://pending.biothings.io/geneset/query",
-        "add": " AND type:mf",
-        "semantic": "MolecularActivity",
-        "field_mapping": {
-            "name": "name",
-            "go": "go",
-            "biothings": "_id"
-        }
+    "AnatomicalEntity": {
+        "api_name": "NodeNormalization API",
+        "url": "https://nodenormalization-sri.renci.org/get_normalized_nodes"
     },
-    "cc": {
-        "base_url": "http://pending.biothings.io/geneset/query",
-        "add": " AND type:cc",
-        "semantic": "CellularComponent",
-        "field_mapping": {
-            "name": "name",
-            "go": "go",
-            "umls": "umls",
-            "biothings": "_id"
-        }
+    "PhenotypicFeature": {
+        "api_name": "NodeNormalization API",
+        "url": "https://nodenormalization-sri.renci.org/get_normalized_nodes"
     },
-    "bp": {
-        "base_url": "http://pending.biothings.io/geneset/query",
-        "add": " AND type:bp",
-        "semantic": "BiologicalProcess",
-        "field_mapping": {
-            "name": "name",
-            "go": "go",
-            "umls": "umls",
-            "biothings": "_id"
-        }
-    },
-    "anatomy": {
-        "base_url": "http://pending.biothings.io/semmed_anatomy/query",
-        "semantic": "AnatomicalEntity",
-        "field_mapping": {
-            "name": "name",
-            "umls": "umls",
-            "biothings": "_id"
-        }
-    },
-    "phenotype": {
-        "base_url": "http://pending.biothings.io/semmedphenotype/query",
-        "semantic": "PhenotypicFeature",
-        "field_mapping": {
-            "name": "name",
-            "umls": "umls",
-            "biothings": "_id"
-        }
+    "Cell": {
+        "api_name": "NodeNormalization API",
+        "url": "https://nodenormalization-sri.renci.org/get_normalized_nodes"
     }
 }
