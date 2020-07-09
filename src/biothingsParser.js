@@ -6,6 +6,7 @@ module.exports = class BioThingsParser {
         this.response = response;
         this.semanticType = semanticType;
         this.prefix = prefix;
+        this.invalid = [];
     }
 
     parse() {
@@ -17,7 +18,12 @@ module.exports = class BioThingsParser {
             if (_.isEmpty(this.response.data[i])) {
                 continue;
             } else if ('notfound' in this.response.data[i]) {
-                continue
+                if (config.CURIE.ALWAYS_PREFIXED.includes(this.prefix)) {
+                    curie = this.response.data[i]['query'];
+                } else {
+                    curie = this.prefix + ':' + this.response.data[i]['query'];
+                }
+                this.invalid.push(curie);
             } else {
                 if (config.CURIE.ALWAYS_PREFIXED.includes(this.prefix)) {
                     curie = this.response.data[i]['query'];
@@ -45,6 +51,29 @@ module.exports = class BioThingsParser {
 
     restructureOutput(res, semanticType) {
         let result = {};
+        this.invalid.map(curie => {
+            let bte_id = curie;
+            if (!(config.CURIE.ALWAYS_PREFIXED.includes(curie.split(':')[0]))) {
+                bte_id = curie.split(':').slice(-1)[0]
+            }
+            result[curie] = {
+                id: {
+                    identifier: curie,
+                    label: curie
+                },
+                ids: [curie],
+                bte_ids: {
+                    [curie.split(':')[0]]: bte_id
+                },
+                equivalent_identifiers: [
+                    {
+                        identifier: curie
+                    }
+                ],
+                type: semanticType,
+                flag: "failed"
+            }
+        })
         const ranks = config.APIMETA[semanticType]['id_ranks'];
         Object.keys(res).map(curie => {
             let ids = new Set();
