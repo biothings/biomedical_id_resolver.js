@@ -63,4 +63,16 @@ describe("Test resolve functions", () => {
         expect(res["UMLS:C1520166"].type).toBe("Disease");
         expect(res["UMLS:C1520166"].flag).toBe("failed");
     });
+    test("Test valid id but return 0 hits from biothings APIs", async () => {
+        const input = {
+            Disease: ["HP:0012418"],
+            AnatomicalEntity: ["UBERON:0007173", "UBERON:0006849"]
+        };
+        let res = await resolve(input);
+        expect(Object.keys(res).length).toBe(3);
+        expect(Object.keys(res)).toContain("HP:0012418");
+        expect(res["HP:0012418"].ids[0]).toBe("HP:0012418");
+        expect(res["HP:0012418"].type).toBe("Disease");
+        expect(res["HP:0012418"].flag).toBe("failed");
+    });
 })
