@@ -42,7 +42,7 @@ describe("Test resolve functions", () => {
         expect(Object.keys(res)).toContain("NCBIGene:1017");
         expect(res["NCBIGene:1017"].type).toBe("Gene");
     });
-    test("Test invalid iids", async () => {
+    test("Test invalid ids", async () => {
         const input = {
             Gene: ["NCBIGene:1017", "cc:133"],
             AnatomicalEntity: ["UBERON:0007173", "UBERON:0006849"]
@@ -52,5 +52,15 @@ describe("Test resolve functions", () => {
         expect(Object.keys(res)).toContain("cc:133");
         expect(res["cc:133"].type).toBe("Gene");
         expect(res["cc:133"].flag).toBe("failed");
+    });
+    test("Test valid ids assigned to wrong semantic types", async () => {
+        const input = {
+            Disease: ["MONDO:0016575", "UMLS:C1520166"]
+        };
+        let res = await resolve(input);
+        expect(Object.keys(res).length).toBe(2);
+        expect(Object.keys(res)).toContain("UMLS:C1520166");
+        expect(res["UMLS:C1520166"].type).toBe("Disease");
+        expect(res["UMLS:C1520166"].flag).toBe("failed");
     });
 })
