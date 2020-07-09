@@ -63,7 +63,7 @@ module.exports = class BioThingsParser {
                 },
                 ids: [curie],
                 bte_ids: {
-                    [curie.split(':')[0]]: bte_id
+                    [curie.split(':')[0]]: [bte_id]
                 },
                 equivalent_identifiers: [
                     {

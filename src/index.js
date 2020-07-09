@@ -15,7 +15,7 @@ const resolve = async (input) => {
                 },
                 ids: [curie],
                 bte_ids: {
-                    [curie.split(':')[0]]: curie
+                    [curie.split(':')[0]]: [curie]
                 },
                 equivalent_identifiers: [
                     {
