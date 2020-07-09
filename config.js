@@ -51,7 +51,7 @@ exports.APIMETA = {
         }
     },
     "Disease": {
-        "id_ranks": ["MONDO", "DOID", "OMIM", "ORPHANET", "EFO", "UMLS", "MESH", "name"],
+        "id_ranks": ["MONDO", "DOID", "OMIM", "ORPHANET", "EFO", "UMLS", "MESH", "HP", "name"],
         "semantic": "Disease",
         "api_name": "mydisease.info",
         "url": "https://mydisease.info/v1/query",
@@ -63,7 +63,8 @@ exports.APIMETA = {
             "MESH": ["mondo.xrefs.mesh", "ctd.mesh"],
             "OMIM": ["mondo.xrefs.omim", "hpo.omim"],
             "EFO": ["mondo.xrefs.efo"],
-            "ORPHANET": ["hpo.orphanet", "mondo.xrefs.orphanet"]
+            "ORPHANET": ["hpo.orphanet", "mondo.xrefs.orphanet"],
+            "HP": ["mondo.xrefs.hp"]
         }
     },
     "MolecularActivity": {
