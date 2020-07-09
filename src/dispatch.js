@@ -34,7 +34,7 @@ module.exports = class Dispatcher {
         this.promises = [...this.promises, ...res2];
     }
 
-    groupIdByPrefix(ids) {
+    groupIdByPrefix(ids, semantic_type) {
         if (!(_.isArray(ids))) {
             // console.error('The input is not an array');
             return {};
@@ -53,11 +53,15 @@ module.exports = class Dispatcher {
                 res['invalid'].add(ids[i]);
             } else {
                 let prefix = splitted[0];
+                if (!(config.APIMETA[semantic_type].id_ranks.includes(prefix))) {
+                    res['invalid'].add(ids[i]);
+                    continue
+                }
                 // add prefix as a key in res object if not exist, and initialize the value as empty array
                 if (!(prefix in res)) {
                     res[prefix] = new Set();
                 }
-                let value = splitted.slice(1).join(':');
+                let value = splitted.slice(1).join(':')
                 if ((config.CURIE.ALWAYS_PREFIXED.includes(prefix)) && (prefix !== splitted[1])) {
                     value = prefix + ':' + value;
                 }
@@ -162,7 +166,7 @@ module.exports = class Dispatcher {
      * @returns - An object, the "valid" field contains an array of API call promises, the "invalid" field contains ids which can not be transformed
      */
     generateBioThingsAPIPromisesByCuries(curies, semanticType) {
-        let inputs = this.groupIdByPrefix(curies);
+        let inputs = this.groupIdByPrefix(curies, semanticType);
         let res = { 'valid': [], 'invalid': [] };
         if (_.isEmpty(inputs)) {
             return res;
