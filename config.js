@@ -1,9 +1,9 @@
 exports.CURIE = {
-    ALWAYS_PREFIXED: ["GO", "CHEBI", "HP", "MONDO", "DOID", "EFO", "UBERON", "MP", "CL"]
+    ALWAYS_PREFIXED: ["GO", "CHEBI", "HP", "MONDO", "DOID", "EFO", "UBERON", "MP", "CL", "MGI"]
 }
 exports.APIMETA = {
     "Gene": {
-        "id_ranks": ["NCBIGene", "ENSEMBL", "HGNC", "SYMBOL", "OMIM", "UniProtKB", "UMLS", "name"],
+        "id_ranks": ["NCBIGene", "ENSEMBL", "HGNC", "SYMBOL", "OMIM", "UniProtKB", "UMLS", "MGI", "name"],
         "semantic": "Gene",
         "api_name": "mygene.info",
         "url": "https://mygene.info/v3/query",
