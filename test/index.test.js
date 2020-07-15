@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 const resolve = require("../src/index");
 
 describe("Test resolve functions", () => {
