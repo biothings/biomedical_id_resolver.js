@@ -30,6 +30,17 @@ describe("Test resolve functions", () => {
         expect(Object.keys(res)).toContain("UBERON:0007173");
         expect(res["UBERON:0007173"].type).toBe("AnatomicalEntity");
     });
+    test("Test using DBSNP IDs", async () => {
+        const input = {
+            SequenceVariant: ['DBSNP:rs1007345781', 'DBSNP:rs1034327724']
+        };
+        let res = await resolve(input);
+        expect(Object.keys(res).length).toBe(input.SequenceVariant.length);
+        expect(Object.keys(res)).toContain("DBSNP:rs1007345781");
+        expect(Object.keys(res)).toContain("DBSNP:rs1034327724");
+        expect(res["DBSNP:rs1007345781"].type).toBe("SequenceVariant");
+        expect(res["DBSNP:rs1007345781"].id.label).toBe("DBSNP:rs1007345781");
+    });
     test("Test IDs from mixed semantic types", async () => {
         const input = {
             Gene: ["NCBIGene:1017"],
