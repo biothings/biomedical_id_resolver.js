@@ -78,13 +78,16 @@ module.exports = class BioThingsParser {
         Object.keys(res).map(curie => {
             let ids = new Set();
             result[curie] = {
-                id: {
-                    label: Array.from(res[curie]['name'])[0]
-                },
+                id: {},
                 equivalent_identifiers: [],
                 bte_ids: {},
                 type: semanticType
             };
+            if ("name" in res[curie]) {
+                result[curie].id.label = Array.from(res[curie]['name'])[0]
+            } else {
+                result[curie].id.label = curie
+            }
             let primary_id_found = false;
             ranks.map(id => {
                 if (res[curie][id] !== undefined && res[curie][id].size > 0) {
