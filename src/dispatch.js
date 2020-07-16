@@ -66,9 +66,10 @@ module.exports = class Dispatcher {
                     value = prefix + ':' + value;
                 }
                 res['mapping'][(prefix + ":" + value)] = ids[i];
-                if (config.CURIE.ALWAYS_PREFIXED.includes(prefix)) {
-                    value = '"' + value + '"';
-                }
+                // if (config.CURIE.ALWAYS_PREFIXED.includes(prefix)) {
+                //     value = '"' + value + '"';
+                // }
+                value = '"' + value + '"';
                 res[prefix].add(value);
             }
         }
