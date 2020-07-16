@@ -67,6 +67,16 @@ describe("Test resolve functions", () => {
         expect(res["cc:133"].type).toBe("Gene");
         expect(res["cc:133"].flag).toBe("failed");
     });
+    test("Test id values with space in it", async () => {
+        const input = {
+            Gene: ["SYMBOL:reverse transcriptas"],
+        };
+        let res = await resolve(input);
+        expect(Object.keys(res).length).toBe(1);
+        expect(Object.keys(res)).toContain("SYMBOL:reverse transcriptas");
+        expect(res["SYMBOL:reverse transcriptas"].type).toBe("Gene");
+        expect(res["SYMBOL:reverse transcriptas"].flag).toBe("failed");
+    });
     test("Test valid ids assigned to wrong semantic types", async () => {
         const input = {
             Disease: ["MONDO:0016575", "UMLS:C1520166"]
