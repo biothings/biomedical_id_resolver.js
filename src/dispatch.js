@@ -11,7 +11,7 @@ SEMANTIC_TYPES_HANDLED_BY_BIOTHINGS = Object.keys(config.APIMETA).filter(item =>
 module.exports = class Dispatcher {
     constructor(inputIDs) {
         this.inputIDs = inputIDs;
-        this.promises = [];
+        this.promises = { 0: [] };
         this.invalid = {};
         this.nodeNormalizeMapping = {};
     }
@@ -21,7 +21,13 @@ module.exports = class Dispatcher {
         Object.keys(this.inputIDs).map(semanticType => {
             if (SEMANTIC_TYPES_HANDLED_BY_BIOTHINGS.includes(semanticType)) {
                 let res = this.generateBioThingsAPIPromisesByCuries(this.inputIDs[semanticType], semanticType);
-                this.promises = [...this.promises, ...res.valid];
+                let chunked_promises = _.chunk(res.valid, 5);
+                chunked_promises.map((item, i) => {
+                    if (!(i in this.promises)) {
+                        this.promises[i] = [];
+                    };
+                    this.promises[i] = [...this.promises[i], ...item];
+                })
                 this.invalid[semanticType] = res.invalid;
             } else {
                 this.inputIDs[semanticType].map(item => {
@@ -31,7 +37,7 @@ module.exports = class Dispatcher {
             }
         });
         let res2 = this.generateNodeNormalizeAPIPromisesByCuries(idsNodeNormalize);
-        this.promises = [...this.promises, ...res2];
+        this.promises[0] = [...this.promises[0], ...res2];
     }
 
     groupIdByPrefix(ids, semantic_type) {
@@ -130,7 +136,7 @@ module.exports = class Dispatcher {
         return axios({
             method: 'post',
             url: meta['url'],
-            timeout: 3000,
+            timeout: 10000,
             data: query,
             headers: { 'content-type': 'application/x-www-form-urlencoded' }
         })

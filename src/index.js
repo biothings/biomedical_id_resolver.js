@@ -26,28 +26,30 @@ const resolve = async (input) => {
                 flag: "failed"
             }
         })
-    })
-    let res = await Promise.allSettled(dp.promises.map(item => {
-        if ("promise" in item) {
-            return item.promise
-                .then(response => {
-                    let parser = new biothings_parser(response, item.semanticType, item.prefix);
-                    return parser.parse();
+    });
+    for (let i of Object.keys(dp.promises)) {
+        let res = await Promise.allSettled(dp.promises[i].map(item => {
+            if ("promise" in item) {
+                return item.promise
+                    .then(response => {
+                        let parser = new biothings_parser(response, item.semanticType, item.prefix);
+                        return parser.parse();
+                    })
+            } else {
+                return item.then(response => {
+                    let parser2 = new node_normalize_parser(response, dp.nodeNormalizeMapping);
+                    return parser2.parse();
                 })
-        } else {
-            return item.then(response => {
-                let parser2 = new node_normalize_parser(response, dp.nodeNormalizeMapping);
-                return parser2.parse();
-            })
-        }
-    }));
-    res.map(item => {
-        if (item.status === "fulfilled") {
-            result = { ...result, ...item.value }
-        } else {
-            console.log('failed', item);
-        }
-    })
+            }
+        }));
+        res.map(item => {
+            if (item.status === "fulfilled") {
+                result = { ...result, ...item.value }
+            } else {
+                console.log('failed', item);
+            }
+        })
+    }
     return result;
 }
 
