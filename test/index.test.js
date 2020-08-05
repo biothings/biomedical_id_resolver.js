@@ -11,11 +11,10 @@ describe("Test resolve functions", () => {
         let res = await resolve(input);
         expect(Object.keys(res)).toContain("NCBIGene:1017");
         expect(Object.keys(res["NCBIGene:1017"])).toContain("id");
-        expect(Object.keys(res["NCBIGene:1017"])).toContain("ids");
-        expect(Object.keys(res["NCBIGene:1017"])).toContain("bte_ids");
-        expect(Object.keys(res["NCBIGene:1017"])).toContain("equivalent_identifiers");
+        expect(Object.keys(res["NCBIGene:1017"])).toContain("curies");
+        expect(Object.keys(res["NCBIGene:1017"])).toContain("db_ids");
         expect(Object.keys(res["NCBIGene:1017"])).toContain("type");
-        expect(Object.keys(res["NCBIGene:1017"]).length).toBe(5);
+        expect(Object.keys(res["NCBIGene:1017"]).length).toBe(4);
         expect(Object.keys(res).length).toBe(2);
     });
     test("Test using mixed Gene ID as input", async () => {
@@ -95,7 +94,7 @@ describe("Test resolve functions", () => {
         let res = await resolve(input);
         expect(Object.keys(res).length).toBe(3);
         expect(Object.keys(res)).toContain("HP:0012418");
-        expect(res["HP:0012418"].ids[0]).toBe("HP:0012418");
+        expect(res["HP:0012418"].curies[0]).toBe("HP:0012418");
         expect(res["HP:0012418"].type).toBe("Disease");
         expect(res["HP:0012418"].flag).toBe("failed");
     });
