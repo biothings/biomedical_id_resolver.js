@@ -67,17 +67,61 @@ exports.APIMETA = {
             "HP": ["mondo.xrefs.hp"]
         }
     },
+    "PhenotypicFeature": {
+        "id_ranks": ["UMLS", "SNOMEDCT", "HP", "MEDDRA", "EFO", "NCIT", "MESH", "MP", "name"],
+        "semantic": "PhenotypicFeature",
+        "api_name": "HPO API",
+        "url": "https://biothings.ncats.io/hpo/phenotype/query",
+        "mapping": {
+            "UMLS": ["xrefs.umls"],
+            "SNOMEDCT": ["xrefs.snomed_ct"],
+            "HP": ["_id"],
+            "MEDDRA": ["xrefs.meddra"],
+            "EFO": ["xrefs.efo"],
+            "NCIT": ["xrefs.ncit"],
+            "MESH": ["xrefs.mesh"],
+            "MP": ["xrefs.mp"],
+            "name": ["name"]
+        }
+    },
     "MolecularActivity": {
-        "api_name": "NodeNormalization API",
-        "url": "https://nodenormalization-sri.renci.org/get_normalized_nodes"
+        "id_ranks": ["GO", "MetaCyc", "RHEA", "KEGG", "REACT", "name"],
+        "semantic": "MolecularActivity",
+        "api_name": "Gene Ontology Molecular Function API",
+        "url": "https://biothings.ncats.io/go_ma/geneset/query",
+        "mapping": {
+            "GO": ["_id"],
+            "MetaCyc": ["xrefs.metacyc"],
+            "RHEA": ["xrefs.rhea"],
+            "KEGG": ["xrefs.kegg_reaction"],
+            "REACT": ["xrefs.reactome"],
+            "name": ["name"]
+        }
     },
     "BiologicalProcess": {
-        "api_name": "NodeNormalization API",
-        "url": "https://nodenormalization-sri.renci.org/get_normalized_nodes"
+        "id_ranks": ["GO", "MetaCyc", "REACT", "KEGG", "name"],
+        "semantic": "BiologicalProcess",
+        "api_name": "Gene Ontology Biological Process API",
+        "url": "https://biothings.ncats.io/go_bp/geneset/query",
+        "mapping": {
+            "GO": ["_id"],
+            "MetaCyc": ["xrefs.metacyc"],
+            "KEGG": ["xrefs.kegg_pathway"],
+            "REACT": ["xrefs.reactome"],
+            "name": ["name"]
+        }
     },
     "CellularComponent": {
-        "api_name": "NodeNormalization API",
-        "url": "https://nodenormalization-sri.renci.org/get_normalized_nodes"
+        "id_ranks": ["GO", "MetaCyc", "RHEA", "name"],
+        "semantic": "CellularComponent",
+        "api_name": "Gene Ontology Cellular Component API",
+        "url": "https://biothings.ncats.io/go_cc/geneset/query",
+        "mapping": {
+            "GO": ["_id"],
+            "MetaCyc": ["xrefs.metacyc"],
+            "RHEA": ["xrefs.rhea"],
+            "name": ["name"]
+        }
     },
     "Pathway": {
         "id_ranks": ["Reactome", "KEGG", "PHARMGKB", "WIKIPATHWAYS", "name"],
@@ -93,12 +137,17 @@ exports.APIMETA = {
         }
     },
     "AnatomicalEntity": {
-        "api_name": "NodeNormalization API",
-        "url": "https://nodenormalization-sri.renci.org/get_normalized_nodes"
-    },
-    "PhenotypicFeature": {
-        "api_name": "NodeNormalization API",
-        "url": "https://nodenormalization-sri.renci.org/get_normalized_nodes"
+        "id_ranks": ["UBERON", "UMLS", "MESH", "NCIT", "name"],
+        "semantic": "AnatomicalEntity",
+        "api_name": "UBERON API",
+        "url": "https://biothings.ncats.io/uberon/anatomy/query",
+        "mapping": {
+            "UBERON": ["_id"],
+            "UMLS": ["xrefs.umls"],
+            "MESH": ["xrefs.mesh"],
+            "NCIT": ["xrefs.ncit"],
+            "name": ["name"]
+        }
     },
     "Cell": {
         "api_name": "NodeNormalization API",
