@@ -3,7 +3,6 @@ const config = require('../config');
 const axios = require('axios').default;
 
 
-SEMANTIC_TYPES_HANDLED_BY_BIOTHINGS = Object.keys(config.APIMETA).filter(item => config.APIMETA[item]['url'] !== 'https://nodenormalization-sri.renci.org/get_normalized_nodes')
 
 /**
  * Take user input IDs and translate into API query
@@ -17,6 +16,7 @@ module.exports = class Dispatcher {
     }
 
     dispatch() {
+        const SEMANTIC_TYPES_HANDLED_BY_BIOTHINGS = Object.keys(config.APIMETA).filter(item => config.APIMETA[item]['url'] !== 'https://nodenormalization-sri.renci.org/get_normalized_nodes');
         let idsNodeNormalize = new Set();
         Object.keys(this.inputIDs).map(semanticType => {
             if (SEMANTIC_TYPES_HANDLED_BY_BIOTHINGS.includes(semanticType)) {
