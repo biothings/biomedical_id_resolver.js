@@ -14,37 +14,41 @@ module.exports = class BioThingsParser {
         if (_.isEmpty(this.response.data)) return result;
         let mapping = config.APIMETA[this.semanticType]['mapping'];
         let curie;
-        for (let i = 0; i < this.response.data.length; i++) {
-            if (_.isEmpty(this.response.data[i])) {
-                continue;
-            } else if ('notfound' in this.response.data[i]) {
+        this.response.data.filter(rec => {
+            if (_.isEmpty(rec)) {
+                return false
+            };
+            if ('notfound' in rec) {
                 if (config.CURIE.ALWAYS_PREFIXED.includes(this.prefix)) {
-                    curie = this.response.data[i]['query'];
+                    curie = rec['query'];
                 } else {
-                    curie = this.prefix + ':' + this.response.data[i]['query'];
+                    curie = this.prefix + ':' + rec['query'];
                 }
                 this.invalid.push(curie);
+                return false;
+            };
+            return true;
+        }).map(rec => {
+            if (config.CURIE.ALWAYS_PREFIXED.includes(this.prefix)) {
+                curie = rec['query'];
             } else {
-                if (config.CURIE.ALWAYS_PREFIXED.includes(this.prefix)) {
-                    curie = this.response.data[i]['query'];
-                } else {
-                    curie = this.prefix + ':' + this.response.data[i]['query'];
-                }
-                result[curie] = {}
-                for (let [id, fields] of Object.entries(mapping)) {
-                    result[curie][id] = new Set();
-                    fields.map(field => {
-                        if (field in this.response.data[i]) {
-                            if (Array.isArray(this.response.data[i][field])) {
-                                this.response.data[i][field].map(item => result[curie][id].add(item));
-                            } else {
-                                result[curie][id].add(this.response.data[i][field]);
-                            }
-                        }
-                    })
-                }
+                curie = this.prefix + ':' + rec['query'];
             }
-        }
+
+            result[curie] = {};
+            for (let [id, fields] of Object.entries(mapping)) {
+                result[curie][id] = new Set();
+                fields.map(field => {
+                    if (field in rec) {
+                        if (Array.isArray(rec[field])) {
+                            rec[field].map(item => result[curie][id].add(item));
+                        } else {
+                            result[curie][id].add(rec[field]);
+                        }
+                    }
+                })
+            }
+        });
         result = this.restructureOutput(result, this.semanticType);
         return result;
     }
@@ -52,24 +56,19 @@ module.exports = class BioThingsParser {
     restructureOutput(res, semanticType) {
         let result = {};
         this.invalid.map(curie => {
-            let bte_id = curie;
+            let db_id = curie;
             if (!(config.CURIE.ALWAYS_PREFIXED.includes(curie.split(':')[0]))) {
-                bte_id = curie.split(':').slice(-1)[0]
+                db_id = curie.split(':').slice(-1)[0]
             }
             result[curie] = {
                 id: {
                     identifier: curie,
                     label: curie
                 },
-                ids: [curie],
-                bte_ids: {
-                    [curie.split(':')[0]]: [bte_id]
+                curies: [curie],
+                db_ids: {
+                    [curie.split(':')[0]]: [db_id]
                 },
-                equivalent_identifiers: [
-                    {
-                        identifier: curie
-                    }
-                ],
                 type: semanticType,
                 flag: "failed"
             }
@@ -79,8 +78,7 @@ module.exports = class BioThingsParser {
             let ids = new Set();
             result[curie] = {
                 id: {},
-                equivalent_identifiers: [],
-                bte_ids: {},
+                db_ids: {},
                 type: semanticType
             };
             if ("name" in res[curie]) {
@@ -91,7 +89,7 @@ module.exports = class BioThingsParser {
             let primary_id_found = false;
             ranks.map(id => {
                 if (res[curie][id] !== undefined && res[curie][id].size > 0) {
-                    result[curie]['bte_ids'][id] = Array.from(res[curie][id]);
+                    result[curie]['db_ids'][id] = Array.from(res[curie][id]);
                     Array.from(res[curie][id]).map(item => {
                         let item_curie = item;
                         if (!(config.CURIE.ALWAYS_PREFIXED.includes(id))) {
@@ -100,17 +98,14 @@ module.exports = class BioThingsParser {
                         if (primary_id_found === false) {
                             result[curie].id.identifier = item_curie;
                             primary_id_found = true;
-                        }
-                        result[curie].equivalent_identifiers.push({
-                            identifier: item_curie
-                        });
+                        };
                         if (!(id === "name")) {
                             ids.add(item_curie);
                         }
                     })
                 }
             });
-            result[curie]["ids"] = Array.from(ids);
+            result[curie]["curies"] = Array.from(ids);
         })
         return result
     }
