@@ -38,17 +38,16 @@ let input = {
 
 - The values represents resolved identifiers
 
-- Each CURIE will have 5 required fields
+- Each CURIE will have 4 required fields
 
-  - id: the primary id (selected based on the ranking described in the next section)
+  - id: the primary id (selected based on the ranking described in the next section) and label
 
-  - ids: an array, each element represents a resolved id in CURIE format
+  - curies: an array, each element represents a resolved id in CURIE format
 
   - type: the semantic type of the identifier
 
-  - bte_ids: equivalent identifiers used as input for biothings explorer
+  - db_ids: original ids from source database, could be curies or non-curies.
 
-  - equivalent_identifiers: an array of objects, each object has a key "identifier", the value is the CURIE form of the identifier.
 
 - if an ID can not be resolved using the package, it will have an additional field called "flag", with value equal to "failed"
 
@@ -61,30 +60,7 @@ let input = {
       "label": "cyclin dependent kinase 2",
       "identifier": "NCBIGene:1017"
     },
-    "equivalent_identifiers": [
-      {
-        "identifier": "NCBIGene:1017"
-      },
-      {
-        "identifier": "ENSEMBL:ENSG00000123374"
-      },
-      {
-        "identifier": "HGNC:1771"
-      },
-      {
-        "identifier": "SYMBOL:CDK2"
-      },
-      {
-        "identifier": "UMLS:C1332733"
-      },
-      {
-        "identifier": "UMLS:C0108855"
-      },
-      {
-        "identifier": "name:cyclin dependent kinase 2"
-      }
-    ],
-    "bte_ids": {
+    "db_ids": {
       "NCBIGene": [
         "1017"
       ],
@@ -106,7 +82,7 @@ let input = {
       ]
     },
     "type": "Gene",
-    "ids": [
+    "curies": [
       "NCBIGene:1017",
       "ENSEMBL:ENSG00000123374",
       "HGNC:1771",
@@ -178,7 +154,7 @@ let input = {
   4. WIKIPATHWAYS
   5. name
 
-> MolecularActivity ID Resolution is done through nodenormalization API
+> MolecularActivity ID Resolution is done through BioThings Gene Ontology Molecular Activity API
 
 - MolecularActivity
   1. GO
@@ -187,7 +163,7 @@ let input = {
   4. KEGG.REACTION
   5. Reactome
 
-> CellularComponent ID Resolution is done through nodenormalization API
+> CellularComponent ID Resolution is done through BioThings Gene Ontology Cellular Component API
 
 - CellularComponent
   1. GO
@@ -199,7 +175,7 @@ let input = {
   7. CL
   8. name
 
-> BiologicalProcess ID Resolution is done through nodenormalization API
+> BiologicalProcess ID Resolution is done through BioThings Gene Ontology Biological Process API
 
 - BiologicalProcess
 
@@ -208,7 +184,7 @@ let input = {
   3. Reactome
   4. name
 
-> AnatomicalEntity ID Resolution is done through nodenormalization API
+> AnatomicalEntity ID Resolution is done through BioThings UBERON API
 
 - AnatomicalEntity
   1. UBERON
@@ -217,7 +193,7 @@ let input = {
   4. MESH
   5. name
 
-> PhenotypicFeature ID Resolution is done through nodenormalization API
+> PhenotypicFeature ID Resolution is done through BioThings HPO API
 
 - PhenotypicFeature
   1. UMLS
