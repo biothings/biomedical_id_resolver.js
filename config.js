@@ -1,5 +1,5 @@
 exports.CURIE = {
-    ALWAYS_PREFIXED: ["GO", "CHEBI", "HP", "MONDO", "DOID", "EFO", "UBERON", "MP", "CL", "MGI"]
+    ALWAYS_PREFIXED: ["RHEA", "GO", "CHEBI", "HP", "MONDO", "DOID", "EFO", "UBERON", "MP", "CL", "MGI"]
 }
 exports.APIMETA = {
     "Gene": {
@@ -71,7 +71,7 @@ exports.APIMETA = {
         "id_ranks": ["UMLS", "SNOMEDCT", "HP", "MEDDRA", "EFO", "NCIT", "MESH", "MP", "name"],
         "semantic": "PhenotypicFeature",
         "api_name": "HPO API",
-        "url": "https://biothings.ncats.io/hpo/phenotype/query",
+        "url": "https://biothings.ncats.io/hpo/query",
         "mapping": {
             "UMLS": ["xrefs.umls"],
             "SNOMEDCT": ["xrefs.snomed_ct"],
@@ -88,7 +88,7 @@ exports.APIMETA = {
         "id_ranks": ["GO", "MetaCyc", "RHEA", "KEGG", "REACT", "name"],
         "semantic": "MolecularActivity",
         "api_name": "Gene Ontology Molecular Function API",
-        "url": "https://biothings.ncats.io/go_ma/geneset/query",
+        "url": "https://biothings.ncats.io/go_mf/query",
         "mapping": {
             "GO": ["_id"],
             "MetaCyc": ["xrefs.metacyc"],
@@ -102,7 +102,7 @@ exports.APIMETA = {
         "id_ranks": ["GO", "MetaCyc", "REACT", "KEGG", "name"],
         "semantic": "BiologicalProcess",
         "api_name": "Gene Ontology Biological Process API",
-        "url": "https://biothings.ncats.io/go_bp/geneset/query",
+        "url": "https://biothings.ncats.io/go_bp/query",
         "mapping": {
             "GO": ["_id"],
             "MetaCyc": ["xrefs.metacyc"],
@@ -115,7 +115,7 @@ exports.APIMETA = {
         "id_ranks": ["GO", "MetaCyc", "RHEA", "name"],
         "semantic": "CellularComponent",
         "api_name": "Gene Ontology Cellular Component API",
-        "url": "https://biothings.ncats.io/go_cc/geneset/query",
+        "url": "https://biothings.ncats.io/go_cc/query",
         "mapping": {
             "GO": ["_id"],
             "MetaCyc": ["xrefs.metacyc"],
@@ -127,7 +127,7 @@ exports.APIMETA = {
         "id_ranks": ["Reactome", "KEGG", "PHARMGKB", "WIKIPATHWAYS", "name"],
         "semantic": "Pathway",
         "api_name": "geneset API",
-        "url": "https://biothings.ncats.io/geneset",
+        "url": "https://biothings.ncats.io/geneset/query",
         "mapping": {
             "Reactome": ["reactome"],
             "WIKIPATHWAYS": ["wikipathways"],
@@ -140,7 +140,7 @@ exports.APIMETA = {
         "id_ranks": ["UBERON", "UMLS", "MESH", "NCIT", "name"],
         "semantic": "AnatomicalEntity",
         "api_name": "UBERON API",
-        "url": "https://biothings.ncats.io/uberon/anatomy/query",
+        "url": "https://biothings.ncats.io/uberon/query",
         "mapping": {
             "UBERON": ["_id"],
             "UMLS": ["xrefs.umls"],
@@ -150,7 +150,16 @@ exports.APIMETA = {
         }
     },
     "Cell": {
-        "api_name": "NodeNormalization API",
-        "url": "https://nodenormalization-sri.renci.org/get_normalized_nodes"
+        "id_ranks": ["CL", "NCIT", "MESH", "EFO", "name"],
+        "semantic": "Cell",
+        "api_name": "Cell Onotlogy API",
+        "url": "https://biothings.ncats.io/cell_ontology/query",
+        "mapping": {
+            "CL": ["_id"],
+            "NCIT": ["xrefs.ncit"],
+            "MESH": ["xrefs.mesh"],
+            "EFO": ["xrefs.efo"],
+            "name": ["name"]
+        }
     }
 }
