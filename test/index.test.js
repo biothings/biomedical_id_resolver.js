@@ -26,11 +26,43 @@ describe("Test resolve functions", () => {
     });
     test("Test using UBERON IDs", async () => {
         const input = {
-            AnatomicalEntity: ["UBERON:0007173", "UBERON:0006849"]
+            AnatomicalEntity: ["UBERON:0007173", "UBERON:1000021"]
         };
         let res = await resolve(input);
         expect(Object.keys(res)).toContain("UBERON:0007173");
         expect(res["UBERON:0007173"].type).toBe("AnatomicalEntity");
+        expect(res["UBERON:1000021"].curies).toContain("UMLS:C0222084")
+    });
+    test("Test using Cell Ontology IDs", async () => {
+        const input = {
+            Cell: ["CL:0002211"]
+        };
+        let res = await resolve(input);
+        expect(Object.keys(res)).toContain("CL:0002211");
+        expect(res["CL:0002211"].type).toBe("Cell");
+        expect(res["CL:0002211"].curies).toContain("MESH:A02.633.565.700")
+    });
+    test("Test using Phenotype IDs", async () => {
+        const input = {
+            PhenotypicFeature: ["HP:0000791"]
+        };
+        let res = await resolve(input);
+        expect(Object.keys(res)).toContain("HP:0000791");
+        expect(res["HP:0000791"].type).toBe("PhenotypicFeature");
+        expect(res["HP:0000791"].curies).toContain("UMLS:C0403719")
+    });
+    test("Test using Gene Ontology IDs", async () => {
+        const input = {
+            BiologicalProcess: ["GO:0061732"],
+            CellularComponent: ["GO:0009323"],
+            MolecularActivity: ["GO:0102560"]
+        };
+        let res = await resolve(input);
+        expect(Object.keys(res)).toContain("GO:0061732");
+        expect(res["GO:0061732"].type).toBe("BiologicalProcess");
+        expect(res["GO:0061732"].curies).toContain("REACT:R-HSA-372342.1");
+        expect(res["GO:0009323"].curies).toContain("RHEA:43752");
+        expect(res["GO:0102560"].curies).toContain("MetaCyc:RXN-14995");
     });
     test("Test using DBSNP IDs", async () => {
         const input = {
