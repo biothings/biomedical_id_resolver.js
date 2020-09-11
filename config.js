@@ -60,7 +60,7 @@ exports.APIMETA = {
             "DOID": ["mondo.xrefs.doid"],
             "UMLS": ['mondo.xrefs.umls', "disgenet.xrefs.umls"],
             "name": ["mondo.label", "disgenet.xrefs.disease_name"],
-            "MESH": ["mondo.xrefs.mesh", "ctd.mesh"],
+            "MESH": ["mondo.xrefs.mesh", "disease_ontology.xrefs.mesh", "ctd.mesh"],
             "OMIM": ["mondo.xrefs.omim", "hpo.omim"],
             "EFO": ["mondo.xrefs.efo"],
             "ORPHANET": ["hpo.orphanet", "mondo.xrefs.orphanet"],
@@ -124,7 +124,7 @@ exports.APIMETA = {
         }
     },
     "Pathway": {
-        "id_ranks": ["Reactome", "KEGG", "PHARMGKB", "WIKIPATHWAYS", "name"],
+        "id_ranks": ["REACT", "KEGG", "PHARMGKB", "WIKIPATHWAYS", "name"],
         "semantic": "Pathway",
         "api_name": "geneset API",
         "url": "https://biothings.ncats.io/geneset/query",
