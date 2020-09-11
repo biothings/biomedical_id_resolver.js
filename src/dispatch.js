@@ -21,7 +21,7 @@ module.exports = class Dispatcher {
         Object.keys(this.inputIDs).map(semanticType => {
             if (SEMANTIC_TYPES_HANDLED_BY_BIOTHINGS.includes(semanticType)) {
                 let res = this.generateBioThingsAPIPromisesByCuries(this.inputIDs[semanticType], semanticType);
-                let chunked_promises = _.chunk(res.valid, 5);
+                let chunked_promises = _.chunk(res.valid, 2);
                 chunked_promises.map((item, i) => {
                     if (!(i in this.promises)) {
                         this.promises[i] = [];
@@ -136,7 +136,7 @@ module.exports = class Dispatcher {
         return axios({
             method: 'post',
             url: meta['url'],
-            timeout: 10000,
+            timeout: 30000,
             data: query,
             headers: { 'content-type': 'application/x-www-form-urlencoded' }
         })
@@ -190,7 +190,7 @@ module.exports = class Dispatcher {
             // ids used to be of type Set, which is not accepted by the chunk function
             ids = Array.from(ids);
             // note: maximum length of inputs for BioThings APIs is 1000;
-            let chunked_ids = _.chunk(ids, 1000);
+            let chunked_ids = _.chunk(ids, 500);
             let axiosQuery;
             for (let i = 0; i < chunked_ids.length; i++) {
                 axiosQuery = this.constructBioThingsPostQuery(chunked_ids[i], semanticType, prefix);

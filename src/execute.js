@@ -28,6 +28,7 @@ module.exports = async (promisesArray, mapping) => {
             if (item.status === "fulfilled") {
                 result = { ...result, ...item.value }
             } else {
+                // console.log("failed", item)
             }
         })
     }
