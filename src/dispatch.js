@@ -21,7 +21,7 @@ module.exports = class Dispatcher {
         Object.keys(this.inputIDs).map(semanticType => {
             if (SEMANTIC_TYPES_HANDLED_BY_BIOTHINGS.includes(semanticType)) {
                 let res = this.generateBioThingsAPIPromisesByCuries(this.inputIDs[semanticType], semanticType);
-                let chunked_promises = _.chunk(res.valid, 2);
+                let chunked_promises = _.chunk(res.valid, 1);
                 chunked_promises.map((item, i) => {
                     if (!(i in this.promises)) {
                         this.promises[i] = [];
@@ -30,10 +30,7 @@ module.exports = class Dispatcher {
                 })
                 this.invalid[semanticType] = res.invalid;
             } else {
-                this.inputIDs[semanticType].map(item => {
-                    idsNodeNormalize.add(item);
-                    this.nodeNormalizeMapping[item] = semanticType
-                })
+                this.invalid[semanticType] = this.inputIDs[semanticType];
             }
         });
         let res2 = this.generateNodeNormalizeAPIPromisesByCuries(idsNodeNormalize);
