@@ -1,6 +1,6 @@
 {
   "name": "biomedical_id_resolver",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "js library for converting biomedical entity ids in batch",
   "main": "src/index.js",
   "scripts": {
