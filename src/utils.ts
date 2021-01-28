@@ -5,7 +5,7 @@ export function generateCurie(prefix: string, val: string | number): string {
     if (CURIE.ALWAYS_PREFIXED.includes(prefix)) {
         return val.toString();
     } else {
-        return prefix + val;
+        return prefix + ':' + val.toString();
     }
 }
 
@@ -42,7 +42,7 @@ export function generateFailedResponse(curie: string, type: string): ResolverSin
 }
 
 
-export function appendArrayOrNonArrayObjectToArray(lst: (string | number)[], item: string | number | (string | number)[]) {
+export function appendArrayOrNonArrayObjectToArray(lst: (any)[], item: any) {
     if (Array.isArray(item)) {
         return [...lst, ...item];
     } else {
