@@ -98,3 +98,8 @@ export interface DBIdsObjects {
 export interface Buckets {
     [key: number]: any[];
 }
+
+export interface PromiseAllSettledOutput {
+    status: string;
+    [key: string]: any;
+}
