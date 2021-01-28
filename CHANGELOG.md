@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v2.0.0...v2.0.1) (2021-01-28)
+
+
+### Bug Fixes
+
+* :bug: point entry point to built folder ([0e56cf2](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/0e56cf2515972982f147afa224437fffa5920d79))
+
 ## [2.0.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v0.1.1...v2.0.0) (2021-01-28)
 
 
