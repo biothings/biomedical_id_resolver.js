@@ -1,5 +1,12 @@
 ![Test](https://github.com/kevinxin90/biomedical_id_resolver.js/workflows/Test/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/kevinxin90/biomedical_id_resolver.js/badge.svg?branch=master)](https://coveralls.io/github/kevinxin90/biomedical_id_resolver.js?branch=master)
+![npm](https://img.shields.io/npm/dw/biomedical_id_resolver)
+![GitHub issues](https://img.shields.io/github/issues/kevinxin90/biomedical_id_resolver.js)
+![NPM](https://img.shields.io/npm/l/biomedical_id_resolver)
+![npm](https://img.shields.io/npm/v/biomedical_id_resolver?style=plastic)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/kevinxin90/biomedical_id_resolver.js)
+
+
 
 # biomedical_id_resolver.js
 js library for resolving biological ids to their equivalent ids in batch
