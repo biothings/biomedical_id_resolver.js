@@ -223,3 +223,18 @@ let input = {
   5. UBERON
   6. SNOMEDCT
   7. name
+
+## Development
+
+1. Install Node 12 or later. You can use the [package manager][] of your choice.
+   Tests need to pass in Node 12 and 14.
+2. Clone this repository.
+3. Run `npm ci` to install the dependencies.
+4. scripts are stored in /src folder
+5. Add test to /__tests__ folder
+6. run `npm run release` to bump version and generte change log
+7. run `npx depcheck` to check for unused packages in package.json
+
+## CHANGELOG
+
+See [CHANGELOG.md](https://github.com/kevinxin90/biomedical_id_resolver.js/blob/master/CHANGELOG.md)
