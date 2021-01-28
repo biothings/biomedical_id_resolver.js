@@ -2,10 +2,10 @@ import { DBIdsObject, ValidSemanticTypes } from './common/types';
 import { APIMETA, CURIE } from './config';
 
 export class BioEntity {
-    private semanticType: ValidSemanticTypes;
+    private semanticType: string;
     private dbIDs: DBIdsObject;
 
-    constructor(semanticType: ValidSemanticTypes, dbIDs: DBIdsObject) {
+    constructor(semanticType: string, dbIDs: DBIdsObject) {
         this.semanticType = semanticType;
         this.dbIDs = dbIDs
     }

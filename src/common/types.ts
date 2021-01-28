@@ -90,3 +90,7 @@ export type MetaDataItemsObject = {
 export interface ObjectWithStringKeyAndArrayValues {
     [key: string]: string[];
 }
+
+export interface DBIdsObjects {
+    [key: string]: DBIdsObject;
+}
