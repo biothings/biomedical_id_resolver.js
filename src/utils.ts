@@ -1,4 +1,4 @@
-import { ResolverSingleOutputObject, ObjectWithStringKeyAndArrayValues } from './common/types';
+import { ObjectWithStringKeyAndArrayValues } from './common/types';
 import { CURIE } from './config'
 
 export function generateCurie(prefix: string, val: string | number): string {
@@ -21,28 +21,8 @@ export function generateDBID(val: string): string {
     }
 }
 
-/**
- * Generate a failed response if CURIE could not be resolved
- * @param {string} curie - curie representation of the ID
- * @param {string} type - semantic type
- */
-export function generateFailedResponse(curie: string, type: string): ResolverSingleOutputObject {
-    return {
-        id: {
-            identifier: curie,
-            label: curie
-        },
-        curies: [curie],
-        db_ids: {
-            [curie.split(':')[0]]: [generateDBID(curie)]
-        },
-        type: type,
-        flag: "failed"
-    }
-}
 
-
-export function appendArrayOrNonArrayObjectToArray(lst: (any)[], item: any) {
+export function appendArrayOrNonArrayObjectToArray(lst: any[], item: any) {
     if (Array.isArray(item)) {
         return [...lst, ...item];
     } else {
