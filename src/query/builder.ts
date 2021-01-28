@@ -4,7 +4,8 @@ import _ from 'lodash';
 import { MetaDataObject, APIFieldMappingObject, ObjectWithStringKeyAndArrayValues, DBIdsObject, BioThingsAPIQueryResponse, DBIdsObjects } from '../common/types';
 import { APIMETA, TIMEOUT, MAX_Biothings_Input_Size } from '../config';
 import { generateDBID, generateObjectWithNoDuplicateElementsInValue, appendArrayOrNonArrayObjectToArray, generateCurie } from '../utils';
-import { BioEntity } from '../bioentity'
+import { BioEntity } from '../bioentity';
+const debug = require("debug")("biomedical-id-resolver:QueryBuilder");
 
 export abstract class QueryBuilder {
     protected semanticType: string;
@@ -79,6 +80,7 @@ export class BioThingsQueryBuilder extends QueryBuilder {
         const returnFields = this.getReturnFields(metadata.mapping);
         const scopes = this.getInputScopes(metadata.mapping, prefix);
         const biothingsQuery = BioThingsQueryBuilder.queryTemplate.replace('{inputs}', inputs.join(',')).replace('{scopes}', scopes).replace('{fields}', returnFields);
+        debug(`One Axios Query is built--- method: post, url: ${metadata.url}, timeout: ${TIMEOUT}, data: ${biothingsQuery}`);
         return axios({
             method: 'post',
             url: metadata.url,
