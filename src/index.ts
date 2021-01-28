@@ -50,6 +50,8 @@ export = class IDResolver {
             res.map(item => {
                 if (item.status === "fulfilled") {
                     result = { ...result, ...item.value }
+                } else {
+                    debug(`One API Query fails, reason is ${item.reason}`)
                 }
             })
         }
