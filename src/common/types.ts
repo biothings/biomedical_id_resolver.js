@@ -30,11 +30,8 @@ export interface BioThingsAPIFailedQueryResponse extends BioThingsAPIQueryRespon
     notfound: true;
 }
 
-export const Valid_Semantic_Types = ['Gene', 'SequenceVariant', 'ChemicalSubstance', 'Disease', 'DiseaseOrPhenotypicFeature', 'PhenotypicFeature', 'MolecularActivity', 'BiologicalProcess', 'CellularComponent', 'Pathway', 'AnatomicalEntity', 'Cell'] as const; // TS 3.4
-type SuitValidSemanticTypes = typeof Valid_Semantic_Types; // readonly ['hearts', 'diamonds', 'spades', 'clubs']
-export type ValidSemanticTypes = SuitValidSemanticTypes[number];
 
-//export type ValidSemanticTypes = 'Gene' | 'SequenceVariant' | 'ChemicalSubstance' | 'Disease' | 'DiseaseOrPhenotypicFeature' | 'PhenotypicFeature' | 'MolecularActivity' | 'BiologicalProcess' | 'CellularComponent' | 'Pathway' | 'AnatomicalEntity' | 'Cell';
+export type ValidSemanticTypes = 'Gene' | 'SequenceVariant' | 'ChemicalSubstance' | 'Disease' | 'DiseaseOrPhenotypicFeature' | 'PhenotypicFeature' | 'MolecularActivity' | 'BiologicalProcess' | 'CellularComponent' | 'Pathway' | 'AnatomicalEntity' | 'Cell';
 
 export enum ValidTypes {
     Gene = "Gene",
