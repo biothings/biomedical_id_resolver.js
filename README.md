@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/kevinxin90/biomedical_id_resolver.js.svg?branch=master)](https://travis-ci.com/kevinxin90/biomedical_id_resolver.js)
+![Test](https://github.com/kevinxin90/biomedical_id_resolver.js/workflows/Test/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/kevinxin90/biomedical_id_resolver.js/badge.svg?branch=master)](https://coveralls.io/github/kevinxin90/biomedical_id_resolver.js?branch=master)
 
 # biomedical_id_resolver.js
