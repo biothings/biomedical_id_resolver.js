@@ -226,12 +226,12 @@ let input = {
 
 ## Development
 
-1. Install Node 12 or later. You can use the [package manager][] of your choice.
+1. Install Node 12 or later. You can use the [package manager](https://www.npmjs.com/) of your choice.
    Tests need to pass in Node 12 and 14.
 2. Clone this repository.
 3. Run `npm ci` to install the dependencies.
-4. scripts are stored in /src folder
-5. Add test to /__tests__ folder
+4. scripts are stored in `/src` folder
+5. Add test to `/__tests__` folder
 6. run `npm run release` to bump version and generte change log
 7. run `npx depcheck` to check for unused packages in package.json
 
