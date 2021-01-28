@@ -4,8 +4,8 @@ name: Test Coveralls
 
 jobs:
 
-  build:
-    name: Build
+  test-coverage:
+    name: Generate coverage report
     runs-on: ubuntu-latest
     steps:
 
@@ -16,12 +16,21 @@ jobs:
       with:
         node-version: 12.x
 
-    - name: npm install, make test-coverage
+    - name: npm install, generate coverage report
       run: |
         npm ci
         npm run test-cov
 
-    - name: Coveralls
+    - name: Send coverage report to coveralls for visualization
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+  finish:
+    needs: test-coverage
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true
