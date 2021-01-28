@@ -1,8 +1,9 @@
 import { DBIdsObject, DBIdsObjects } from './common/types';
 import { Scheduler } from './query/scheduler';
 import { Validator } from './validate';
-import { BioEntity, InValidBioEntity } from './bioentity';
-import { getPrefixFromCurie } from './utils'
+import { InValidBioEntity } from './bioentity';
+const debug = require("debug")("biomedical-id-resolver:Main");
+
 
 export = class IDResolver {
     constructor() {
@@ -11,23 +12,29 @@ export = class IDResolver {
 
     private annotateInvalidInput(invalidInput: DBIdsObject) {
         const res = {};
+        let cnt = 0;
         for (const semanticType in invalidInput) {
             for (const curie of invalidInput[semanticType]) {
-                res[curie] = new InValidBioEntity(semanticType, curie)
+                res[curie] = new InValidBioEntity(semanticType, curie);
+                cnt += 1;
             }
         }
+        debug(`Total number of invalid curies are: ${cnt}`);
         return res;
     }
 
     private annotateValidButNotRetrievedFromAPIResults(validInput: DBIdsObject, resultFromAPI: DBIdsObjects) {
         const res = {};
+        let cnt = 0;
         for (const semanticType in validInput) {
             for (const curie of validInput[semanticType]) {
                 if (!(curie in resultFromAPI)) {
-                    res[curie] = new InValidBioEntity(semanticType, curie)
+                    res[curie] = new InValidBioEntity(semanticType, curie);
+                    cnt += 1;
                 }
             }
         }
+        debug(`Total number of valid curies but are unable to be resolved are ${cnt}`);
         return res;
     }
 
@@ -46,8 +53,10 @@ export = class IDResolver {
                 }
             })
         }
+        debug(`Total number of curies that are successfully resolved are: ${Object.keys(result).length}`)
         result = { ...result, ...this.annotateValidButNotRetrievedFromAPIResults(validator.valid, result) };
         result = { ...result, ...this.annotateInvalidInput(validator.invalid) };
+        debug(`Total number of results returned are: ${Object.keys(result).length}`)
         return result;
     }
 }
