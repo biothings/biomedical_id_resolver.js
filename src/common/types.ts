@@ -94,3 +94,7 @@ export interface ObjectWithStringKeyAndArrayValues {
 export interface DBIdsObjects {
     [key: string]: DBIdsObject;
 }
+
+export interface Buckets {
+    [key: number]: any[];
+}

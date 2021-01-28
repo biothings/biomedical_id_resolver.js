@@ -8,6 +8,8 @@ export const TIMEOUT = 30000;
 
 export const MAX_Biothings_Input_Size = 1000;
 
+export const MAX_CONCURRENT_QUERIES = 3;
+
 export const APIMETA: MetaDataItemsObject = {
     "Gene": {
         "id_ranks": ["NCBIGene", "ENSEMBL", "HGNC", "SYMBOL", "OMIM", "UniProtKB", "UMLS", "MGI", "name"],
