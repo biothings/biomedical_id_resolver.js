@@ -47,3 +47,24 @@ export class BioEntity {
         return res;
     }
 }
+
+export class InValidBioEntity {
+    private semanticType: string;
+    private curie: string;
+    constructor(semanticType: string, curie: string) {
+        this.semanticType = semanticType;
+        this.curie = curie;
+    }
+
+    getPrimaryID(): string {
+        return this.curie;
+    }
+
+    getLabel(): string {
+        return this.curie;
+    }
+
+    getCuries(): string[] {
+        return [this.curie];
+    }
+}
