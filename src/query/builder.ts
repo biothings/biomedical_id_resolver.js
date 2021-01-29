@@ -5,7 +5,8 @@ import { MetaDataObject, APIFieldMappingObject, ObjectWithStringKeyAndArrayValue
 import { APIMETA, TIMEOUT, MAX_Biothings_Input_Size } from '../config';
 import { generateDBID, generateObjectWithNoDuplicateElementsInValue, appendArrayOrNonArrayObjectToArray, generateCurie } from '../utils';
 import { BioEntity } from '../bioentity';
-const debug = require("debug")("biomedical-id-resolver:QueryBuilder");
+import Debug from 'debug';
+const debug = Debug("biomedical-id-resolver:QueryBuilder");
 
 export abstract class QueryBuilder {
     protected semanticType: string;
