@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { MetaDataObject, APIFieldMappingObject, ObjectWithStringKeyAndArrayValues, DBIdsObject, BioThingsAPIQueryResponse, DBIdsObjects } from '../common/types';
 import { APIMETA, TIMEOUT, MAX_Biothings_Input_Size } from '../config';
 import { generateDBID, generateObjectWithNoDuplicateElementsInValue, appendArrayOrNonArrayObjectToArray, generateCurie } from '../utils';
-import { BioEntity } from '../bioentity';
+import { ValidBioEntity } from '../bioentity';
 const debug = require("debug")("biomedical-id-resolver:QueryBuilder");
 
 export abstract class QueryBuilder {
@@ -70,7 +70,7 @@ export class BioThingsQueryBuilder extends QueryBuilder {
         for (const rec of response) {
             if (!("notfound" in rec)) {
                 const curie = generateCurie(prefix, rec.query);
-                result[curie] = new BioEntity(semanticType, this.getDBIDsHelper(rec));
+                result[curie] = new ValidBioEntity(semanticType, this.getDBIDsHelper(rec));
             }
         }
         return result;
