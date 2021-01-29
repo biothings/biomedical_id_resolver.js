@@ -6,7 +6,7 @@ export const CURIE = {
 
 export const TIMEOUT = 30000;
 
-export const MAX_Biothings_Input_Size = 1000;
+export const MAX_BIOTHINGS_INPUT_SIZE = 1000;
 
 export const MAX_CONCURRENT_QUERIES = 3;
 

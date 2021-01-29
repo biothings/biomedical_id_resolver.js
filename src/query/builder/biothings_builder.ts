@@ -1,30 +1,14 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-import { MetaDataObject, APIFieldMappingObject, ObjectWithStringKeyAndArrayValues, DBIdsObject, BioThingsAPIQueryResponse, DBIdsObjects } from '../common/types';
-import { APIMETA, TIMEOUT, MAX_Biothings_Input_Size } from '../config';
-import { generateDBID, generateObjectWithNoDuplicateElementsInValue, appendArrayOrNonArrayObjectToArray, generateCurie } from '../utils';
-import { BioEntity } from '../bioentity';
+import { MetaDataObject, APIFieldMappingObject, ObjectWithStringKeyAndArrayValues, DBIdsObject, BioThingsAPIQueryResponse } from '../../common/types';
+import { APIMETA, TIMEOUT, MAX_BIOTHINGS_INPUT_SIZE } from '../../config';
+import { generateDBID, generateObjectWithNoDuplicateElementsInValue, appendArrayOrNonArrayObjectToArray, generateCurie } from '../../utils';
+import { ValidBioEntity } from '../../bioentity/valid_bioentity';
+import { QueryBuilder } from './base_builder';
 import Debug from 'debug';
 const debug = Debug("biomedical-id-resolver:QueryBuilder");
 
-export abstract class QueryBuilder {
-    protected semanticType: string;
-    protected curies: string[];
-
-    constructor(semanticType: string, curies: string[]) {
-        this.semanticType = semanticType;
-        this.curies = curies;
-    }
-
-    getAPIMetaData(semanticType: string = this.semanticType) {
-        return APIMETA[semanticType];
-    };
-
-    abstract buildQueries(metadata: MetaDataObject, prefix: string, inputs: string[]): void;
-
-    abstract buildOneQuery(metadata: MetaDataObject, prefix: string, curies: string[]): void;
-}
 
 
 export class BioThingsQueryBuilder extends QueryBuilder {
@@ -53,7 +37,7 @@ export class BioThingsQueryBuilder extends QueryBuilder {
     private getDBIDsHelper(record: BioThingsAPIQueryResponse): DBIdsObject {
         const res = {} as DBIdsObject;
         const mapping = APIMETA[this.semanticType].mapping;
-        for (const prefix in mapping) {
+        Object.keys(mapping).map(prefix => {
             for (const fieldName of mapping[prefix]) {
                 if (fieldName in record) {
                     if (!(prefix in res)) {
@@ -62,7 +46,7 @@ export class BioThingsQueryBuilder extends QueryBuilder {
                     res[prefix] = appendArrayOrNonArrayObjectToArray(res[prefix], record[fieldName]);
                 }
             }
-        }
+        })
         return generateObjectWithNoDuplicateElementsInValue(res);
     }
 
@@ -71,7 +55,7 @@ export class BioThingsQueryBuilder extends QueryBuilder {
         for (const rec of response) {
             if (!("notfound" in rec)) {
                 const curie = generateCurie(prefix, rec.query);
-                result[curie] = new BioEntity(semanticType, this.getDBIDsHelper(rec));
+                result[curie] = new ValidBioEntity(semanticType, this.getDBIDsHelper(rec));
             }
         }
         return result;
@@ -92,7 +76,7 @@ export class BioThingsQueryBuilder extends QueryBuilder {
     }
 
     buildQueries(metadata: MetaDataObject, prefix: string, inputs: string[]) {
-        return _.chunk(inputs, MAX_Biothings_Input_Size).map(batch => this.buildOneQuery(metadata, prefix, batch))
+        return _.chunk(inputs, MAX_BIOTHINGS_INPUT_SIZE).map(batch => this.buildOneQuery(metadata, prefix, batch))
     }
 
     build() {

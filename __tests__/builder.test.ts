@@ -1,5 +1,5 @@
-import { BioThingsQueryBuilder } from '../src/query/builder';
-import { BioEntity } from '../src/bioentity';
+import { BioThingsQueryBuilder } from '../src/query/builder/biothings_builder';
+import { ValidBioEntity } from '../src/bioentity/valid_bioentity';
 import { APIMETA } from '../src/config';
 
 
@@ -22,9 +22,9 @@ describe("Test BioThingsQueryBuilder Class", () => {
             const res = builder.getDBIDs("NCBIGene", "Gene", response);
             expect(res).toHaveProperty("NCBIGene:1017");
             expect(res).toHaveProperty("NCBIGene:1019");
-            expect(res["NCBIGene:1017"]).toBeInstanceOf(BioEntity);
+            expect(res["NCBIGene:1017"]).toBeInstanceOf(ValidBioEntity);
             const entity = res["NCBIGene:1017"];
-            expect(entity.getPrimaryID()).toEqual("NCBIGene:1017");
+            expect(entity.primaryID).toEqual("NCBIGene:1017");
         })
 
         test("failed record should be skipped", () => {

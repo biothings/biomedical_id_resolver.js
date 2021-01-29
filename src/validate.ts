@@ -62,7 +62,7 @@ export class Validator {
     }
 
     private checkIfPrefixCanBeResolved(userInput: DBIdsObject) {
-        for (const semanticType in userInput) {
+        Object.keys(userInput).map(semanticType => {
             for (const item of userInput[semanticType]) {
                 if (!(getPrefixFromCurie(item) in APIMETA[semanticType].mapping)) {
                     if (!(semanticType in this._invalid)) {
@@ -76,7 +76,7 @@ export class Validator {
                     this._valid[semanticType].push(item);
                 }
             }
-        }
+        })
     }
 
     validate(): void {
