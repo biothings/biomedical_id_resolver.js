@@ -64,7 +64,7 @@ export class Validator {
     private checkIfPrefixCanBeResolved(userInput: DBIdsObject) {
         for (const semanticType in userInput) {
             for (const item of userInput[semanticType]) {
-                if (!(getPrefixFromCurie(item) in APIMETA[semanticType]['mapping'])) {
+                if (!(getPrefixFromCurie(item) in APIMETA[semanticType].mapping)) {
                     if (!(semanticType in this._invalid)) {
                         this._invalid[semanticType] = [];
                     }

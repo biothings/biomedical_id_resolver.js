@@ -27,7 +27,7 @@ export class Scheduler {
             const promises = builder.build();
             debug(`Number of API queries made for semantic type ${semanticType} is ${promises.length}`);
             promises.map((p, i) => {
-                let bucketIndex = Math.floor(i / MAX_CONCURRENT_QUERIES);
+                const bucketIndex = Math.floor(i / MAX_CONCURRENT_QUERIES);
                 if (!(bucketIndex in this._buckets)) {
                     this._buckets[bucketIndex] = [];
                 }
