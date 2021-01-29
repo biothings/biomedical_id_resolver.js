@@ -1,5 +1,5 @@
 import IDResolver from '../src/index';
-import { BioEntity, InValidBioEntity } from '../src/bioentity'
+import { ValidBioEntity, InValidBioEntity } from '../src/bioentity'
 
 jest.setTimeout(30000)
 describe("Test ID Resolver", () => {
@@ -7,21 +7,21 @@ describe("Test ID Resolver", () => {
         const resolver = new IDResolver();
         const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"] });
         expect(res).toHaveProperty("NCBIGene:1017");
-        expect(res['NCBIGene:1017']).toBeInstanceOf(BioEntity);
-        expect(res['NCBIGene:1017'].getPrimaryID()).toEqual("NCBIGene:1017");
-        expect(res['NCBIGene:1017'].getLabel()).toEqual("CDK2")
+        expect(res['NCBIGene:1017']).toBeInstanceOf(ValidBioEntity);
+        expect(res['NCBIGene:1017'].primaryID).toEqual("NCBIGene:1017");
+        expect(res['NCBIGene:1017'].label).toEqual("CDK2")
     })
 
     test("Test valid inputs from multiple semantic types should be corretly resolved", async () => {
         const resolver = new IDResolver();
         const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"], "ChemicalSubstance": ["DRUGBANK:DB01609"] });
         expect(res).toHaveProperty("NCBIGene:1017");
-        expect(res['NCBIGene:1017']).toBeInstanceOf(BioEntity);
-        expect(res['NCBIGene:1017'].getPrimaryID()).toEqual("NCBIGene:1017");
-        expect(res['NCBIGene:1017'].getLabel()).toEqual("CDK2");
+        expect(res['NCBIGene:1017']).toBeInstanceOf(ValidBioEntity);
+        expect(res['NCBIGene:1017'].primaryID).toEqual("NCBIGene:1017");
+        expect(res['NCBIGene:1017'].label).toEqual("CDK2");
         expect(res).toHaveProperty("DRUGBANK:DB01609");
-        expect(res['DRUGBANK:DB01609']).toBeInstanceOf(BioEntity);
-        expect(res['DRUGBANK:DB01609'].getLabel().toUpperCase()).toEqual("DEFERASIROX");
+        expect(res['DRUGBANK:DB01609']).toBeInstanceOf(ValidBioEntity);
+        expect(res['DRUGBANK:DB01609'].label.toUpperCase()).toEqual("DEFERASIROX");
     })
 
     test("Test invalid inputs should be part of the result", async () => {
@@ -29,8 +29,8 @@ describe("Test ID Resolver", () => {
         const res = await resolver.resolve({ "Gene": ["NCBIGene:1017", "kkk:123"] });
         expect(res).toHaveProperty("kkk:123");
         expect(res['kkk:123']).toBeInstanceOf(InValidBioEntity);
-        expect(res['kkk:123'].getPrimaryID()).toEqual('kkk:123');
-        expect(res['kkk:123'].getLabel()).toEqual('kkk:123')
+        expect(res['kkk:123'].primaryID).toEqual('kkk:123');
+        expect(res['kkk:123'].label).toEqual('kkk:123')
     })
 
     test("test large batch of inputs should be correctly resolved", async () => {

@@ -1,13 +1,25 @@
-import { DBIdsObject, ValidSemanticTypes } from './common/types';
+import { DBIdsObject } from './common/types';
 import { APIMETA, CURIE } from './config';
+import { getPrefixFromCurie, generateDBID } from './utils'
 
-export class BioEntity {
+abstract class BioEntity {
+    abstract get primaryID(): string
+
+    abstract get label(): string
+
+    abstract get curies(): string[]
+
+    abstract get dbIDs(): DBIdsObject
+}
+
+export class ValidBioEntity extends BioEntity {
     private semanticType: string;
-    private dbIDs: DBIdsObject;
+    private _dbIDs: DBIdsObject;
 
     constructor(semanticType: string, dbIDs: DBIdsObject) {
+        super();
         this.semanticType = semanticType;
-        this.dbIDs = dbIDs
+        this._dbIDs = dbIDs
     }
 
     private getCurieFromVal(val: string, prefix: string): string {
@@ -17,54 +29,65 @@ export class BioEntity {
         return prefix + ':' + val;
     }
 
-    getPrimaryID(): string {
+    get primaryID(): string {
         const ranks = APIMETA[this.semanticType].id_ranks;
         for (const prefix of ranks) {
-            if (prefix in this.dbIDs) {
-                return this.getCurieFromVal(this.dbIDs[prefix][0], prefix);
+            if (prefix in this._dbIDs) {
+                return this.getCurieFromVal(this._dbIDs[prefix][0], prefix);
             }
         }
         return undefined;
     }
 
-    getLabel(): string {
-        if ('SYMBOL' in this.dbIDs) {
-            return this.dbIDs.SYMBOL[0];
+    get label(): string {
+        if ('SYMBOL' in this._dbIDs) {
+            return this._dbIDs.SYMBOL[0];
         }
-        if ('name' in this.dbIDs) {
-            return this.dbIDs.name[0];
+        if ('name' in this._dbIDs) {
+            return this._dbIDs.name[0];
         }
-        return this.getPrimaryID();
+        return this.primaryID;
     }
 
-    getCuries(): string[] {
+    get curies(): string[] {
         const res = [];
-        for (const prefix in this.dbIDs) {
-            for (const id of this.dbIDs[prefix]) {
+        for (const prefix in this._dbIDs) {
+            for (const id of this._dbIDs[prefix]) {
                 res.push(this.getCurieFromVal(id, prefix));
             }
         }
         return res;
     }
+
+    get dbIDs(): DBIdsObject {
+        return this._dbIDs;
+    }
 }
 
-export class InValidBioEntity {
+export class InValidBioEntity extends BioEntity {
     private semanticType: string;
     private curie: string;
     constructor(semanticType: string, curie: string) {
+        super();
         this.semanticType = semanticType;
         this.curie = curie;
     }
 
-    getPrimaryID(): string {
+    get primaryID(): string {
         return this.curie;
     }
 
-    getLabel(): string {
+    get label(): string {
         return this.curie;
     }
 
-    getCuries(): string[] {
+    get curies(): string[] {
         return [this.curie];
+    }
+
+    get dbIDs(): DBIdsObject {
+        return {
+            [getPrefixFromCurie(this.curie)]: [generateDBID(this.curie)]
+        }
     }
 }
