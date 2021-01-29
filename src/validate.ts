@@ -49,7 +49,7 @@ export class Validator {
     }
 
     private checkIfSemanticTypeCanBeResolved(userInput: DBIdsObject) {
-        let DBIDsWithCorrectSemanticTypes = {} as DBIdsObject;
+        const DBIDsWithCorrectSemanticTypes = {} as DBIdsObject;
         for (const semanticType in userInput) {
             if (Object.keys(APIMETA).includes(semanticType)) {
                 DBIDsWithCorrectSemanticTypes[semanticType] = userInput[semanticType]

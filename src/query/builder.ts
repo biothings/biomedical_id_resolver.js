@@ -51,7 +51,7 @@ export class BioThingsQueryBuilder extends QueryBuilder {
     }
 
     private getDBIDsHelper(record: BioThingsAPIQueryResponse): DBIdsObject {
-        let res = {} as DBIdsObject;
+        const res = {} as DBIdsObject;
         const mapping = APIMETA[this.semanticType].mapping;
         for (const prefix in mapping) {
             for (const fieldName of mapping[prefix]) {

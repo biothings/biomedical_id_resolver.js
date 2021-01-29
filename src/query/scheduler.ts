@@ -3,7 +3,8 @@ import _ from 'lodash';
 import { BioThingsQueryBuilder } from './builder';
 import { DBIdsObject, Buckets } from '../common/types'
 import { MAX_CONCURRENT_QUERIES } from '../config';
-const debug = require("debug")("biomedical-id-resolver:Scheduler");
+import Debug from 'debug';
+const debug = Debug("biomedical-id-resolver:Scheduler");
 
 export class Scheduler {
 
