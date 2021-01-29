@@ -1,9 +1,10 @@
 import _ from 'lodash';
 
-import { BioThingsQueryBuilder } from './builder';
+import { BioThingsQueryBuilder } from './builder/biothings_builder';
 import { DBIdsObject, Buckets } from '../common/types'
 import { MAX_CONCURRENT_QUERIES } from '../config';
-const debug = require("debug")("biomedical-id-resolver:Scheduler");
+import Debug from 'debug';
+const debug = Debug("biomedical-id-resolver:Scheduler");
 
 export class Scheduler {
 
@@ -26,7 +27,7 @@ export class Scheduler {
             const promises = builder.build();
             debug(`Number of API queries made for semantic type ${semanticType} is ${promises.length}`);
             promises.map((p, i) => {
-                let bucketIndex = Math.floor(i / MAX_CONCURRENT_QUERIES);
+                const bucketIndex = Math.floor(i / MAX_CONCURRENT_QUERIES);
                 if (!(bucketIndex in this._buckets)) {
                     this._buckets[bucketIndex] = [];
                 }

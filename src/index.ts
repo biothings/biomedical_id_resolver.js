@@ -1,24 +1,22 @@
 import { DBIdsObject, DBIdsObjects } from './common/types';
 import { Scheduler } from './query/scheduler';
 import { Validator } from './validate';
-import { InValidBioEntity } from './bioentity';
-const debug = require("debug")("biomedical-id-resolver:Main");
+import { InValidBioEntity } from './bioentity/invalid_bioentity';
+import Debug from 'debug';
+const debug = Debug("biomedical-id-resolver:Main");
 
 
 export = class IDResolver {
-    constructor() {
-
-    }
 
     private annotateInvalidInput(invalidInput: DBIdsObject) {
         const res = {};
         let cnt = 0;
-        for (const semanticType in invalidInput) {
+        Object.keys(invalidInput).map(semanticType => {
             for (const curie of invalidInput[semanticType]) {
                 res[curie] = new InValidBioEntity(semanticType, curie);
                 cnt += 1;
             }
-        }
+        })
         debug(`Total number of invalid curies are: ${cnt}`);
         return res;
     }
@@ -26,14 +24,14 @@ export = class IDResolver {
     private annotateValidButNotRetrievedFromAPIResults(validInput: DBIdsObject, resultFromAPI: DBIdsObjects) {
         const res = {};
         let cnt = 0;
-        for (const semanticType in validInput) {
+        Object.keys(validInput).map(semanticType => {
             for (const curie of validInput[semanticType]) {
                 if (!(curie in resultFromAPI)) {
                     res[curie] = new InValidBioEntity(semanticType, curie);
                     cnt += 1;
                 }
             }
-        }
+        })
         debug(`Total number of valid curies but are unable to be resolved are ${cnt}`);
         return res;
     }
@@ -44,9 +42,8 @@ export = class IDResolver {
         const scheduler = new Scheduler(validator.valid);
         scheduler.schedule();
         let result = {};
-        for (let index = 0; index < Object.values(scheduler.buckets).length; index++) {
-            const promises = Object.values(scheduler.buckets)[index];
-            let res = await Promise.allSettled(promises) as any;
+        for (const promises of Object.values(scheduler.buckets)) {
+            const res = await Promise.allSettled(promises) as any;
             res.map(item => {
                 if (item.status === "fulfilled") {
                     result = { ...result, ...item.value }

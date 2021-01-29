@@ -1,5 +1,5 @@
-import { BioThingsQueryBuilder } from '../src/query/builder';
-import { ValidBioEntity } from '../src/bioentity';
+import { BioThingsQueryBuilder } from '../src/query/builder/biothings_builder';
+import { ValidBioEntity } from '../src/bioentity/valid_bioentity';
 import { APIMETA } from '../src/config';
 
 

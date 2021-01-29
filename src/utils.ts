@@ -32,8 +32,8 @@ export function appendArrayOrNonArrayObjectToArray(lst: any[], item: any) {
 }
 
 export function generateObjectWithNoDuplicateElementsInValue(input: ObjectWithStringKeyAndArrayValues): ObjectWithStringKeyAndArrayValues {
-    for (const key in input) {
+    Object.keys(input).map(key => {
         input[key] = Array.from(new Set(input[key]));
-    }
+    })
     return input;
 }

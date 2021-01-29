@@ -1,4 +1,5 @@
-import { ValidBioEntity, InValidBioEntity } from '../src/bioentity';
+import { ValidBioEntity } from '../src/bioentity/valid_bioentity';
+import { InValidBioEntity } from '../src/bioentity/invalid_bioentity';
 
 const CDK2_DB_IDs = {
     "NCBIGene": ["1017"],

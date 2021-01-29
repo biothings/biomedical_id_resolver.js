@@ -49,7 +49,7 @@ export class Validator {
     }
 
     private checkIfSemanticTypeCanBeResolved(userInput: DBIdsObject) {
-        let DBIDsWithCorrectSemanticTypes = {} as DBIdsObject;
+        const DBIDsWithCorrectSemanticTypes = {} as DBIdsObject;
         for (const semanticType in userInput) {
             if (Object.keys(APIMETA).includes(semanticType)) {
                 DBIDsWithCorrectSemanticTypes[semanticType] = userInput[semanticType]
@@ -62,9 +62,9 @@ export class Validator {
     }
 
     private checkIfPrefixCanBeResolved(userInput: DBIdsObject) {
-        for (const semanticType in userInput) {
+        Object.keys(userInput).map(semanticType => {
             for (const item of userInput[semanticType]) {
-                if (!(getPrefixFromCurie(item) in APIMETA[semanticType]['mapping'])) {
+                if (!(getPrefixFromCurie(item) in APIMETA[semanticType].mapping)) {
                     if (!(semanticType in this._invalid)) {
                         this._invalid[semanticType] = [];
                     }
@@ -76,7 +76,7 @@ export class Validator {
                     this._valid[semanticType].push(item);
                 }
             }
-        }
+        })
     }
 
     validate(): void {
