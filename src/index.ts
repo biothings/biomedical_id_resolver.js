@@ -2,7 +2,8 @@ import { DBIdsObject, DBIdsObjects } from './common/types';
 import { Scheduler } from './query/scheduler';
 import { Validator } from './validate';
 import { InValidBioEntity } from './bioentity';
-const debug = require("debug")("biomedical-id-resolver:Main");
+import Debug from 'debug';
+const debug = Debug("biomedical-id-resolver:Main");
 
 
 export = class IDResolver {
