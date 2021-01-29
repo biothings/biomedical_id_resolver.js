@@ -6,9 +6,6 @@ const debug = require("debug")("biomedical-id-resolver:Main");
 
 
 export = class IDResolver {
-    constructor() {
-
-    }
 
     private annotateInvalidInput(invalidInput: DBIdsObject) {
         const res = {};
