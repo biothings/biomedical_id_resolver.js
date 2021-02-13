@@ -18,6 +18,10 @@ const DB_ID_WITH_NO_PRIMARY = {
     kk: ["kkk"]
 }
 
+const DISEASE_DB_IDS = {
+    "MONDO": ["MONDO:12345"]
+}
+
 const CHEMBL7512_DB_IDS = { "CHEMBL.COMPOUND": ["CHEMBL7512"], "PUBCHEM": ["53428"] }
 describe("Test ValidBioEntity Class", () => {
     describe("Test getPrimaryID function", () => {
@@ -25,6 +29,12 @@ describe("Test ValidBioEntity Class", () => {
             const entity = new ValidBioEntity("Gene", CDK2_DB_IDs);
             const primary_id = entity.primaryID;
             expect(primary_id).toBe("NCBIGene:1017")
+        })
+
+        test("db ids always prefixed should return itself", () => {
+            const entity = new ValidBioEntity("Disease", DISEASE_DB_IDS);
+            const primary_id = entity.primaryID;
+            expect(primary_id).toBe("MONDO:12345")
         })
 
         test("db ids without prefixes defined in metadata should return undefined", () => {
