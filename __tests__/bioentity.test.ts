@@ -117,7 +117,7 @@ describe("Test InValidBioEntity Class", () => {
             const dbIDs = entity.dbIDs;
             expect(dbIDs).toEqual(
                 {
-                    KK: ["123"]
+                    KK: ["KK:123"]
                 }
             );
         })
