@@ -25,7 +25,7 @@ export class InValidBioEntity extends BioEntity {
 
   get dbIDs(): DBIdsObject {
     return {
-      [getPrefixFromCurie(this.curie)]: [generateDBID(this.curie)],
+      [getPrefixFromCurie(this.curie)]: [this.curie]
     };
   }
 }
