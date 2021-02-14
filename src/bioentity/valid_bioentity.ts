@@ -13,7 +13,7 @@ export class ValidBioEntity extends BioEntity {
   }
 
   private getCurieFromVal(val: string, prefix: string): string {
-    if (prefix in CURIE.ALWAYS_PREFIXED) {
+    if (CURIE.ALWAYS_PREFIXED.includes(prefix)) {
       return val;
     }
     return prefix + ':' + val;
