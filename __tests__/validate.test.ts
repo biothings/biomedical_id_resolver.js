@@ -69,6 +69,25 @@ describe("Test Validator Class", () => {
         })
     })
 
+    describe("Test handleUndefinedIDs function", () => {
+        test("id appear in config should be mapped to the correct semantic type", () => {
+            const test_data = { "undefined": ["NCBIGene:1017", "kkk:1323"] };
+            const vd = new Validator(test_data);
+            vd.validate();
+            expect(vd.valid.Gene).toContain("NCBIGene:1017");
+            expect(vd.invalid.undefined).not.toContain("NCBIGene:1017");
+            expect(vd.invalid.undefined).toContain("kkk:1323");
+        })
+
+        test("id that can be mapped to mulitple semantic types are correcty mapped", () => {
+            const test_data = { "undefined": ["NCBIGene:1017", "OMIM:123"] };
+            const vd = new Validator(test_data);
+            vd.validate();
+            expect(vd.valid.Gene).toContain("OMIM:123");
+            expect(vd.valid.Disease).toContain("OMIM:123");
+        })
+    })
+
     describe("Test validate function", () => {
         test("valid answers can be retrieved through valid property of the class", () => {
             const test_data = { "Gene": ["NCBIGene:1017", "kkk:1323"], "ChemicalSubstance": ["DRUGBANK:DB0001"] };
