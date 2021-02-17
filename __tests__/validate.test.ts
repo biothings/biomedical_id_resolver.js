@@ -16,6 +16,12 @@ describe("Test Validator Class", () => {
             expect(() => vd.validate()).toThrow(InvalidIDResolverInputError);
             expect(() => vd.validate()).toThrow("Your Input to ID Resolver is Invalid. It should be a plain object!");
         })
+
+        test("not raise exception if input is an object", () => {
+            const test_data = {};
+            const vd = new Validator(test_data);
+            expect(() => vd.validate()).not.toThrow(InvalidIDResolverInputError);
+        })
     })
 
     describe("Test validateIfValuesOfInputIsArray function", () => {
@@ -32,6 +38,12 @@ describe("Test Validator Class", () => {
             expect(() => vd.validate()).toThrow(InvalidIDResolverInputError);
             expect(() => vd.validate()).toThrow("Your Input to ID Resolver is Invalid. All values of your input dictionary should be a list!");
         })
+
+        test("not raise exception if values of input is array", () => {
+            const test_data = { "Gene": ["NCBIGene:1017"] };
+            const vd = new Validator(test_data);
+            expect(() => vd.validate()).not.toThrow(InvalidIDResolverInputError);
+        })
     })
 
     describe("Test validateIfEachItemInInputValuesIsCurie function", () => {
@@ -47,6 +59,12 @@ describe("Test Validator Class", () => {
             const vd = new Validator(test_data);
             expect(() => vd.validate()).toThrow(InvalidIDResolverInputError);
             expect(() => vd.validate()).toThrow("Your Input to ID Resolver is Invalid. Each item in the values of your input dictionary should be a curie. Spotted 1234 is not a curie");
+        })
+
+        test("not raise exception if values of input are all curies", () => {
+            const test_data = { "Gene": ["NCBIGene:1234", "NCBIGene:1345"] };
+            const vd = new Validator(test_data);
+            expect(() => vd.validate()).not.toThrow(InvalidIDResolverInputError);
         })
     })
 
