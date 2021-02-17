@@ -6,13 +6,15 @@ import Debug from 'debug';
 const debug = Debug('biomedical-id-resolver:Main');
 
 export = class IDResolver {
-  private annotateInvalidInput(invalidInput: DBIdsObject) {
+  private annotateInvalidInput(invalidInput: DBIdsObject, resultFromAPI: DBIdsObjects) {
     const res = {};
     let cnt = 0;
     Object.keys(invalidInput).map((semanticType) => {
       for (const curie of invalidInput[semanticType]) {
-        res[curie] = new InValidBioEntity(semanticType, curie);
-        cnt += 1;
+        if (!(curie in resultFromAPI)) {
+          res[curie] = new InValidBioEntity(semanticType, curie);
+          cnt += 1;
+        }
       }
     });
     debug(`Total number of invalid curies are: ${cnt}`);
@@ -52,7 +54,7 @@ export = class IDResolver {
     }
     debug(`Total number of curies that are successfully resolved are: ${Object.keys(result).length}`);
     result = { ...result, ...this.annotateValidButNotRetrievedFromAPIResults(validator.valid, result) };
-    result = { ...result, ...this.annotateInvalidInput(validator.invalid) };
+    result = { ...result, ...this.annotateInvalidInput(validator.invalid, result) };
     debug(`Total number of results returned are: ${Object.keys(result).length}`);
     return result;
   }
