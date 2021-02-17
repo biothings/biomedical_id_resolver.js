@@ -85,4 +85,13 @@ describe("Test ID Resolver", () => {
         expect(res['OMIM1:116953']).toBeInstanceOf(InValidBioEntity);
         expect(res['OMIM1:116953'].semanticType).toEqual("undefined");
     })
+
+    test("Test invalid inputs should not overwrite the result of a valid input", async () => {
+        const resolver = new IDResolver();
+        const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"], "Disease": ["NCBIGene:1017"] });
+        expect(res).toHaveProperty("NCBIGene:1017");
+        expect(res['NCBIGene:1017']).toBeInstanceOf(ValidBioEntity);
+        expect(res['NCBIGene:1017'].primaryID).toEqual("NCBIGene:1017");
+        expect(res['NCBIGene:1017'].label).toEqual("CDK2")
+    })
 })
