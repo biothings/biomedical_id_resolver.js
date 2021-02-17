@@ -67,6 +67,15 @@ describe("Test Validator Class", () => {
             expect(vd.invalid).toHaveProperty("Gene");
             expect(vd.invalid.Gene).toContain("kkk:1323");
         })
+
+        test("check if invalid object are correctly initialized", () => {
+            const test_data = { "Gene": ["NCBIGene:1017", "kkk:1323", "kkk:12345"] };
+            const vd = new Validator(test_data);
+            vd.validate();
+            expect(vd.invalid).toHaveProperty("Gene");
+            expect(vd.invalid.Gene).toContain("kkk:1323");
+            expect(vd.invalid.Gene).toContain("kkk:12345");
+        })
     })
 
     describe("Test handleUndefinedIDs function", () => {
