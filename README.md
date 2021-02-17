@@ -1,4 +1,4 @@
-![Test](https://github.com/kevinxin90/biomedical_id_resolver.js/workflows/Test/badge.svg)
+![Test Coveralls](https://github.com/kevinxin90/biomedical_id_resolver.js/workflows/Test%20Coveralls/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/kevinxin90/biomedical_id_resolver.js/badge.svg?branch=master)](https://coveralls.io/github/kevinxin90/biomedical_id_resolver.js?branch=master)
 ![npm](https://img.shields.io/npm/dw/biomedical_id_resolver)
 ![GitHub issues](https://img.shields.io/github/issues/kevinxin90/biomedical_id_resolver.js)
