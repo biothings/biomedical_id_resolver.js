@@ -31,7 +31,8 @@ let input = {
   };
 
 (async () => {
-	console.log(await resolve(input);
+  const resolver = new resolve();
+	console.log(await resolver.resolve(input);
 	//=> {'NCBIGene:1017': {...}, 'NCBIGene:1018': {...}, 'HGNC:1177': {...}, 'CHEBI:15377': {...}, 'MONDO:0004976': {...}, 'CL:0002372': {...}}
 })();
 

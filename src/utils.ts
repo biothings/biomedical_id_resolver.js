@@ -1,5 +1,5 @@
 import { ObjectWithStringKeyAndArrayValues } from './common/types';
-import { CURIE } from './config';
+import { CURIE, APIMETA } from './config';
 
 export function generateCurie(prefix: string, val: string | number): string {
   if (CURIE.ALWAYS_PREFIXED.includes(prefix)) {
@@ -37,4 +37,17 @@ export function generateObjectWithNoDuplicateElementsInValue(
     input[key] = Array.from(new Set(input[key]));
   });
   return input;
+}
+
+export function generateIDTypeDict(): ObjectWithStringKeyAndArrayValues {
+  const res = {} as ObjectWithStringKeyAndArrayValues;
+  Object.values(APIMETA).map((metadata) => {
+    for (const prefix of metadata.id_ranks) {
+      if (!(prefix in res)) {
+        res[prefix] = [];
+      }
+      res[prefix].push(metadata.semantic);
+    }
+  })
+  return res;
 }

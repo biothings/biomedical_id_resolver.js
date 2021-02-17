@@ -47,4 +47,42 @@ describe("Test ID Resolver", () => {
         expect(res['OMIM:0']).toBeInstanceOf(InValidBioEntity)
 
     })
+
+    test("Test inputs with undefined semanticType should be corretly resolved", async () => {
+        const resolver = new IDResolver();
+        const res = await resolver.resolve({ "undefined": ["NCBIGene:1017"] });
+        expect(res).toHaveProperty("NCBIGene:1017");
+        expect(res['NCBIGene:1017']).toBeInstanceOf(ValidBioEntity);
+        expect(res['NCBIGene:1017'].primaryID).toEqual("NCBIGene:1017");
+        expect(res['NCBIGene:1017'].label).toEqual("CDK2");
+        expect(res['NCBIGene:1017'].semanticType).toEqual("Gene");
+    })
+
+    test("Test inputs with undefined semanticType and could be mapped to multiple semantictypes should be corretly resolved", async () => {
+        const resolver = new IDResolver();
+        const res = await resolver.resolve({ "undefined": ["UMLS:C0008780"] });
+        expect(res).toHaveProperty("UMLS:C0008780");
+        expect(res['UMLS:C0008780']).toBeInstanceOf(ValidBioEntity);
+        expect(res['UMLS:C0008780'].primaryID).toEqual("MONDO:0016575");
+        expect(res['UMLS:C0008780'].label).toEqual("primary ciliary dyskinesia");
+        expect(res['UMLS:C0008780'].semanticType).toEqual("Disease");
+    })
+
+    test("Test inputs with undefined semanticType and could be mapped to multiple semantictypes using OMIM ID as example should be corretly resolved", async () => {
+        const resolver = new IDResolver();
+        const res = await resolver.resolve({ "undefined": ["OMIM:116953"] });
+        expect(res).toHaveProperty("OMIM:116953");
+        expect(res['OMIM:116953']).toBeInstanceOf(ValidBioEntity);
+        expect(res['OMIM:116953'].primaryID).toEqual("NCBIGene:1017");
+        expect(res['OMIM:116953'].label).toEqual("CDK2");
+        expect(res['OMIM:116953'].semanticType).toEqual("Gene");
+    })
+
+    test("Test inputs with undefined semanticType and could not be mapped to any semantic type should return Invalid", async () => {
+        const resolver = new IDResolver();
+        const res = await resolver.resolve({ "undefined": ["OMIM1:116953"] });
+        expect(res).toHaveProperty("OMIM1:116953");
+        expect(res['OMIM1:116953']).toBeInstanceOf(InValidBioEntity);
+        expect(res['OMIM1:116953'].semanticType).toEqual("undefined");
+    })
 })

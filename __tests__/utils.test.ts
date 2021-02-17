@@ -1,4 +1,4 @@
-import { generateCurie, getPrefixFromCurie, generateObjectWithNoDuplicateElementsInValue, appendArrayOrNonArrayObjectToArray, generateDBID } from '../src/utils';
+import { generateCurie, getPrefixFromCurie, generateObjectWithNoDuplicateElementsInValue, appendArrayOrNonArrayObjectToArray, generateDBID, generateIDTypeDict } from '../src/utils';
 
 
 describe("Test Utils Module", () => {
@@ -89,6 +89,14 @@ describe("Test Utils Module", () => {
             const input = '1017';
             const res = generateDBID(input);
             expect(res).toEqual('1017');
+        })
+    })
+
+    describe("Test generateIDTypeDict function", () => {
+        test("Test generateIDTypeDict function", () => {
+            const res = generateIDTypeDict();
+            expect(res).toHaveProperty('NCBIGene', ['Gene'])
+            expect(res).toHaveProperty('OMIM', ['Gene', 'DiseaseOrPhenotypicFeature', 'Disease'])
         })
     })
 })
