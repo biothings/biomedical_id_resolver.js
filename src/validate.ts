@@ -2,7 +2,7 @@ import _ from 'lodash';
 import InvalidIDResolverInputError from './common/exceptions';
 import { DBIdsObject } from './common/types';
 import { APIMETA } from './config';
-import { getPrefixFromCurie } from './utils';
+import { getPrefixFromCurie, generateIDTypeDict } from './utils';
 
 export class Validator {
   private userInput: any;
@@ -51,6 +51,30 @@ export class Validator {
     }
   }
 
+  private handleUndefinedIDs(userInput: DBIdsObject): DBIdsObject {
+    if (!("undefined" in userInput)) {
+      return userInput;
+    }
+    const idTypeDict = generateIDTypeDict();
+    const identified = [];
+    for (const curie of userInput.undefined) {
+      const prefix = getPrefixFromCurie(curie);
+      const possibleSemanticTypes = idTypeDict[prefix];
+      if (typeof possibleSemanticTypes === "undefined") {
+        continue;
+      }
+      for (const semanticType of possibleSemanticTypes) {
+        if (!(semanticType in userInput)) {
+          userInput[semanticType] = [];
+        }
+        userInput[semanticType].push(curie);
+      }
+      identified.push(curie);
+    }
+    userInput.undefined = userInput.undefined.filter(item => !(identified.includes(item)));
+    return userInput;
+  }
+
   private checkIfSemanticTypeCanBeResolved(userInput: DBIdsObject) {
     const DBIDsWithCorrectSemanticTypes = {} as DBIdsObject;
     for (const semanticType in userInput) {
@@ -85,7 +109,8 @@ export class Validator {
     this.validateIfInputIsObject(this.userInput);
     this.validateIfValuesOfInputIsArray(this.userInput);
     this.validateIfEachItemInInputValuesIsCurie(this.userInput);
-    const tmpValidRes = this.checkIfSemanticTypeCanBeResolved(this.userInput);
+    const restructuredInput = this.handleUndefinedIDs(this.userInput);
+    const tmpValidRes = this.checkIfSemanticTypeCanBeResolved(restructuredInput);
     this.checkIfPrefixCanBeResolved(tmpValidRes);
   }
 }
