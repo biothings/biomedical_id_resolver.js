@@ -58,4 +58,11 @@ export = class IDResolver {
     debug(`Total number of results returned are: ${Object.keys(result).length}`);
     return result;
   }
+
+  generateInvalidBioentities(userInput: any) {
+    const validator = new Validator(userInput);
+    validator.validate();
+    const result = this.annotateInvalidInput(validator.valid, {});
+    return result;
+  }
 };
