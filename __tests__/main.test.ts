@@ -94,4 +94,14 @@ describe("Test ID Resolver", () => {
         expect(res['NCBIGene:1017'].primaryID).toEqual("NCBIGene:1017");
         expect(res['NCBIGene:1017'].label).toEqual("CDK2")
     })
+
+    test("Test generateInvalidBioentities", async () => {
+        const resolver = new IDResolver();
+        const res = resolver.generateInvalidBioentities({ "Gene": ["NCBIGene:1017"], "Disease": ["MONDO:123"] });
+        expect(res).toHaveProperty("NCBIGene:1017");
+        expect(res['MONDO:123']).toBeInstanceOf(InValidBioEntity);
+        expect(res['NCBIGene:1017']).toBeInstanceOf(InValidBioEntity);
+        expect(res['NCBIGene:1017'].primaryID).toEqual("NCBIGene:1017");
+        expect(res['NCBIGene:1017'].label).toEqual("NCBIGene:1017")
+    })
 })
