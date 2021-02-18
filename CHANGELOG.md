@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v2.2.1...v2.3.0) (2021-02-18)
+
+
+### Features
+
+* :sparkles: add an option to generate invalid inputs for all user Input ([49d9a40](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/49d9a401860b7b3d9404abe90be640fa9362a7b9))
+* :sparkles: support for input with undefined semantic type ([f92c87f](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/f92c87f986dd4492c2cf43fae296ebe1b4543a2d))
+
+
+### Bug Fixes
+
+* :bug: fix wrong field name for Gene OMIM ID ([cd02a44](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/cd02a44465253b764a410c9e3fbb8bf98ea67098))
+
+
+### Refactor
+
+* :recycle: add function to generate id to type dict based on config ([ddfd505](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/ddfd50511b2e2904440fed5b9ea45ef927388f50))
+* :recycle: check if id already exists in result before add invalid bioentity ([4e94038](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/4e94038683f13c615bd05b46d2a7e37c52f04c52))
+
 ### [2.2.1](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v2.2.0...v2.2.1) (2021-02-14)
 
 ## [2.2.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v2.1.1...v2.2.0) (2021-02-14)
