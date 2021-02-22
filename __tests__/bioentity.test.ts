@@ -24,6 +24,11 @@ const DISEASE_DB_IDS = {
 
 const CHEMBL7512_DB_IDS = { "CHEMBL.COMPOUND": ["CHEMBL7512"], "PUBCHEM": ["53428"] }
 describe("Test ValidBioEntity Class", () => {
+    test("return semanticType when called semanticType property", () => {
+        const entity = new ValidBioEntity("Gene", CDK2_DB_IDs);
+        const res = entity.semanticType;
+        expect(res).toEqual("Gene");
+    })
     describe("Test getPrimaryID function", () => {
         test("db ids with prefixes defined in metadata should return the primary id", () => {
             const entity = new ValidBioEntity("Gene", CDK2_DB_IDs);
@@ -86,6 +91,11 @@ describe("Test ValidBioEntity Class", () => {
 })
 
 describe("Test InValidBioEntity Class", () => {
+    test("return semanticType when called semanticType property", () => {
+        const entity = new InValidBioEntity("Gene", "KK:123");
+        const res = entity.semanticType;
+        expect(res).toEqual("Gene");
+    })
     describe("Test getPrimaryID function", () => {
         test("should return the input curie", () => {
             const entity = new InValidBioEntity("Gene", "KK:123");

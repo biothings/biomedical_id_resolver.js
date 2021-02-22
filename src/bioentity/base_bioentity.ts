@@ -1,6 +1,8 @@
 import { DBIdsObject } from '../common/types';
 
 export abstract class BioEntity {
+  abstract get semanticType(): string;
+
   abstract get primaryID(): string;
 
   abstract get label(): string;

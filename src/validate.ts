@@ -52,7 +52,7 @@ export class Validator {
   }
 
   private handleUndefinedIDs(userInput: DBIdsObject): DBIdsObject {
-    if (!("undefined" in userInput)) {
+    if (!('undefined' in userInput)) {
       return userInput;
     }
     const idTypeDict = generateIDTypeDict();
@@ -60,7 +60,7 @@ export class Validator {
     for (const curie of userInput.undefined) {
       const prefix = getPrefixFromCurie(curie);
       const possibleSemanticTypes = idTypeDict[prefix];
-      if (typeof possibleSemanticTypes === "undefined") {
+      if (typeof possibleSemanticTypes === 'undefined') {
         continue;
       }
       for (const semanticType of possibleSemanticTypes) {
@@ -71,7 +71,7 @@ export class Validator {
       }
       identified.push(curie);
     }
-    userInput.undefined = userInput.undefined.filter(item => !(identified.includes(item)));
+    userInput.undefined = userInput.undefined.filter((item) => !identified.includes(item));
     return userInput;
   }
 

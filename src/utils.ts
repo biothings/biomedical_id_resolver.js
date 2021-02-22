@@ -59,6 +59,6 @@ export function generateIDTypeDict(): ObjectWithStringKeyAndArrayValues {
       }
       res[prefix].push(metadata.semantic);
     }
-  })
+  });
   return res;
 }
