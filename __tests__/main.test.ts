@@ -13,6 +13,13 @@ describe("Test ID Resolver", () => {
         expect(res['NCBIGene:1017'].label).toEqual("CDK2")
     })
 
+    test("Test BioThings output include integer should be converted to string", async () => {
+        const resolver = new IDResolver();
+        const res = await resolver.resolve({ "ChemicalSubstance": ["CHEMBL.COMPOUND:CHEMBL744"] });
+        expect(res['CHEMBL.COMPOUND:CHEMBL744']).toBeInstanceOf(ValidBioEntity);
+        expect(res['CHEMBL.COMPOUND:CHEMBL744'].dbIDs).toHaveProperty("PUBCHEM", ["5070"]);
+    })
+
     test("Test valid inputs from multiple semantic types should be corretly resolved", async () => {
         const resolver = new IDResolver();
         const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"], "ChemicalSubstance": ["DRUGBANK:DB01609"] });

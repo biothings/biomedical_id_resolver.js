@@ -52,6 +52,39 @@ describe("Test Utils Module", () => {
             expect(res).toHaveLength(3);
             expect(res).toEqual(['123', 'MONDO:000123', 'MONDO:000124'])
         })
+
+        test("convert element of input to string if any of the element in input is number", () => {
+            const input = ['MONDO:000123', 1017, 1018.1];
+            const lst = ['123']
+            const res = appendArrayOrNonArrayObjectToArray(lst, input);
+            expect(res).toHaveLength(4);
+            expect(res).toEqual(['123', 'MONDO:000123', '1017', '1018.1'])
+        })
+
+        test("convert item to string if item is number", () => {
+            const input = 1017;
+            const lst = ['123']
+            const res = appendArrayOrNonArrayObjectToArray(lst, input);
+            expect(res).toHaveLength(2);
+            expect(res).toEqual(['123', '1017'])
+        })
+
+        test("If element in input is not string or number, it should not be pushed", () => {
+            const input = ['MONDO:123', ['a', 'b']];
+            const lst = ['123']
+            const res = appendArrayOrNonArrayObjectToArray(lst, input);
+            expect(res).toHaveLength(2);
+            expect(res).toEqual(['123', 'MONDO:123'])
+        })
+
+        test("If input is string or array, it should not be pushed", () => {
+            const input = { 'a': 'b' };
+            const lst = ['123']
+            const res = appendArrayOrNonArrayObjectToArray(lst, input);
+            expect(res).toHaveLength(1);
+            expect(res).toEqual(['123'])
+        })
+
     })
 
     describe("Test generateObjectWithNoDuplicateElementsInValue function", () => {
