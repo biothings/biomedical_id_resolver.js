@@ -24,17 +24,17 @@ export function generateDBID(val: string): string {
 export function appendArrayOrNonArrayObjectToArray(lst: any[], item: any) {
   if (Array.isArray(item)) {
     for (const val of item) {
-      if (typeof val === "string") {
+      if (typeof val === 'string') {
         lst.push(val);
-      } else if (typeof val === "number") {
+      } else if (typeof val === 'number') {
         lst.push(val.toString());
       }
     }
     return lst;
   } else {
-    if (typeof item === "string") {
+    if (typeof item === 'string') {
       lst.push(item);
-    } else if (typeof item === "number") {
+    } else if (typeof item === 'number') {
       lst.push(item.toString());
     }
     return lst;
