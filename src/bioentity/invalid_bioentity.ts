@@ -3,12 +3,16 @@ import { getPrefixFromCurie, generateDBID } from '../utils';
 import { BioEntity } from './base_bioentity';
 
 export class InValidBioEntity extends BioEntity {
-  private semanticType: string;
+  private _semanticType: string;
   private curie: string;
   constructor(semanticType: string, curie: string) {
     super();
-    this.semanticType = semanticType;
+    this._semanticType = semanticType;
     this.curie = curie;
+  }
+
+  get semanticType(): string {
+    return this._semanticType;
   }
 
   get primaryID(): string {

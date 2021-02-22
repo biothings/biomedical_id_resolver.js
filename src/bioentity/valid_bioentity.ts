@@ -3,12 +3,12 @@ import { APIMETA, CURIE } from '../config';
 import { BioEntity } from './base_bioentity';
 
 export class ValidBioEntity extends BioEntity {
-  private semanticType: string;
+  private _semanticType: string;
   private _dbIDs: DBIdsObject;
 
   constructor(semanticType: string, dbIDs: DBIdsObject) {
     super();
-    this.semanticType = semanticType;
+    this._semanticType = semanticType;
     this._dbIDs = dbIDs;
   }
 
@@ -19,8 +19,12 @@ export class ValidBioEntity extends BioEntity {
     return prefix + ':' + val;
   }
 
+  get semanticType(): string {
+    return this._semanticType;
+  }
+
   get primaryID(): string {
-    const ranks = APIMETA[this.semanticType].id_ranks;
+    const ranks = APIMETA[this._semanticType].id_ranks;
     for (const prefix of ranks) {
       if (prefix in this._dbIDs) {
         return this.getCurieFromVal(this._dbIDs[prefix][0], prefix);
