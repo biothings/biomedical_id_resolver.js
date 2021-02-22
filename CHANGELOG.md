@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.1](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v2.3.0...v2.3.1) (2021-02-22)
+
+
+### Bug Fixes
+
+* :bug: enforce all values of dbIDs as an array of strings ([4f1d54b](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/4f1d54b77c16a70f54c3e0cdceb2d5033b6995e0))
+
 ## [2.3.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v2.2.1...v2.3.0) (2021-02-18)
 
 
