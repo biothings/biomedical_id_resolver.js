@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import IrresolvableIDResolverInputError from '../common/exceptions';
-import { DBIdsObject } from '../common/types';
+import { DBIdsObject, ValidatorObject } from '../common/types';
 
-export default abstract class BaseResolvableator {
+export default abstract class BaseValidator implements ValidatorObject {
     protected userInput: any;
     protected _irresolvable: DBIdsObject;
     protected _resolvable: DBIdsObject;
@@ -17,7 +17,7 @@ export default abstract class BaseResolvableator {
         return this._irresolvable;
     }
 
-    get valid(): DBIdsObject {
+    get resolvable(): DBIdsObject {
         return this._resolvable;
     }
 
