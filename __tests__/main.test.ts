@@ -1,6 +1,6 @@
 import IDResolver from '../src/index';
-import { ValidBioEntity } from '../src/bioentity/valid_bioentity';
-import { InValidBioEntity } from '../src/bioentity/invalid_bioentity';
+import { ResolvableBioEntity } from '../src/bioentity/valid_bioentity';
+import { IrresolvableBioEntity } from '../src/bioentity/irresolvable_bioentity';
 
 jest.setTimeout(30000)
 describe("Test ID Resolver", () => {
@@ -8,7 +8,7 @@ describe("Test ID Resolver", () => {
         const resolver = new IDResolver();
         const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"] });
         expect(res).toHaveProperty("NCBIGene:1017");
-        expect(res['NCBIGene:1017']).toBeInstanceOf(ValidBioEntity);
+        expect(res['NCBIGene:1017']).toBeInstanceOf(ResolvableBioEntity);
         expect(res['NCBIGene:1017'].primaryID).toEqual("NCBIGene:1017");
         expect(res['NCBIGene:1017'].label).toEqual("CDK2")
     })
@@ -16,7 +16,7 @@ describe("Test ID Resolver", () => {
     test("Test BioThings output include integer should be converted to string", async () => {
         const resolver = new IDResolver();
         const res = await resolver.resolve({ "ChemicalSubstance": ["CHEMBL.COMPOUND:CHEMBL744"] });
-        expect(res['CHEMBL.COMPOUND:CHEMBL744']).toBeInstanceOf(ValidBioEntity);
+        expect(res['CHEMBL.COMPOUND:CHEMBL744']).toBeInstanceOf(ResolvableBioEntity);
         expect(res['CHEMBL.COMPOUND:CHEMBL744'].dbIDs).toHaveProperty("PUBCHEM", ["5070"]);
     })
 
@@ -24,19 +24,19 @@ describe("Test ID Resolver", () => {
         const resolver = new IDResolver();
         const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"], "ChemicalSubstance": ["DRUGBANK:DB01609"] });
         expect(res).toHaveProperty("NCBIGene:1017");
-        expect(res['NCBIGene:1017']).toBeInstanceOf(ValidBioEntity);
+        expect(res['NCBIGene:1017']).toBeInstanceOf(ResolvableBioEntity);
         expect(res['NCBIGene:1017'].primaryID).toEqual("NCBIGene:1017");
         expect(res['NCBIGene:1017'].label).toEqual("CDK2");
         expect(res).toHaveProperty("DRUGBANK:DB01609");
-        expect(res['DRUGBANK:DB01609']).toBeInstanceOf(ValidBioEntity);
+        expect(res['DRUGBANK:DB01609']).toBeInstanceOf(ResolvableBioEntity);
         expect(res['DRUGBANK:DB01609'].label.toUpperCase()).toEqual("DEFERASIROX");
     })
 
-    test("Test invalid inputs should be part of the result", async () => {
+    test("Test Irresolvable inputs should be part of the result", async () => {
         const resolver = new IDResolver();
         const res = await resolver.resolve({ "Gene": ["NCBIGene:1017", "kkk:123"] });
         expect(res).toHaveProperty("kkk:123");
-        expect(res['kkk:123']).toBeInstanceOf(InValidBioEntity);
+        expect(res['kkk:123']).toBeInstanceOf(IrresolvableBioEntity);
         expect(res['kkk:123'].primaryID).toEqual('kkk:123');
         expect(res['kkk:123'].label).toEqual('kkk:123')
     })
@@ -51,7 +51,7 @@ describe("Test ID Resolver", () => {
             ChemicalSubstance: fakeDrugbankInputs
         })
         expect(Object.keys(res)).toHaveLength(fakeDrugbankInputs.length + fakeNCBIGeneInputs.length + fakeOMIMGeneInputs.length);
-        expect(res['OMIM:0']).toBeInstanceOf(InValidBioEntity)
+        expect(res['OMIM:0']).toBeInstanceOf(IrresolvableBioEntity)
 
     })
 
@@ -59,7 +59,7 @@ describe("Test ID Resolver", () => {
         const resolver = new IDResolver();
         const res = await resolver.resolve({ "undefined": ["NCBIGene:1017"] });
         expect(res).toHaveProperty("NCBIGene:1017");
-        expect(res['NCBIGene:1017']).toBeInstanceOf(ValidBioEntity);
+        expect(res['NCBIGene:1017']).toBeInstanceOf(ResolvableBioEntity);
         expect(res['NCBIGene:1017'].primaryID).toEqual("NCBIGene:1017");
         expect(res['NCBIGene:1017'].label).toEqual("CDK2");
         expect(res['NCBIGene:1017'].semanticType).toEqual("Gene");
@@ -69,7 +69,7 @@ describe("Test ID Resolver", () => {
         const resolver = new IDResolver();
         const res = await resolver.resolve({ "undefined": ["UMLS:C0008780"] });
         expect(res).toHaveProperty("UMLS:C0008780");
-        expect(res['UMLS:C0008780']).toBeInstanceOf(ValidBioEntity);
+        expect(res['UMLS:C0008780']).toBeInstanceOf(ResolvableBioEntity);
         expect(res['UMLS:C0008780'].primaryID).toEqual("MONDO:0016575");
         expect(res['UMLS:C0008780'].label).toEqual("primary ciliary dyskinesia");
         expect(res['UMLS:C0008780'].semanticType).toEqual("Disease");
@@ -79,35 +79,35 @@ describe("Test ID Resolver", () => {
         const resolver = new IDResolver();
         const res = await resolver.resolve({ "undefined": ["OMIM:116953"] });
         expect(res).toHaveProperty("OMIM:116953");
-        expect(res['OMIM:116953']).toBeInstanceOf(ValidBioEntity);
+        expect(res['OMIM:116953']).toBeInstanceOf(ResolvableBioEntity);
         expect(res['OMIM:116953'].primaryID).toEqual("NCBIGene:1017");
         expect(res['OMIM:116953'].label).toEqual("CDK2");
         expect(res['OMIM:116953'].semanticType).toEqual("Gene");
     })
 
-    test("Test inputs with undefined semanticType and could not be mapped to any semantic type should return Invalid", async () => {
+    test("Test inputs with undefined semanticType and could not be mapped to any semantic type should return Irresolvable", async () => {
         const resolver = new IDResolver();
         const res = await resolver.resolve({ "undefined": ["OMIM1:116953"] });
         expect(res).toHaveProperty("OMIM1:116953");
-        expect(res['OMIM1:116953']).toBeInstanceOf(InValidBioEntity);
+        expect(res['OMIM1:116953']).toBeInstanceOf(IrresolvableBioEntity);
         expect(res['OMIM1:116953'].semanticType).toEqual("undefined");
     })
 
-    test("Test invalid inputs should not overwrite the result of a valid input", async () => {
+    test("Test Irresolvable inputs should not overwrite the result of a valid input", async () => {
         const resolver = new IDResolver();
         const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"], "Disease": ["NCBIGene:1017"] });
         expect(res).toHaveProperty("NCBIGene:1017");
-        expect(res['NCBIGene:1017']).toBeInstanceOf(ValidBioEntity);
+        expect(res['NCBIGene:1017']).toBeInstanceOf(ResolvableBioEntity);
         expect(res['NCBIGene:1017'].primaryID).toEqual("NCBIGene:1017");
         expect(res['NCBIGene:1017'].label).toEqual("CDK2")
     })
 
-    test("Test generateInvalidBioentities", async () => {
+    test("Test generateIrresolvableBioentities", async () => {
         const resolver = new IDResolver();
-        const res = resolver.generateInvalidBioentities({ "Gene": ["NCBIGene:1017"], "Disease": ["MONDO:123"] });
+        const res = resolver.generateIrresolvableBioentities({ "Gene": ["NCBIGene:1017"], "Disease": ["MONDO:123"] });
         expect(res).toHaveProperty("NCBIGene:1017");
-        expect(res['MONDO:123']).toBeInstanceOf(InValidBioEntity);
-        expect(res['NCBIGene:1017']).toBeInstanceOf(InValidBioEntity);
+        expect(res['MONDO:123']).toBeInstanceOf(IrresolvableBioEntity);
+        expect(res['NCBIGene:1017']).toBeInstanceOf(IrresolvableBioEntity);
         expect(res['NCBIGene:1017'].primaryID).toEqual("NCBIGene:1017");
         expect(res['NCBIGene:1017'].label).toEqual("NCBIGene:1017")
     })

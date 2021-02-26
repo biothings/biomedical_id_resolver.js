@@ -15,7 +15,7 @@ describe("Test Utils Module", () => {
             expect(res).toEqual('NCBIGene:1017');
         })
 
-        test("id that is invalid should return prefix plus colon and itself", () => {
+        test("id that is Irresolvable should return prefix plus colon and itself", () => {
             const inputID = '1017';
             const res = generateCurie('NCBIGene1', inputID);
             expect(res).toEqual('NCBIGene1:1017');
@@ -129,7 +129,7 @@ describe("Test Utils Module", () => {
         test("Test generateIDTypeDict function", () => {
             const res = generateIDTypeDict();
             expect(res).toHaveProperty('NCBIGene', ['Gene'])
-            expect(res).toHaveProperty('OMIM', ['Gene', 'DiseaseOrPhenotypicFeature', 'Disease'])
+            expect(res).toHaveProperty('OMIM', ['Gene', 'Disease'])
         })
     })
 })
