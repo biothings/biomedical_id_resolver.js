@@ -30,7 +30,7 @@ export interface BioThingsAPIFailedQueryResponse extends BioThingsAPIQueryRespon
   notfound: true;
 }
 
-export type ValidSemanticTypes =
+export type ResolvableSemanticTypes =
   | 'Gene'
   | 'SequenceVariant'
   | 'ChemicalSubstance'
@@ -44,7 +44,7 @@ export type ValidSemanticTypes =
   | 'AnatomicalEntity'
   | 'Cell';
 
-export enum ValidTypes {
+export enum ResolvableTypes {
   Gene = 'Gene',
   SequenceVariant = 'SequenceVariant',
   ChemicalSubstance = 'ChemicalSubstance',
@@ -63,8 +63,8 @@ export interface DBIdsObject {
   [prefix: string]: string[];
 }
 
-export type DBIdsObjectWithValidTypes = {
-  [key in ValidSemanticTypes]: string[];
+export type DBIdsObjectWithResolvableTypes = {
+  [key in ResolvableSemanticTypes]: string[];
 };
 
 export interface TmpGrpedIDObject {
@@ -103,6 +103,10 @@ export interface DBIdsObjects {
   [key: string]: DBIdsObject;
 }
 
+export interface GroupedDBIDsObjects {
+  [key: string]: DBIdsObjects
+}
+
 export interface Buckets {
   [key: number]: any[];
 }
@@ -110,4 +114,19 @@ export interface Buckets {
 export interface PromiseAllSettledOutput {
   status: string;
   [key: string]: any;
+}
+
+import { BioLink } from 'biolink-model';
+
+export interface BioLinkHandlerClass {
+  classTree: BioLink["classTree"]
+}
+
+export interface BioLinkEntityObject {
+  parent: string;
+  children: string[];
+  description: string;
+  id_prefixes: string[];
+  name: string;
+  addChild(child: string): void;
 }
