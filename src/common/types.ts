@@ -130,3 +130,9 @@ export interface BioLinkEntityObject {
   name: string;
   addChild(child: string): void;
 }
+
+export interface ValidatorObject {
+  resolvable: DBIdsObject,
+  irresolvable: DBIdsObject,
+  validate(): void;
+}
