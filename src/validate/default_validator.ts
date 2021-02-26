@@ -1,9 +1,9 @@
-import BaseResolvableator from './base_validator';
+import BaseValidator from './base_validator';
 import { DBIdsObject } from '../common/types';
 import { APIMETA } from '../config';
 import { getPrefixFromCurie, generateIDTypeDict } from '../utils';
 
-export class DefaultResolvableator extends BaseResolvableator {
+export class DefaultValidator extends BaseValidator {
 
 
   private handleUndefinedIDs(userInput: DBIdsObject): DBIdsObject {
