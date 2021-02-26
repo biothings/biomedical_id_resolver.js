@@ -15,7 +15,7 @@ import {
   appendArrayOrNonArrayObjectToArray,
   generateCurie,
 } from '../../utils';
-import { ValidBioEntity } from '../../bioentity/valid_bioentity';
+import { ResolvableBioEntity } from '../../bioentity/valid_bioentity';
 import { QueryBuilder } from './base_builder';
 import Debug from 'debug';
 const debug = Debug('biomedical-id-resolver:QueryBuilder');
@@ -64,7 +64,7 @@ export class BioThingsQueryBuilder extends QueryBuilder {
     for (const rec of response) {
       if (!('notfound' in rec)) {
         const curie = generateCurie(prefix, rec.query);
-        result[curie] = new ValidBioEntity(semanticType, this.getDBIDsHelper(rec));
+        result[curie] = new ResolvableBioEntity(semanticType, this.getDBIDsHelper(rec));
       }
     }
     return result;

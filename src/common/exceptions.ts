@@ -1,8 +1,8 @@
-export = class InvalidIDResolverInputError extends Error {
+export = class IrresolvableIDResolverInputError extends Error {
   constructor(message: string) {
     super(message);
 
     // Set the prototype explicitly.
-    Object.setPrototypeOf(this, InvalidIDResolverInputError.prototype);
+    Object.setPrototypeOf(this, IrresolvableIDResolverInputError.prototype);
   }
 };
