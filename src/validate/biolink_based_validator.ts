@@ -18,14 +18,6 @@ export default class BioLinkBasedValidator extends BaseValidator {
         this._irresolvable = {} as DBIdsObject;
     }
 
-    get resolvable() {
-        return this._resolvable;
-    }
-
-    get irresolvable() {
-        return this._irresolvable;
-    }
-
     private checkIfTypeDefinedInBioLink(userInput: DBIdsObject): DBIdsObject {
         const tmp = {};
         for (const semanticType in userInput) {
