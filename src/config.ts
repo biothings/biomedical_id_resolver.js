@@ -93,23 +93,6 @@ export const APIMETA: MetaDataItemsObject = {
       name: ['name'],
     },
   },
-  DiseaseOrPhenotypicFeature: {
-    id_ranks: ['MONDO', 'DOID', 'OMIM', 'ORPHANET', 'EFO', 'UMLS', 'MESH', 'HP', 'name'],
-    semantic: 'DiseaseOrPhenotypicFeature',
-    api_name: 'mydisease.info',
-    url: 'https://mydisease.info/v1/query',
-    mapping: {
-      MONDO: ['mondo.mondo'],
-      DOID: ['mondo.xrefs.doid'],
-      UMLS: ['mondo.xrefs.umls', 'disgenet.xrefs.umls'],
-      name: ['mondo.label', 'disgenet.xrefs.disease_name'],
-      MESH: ['mondo.xrefs.mesh', 'disease_ontology.xrefs.mesh', 'ctd.mesh'],
-      OMIM: ['mondo.xrefs.omim', 'hpo.omim'],
-      EFO: ['mondo.xrefs.efo'],
-      ORPHANET: ['hpo.orphanet', 'mondo.xrefs.orphanet'],
-      HP: ['mondo.xrefs.hp'],
-    },
-  },
   Disease: {
     id_ranks: ['MONDO', 'DOID', 'OMIM', 'ORPHANET', 'EFO', 'UMLS', 'MESH', 'HP', 'name'],
     semantic: 'Disease',
