@@ -1,6 +1,6 @@
 import { DBIdsObject, DBIdsObjects } from './common/types';
 import { Scheduler } from './query/scheduler';
-import { DefaultResolvableator } from './validate/default_validator';
+import { DefaultValidator } from './validate/default_validator';
 import { IrresolvableBioEntity } from './bioentity/irresolvable_bioentity';
 import Debug from 'debug';
 const debug = Debug('biomedical-id-resolver:Main');
@@ -37,9 +37,9 @@ export = class IDResolver {
   }
 
   async resolve(userInput: unknown) {
-    const validator = new DefaultResolvableator(userInput);
+    const validator = new DefaultValidator(userInput);
     validator.validate();
-    const scheduler = new Scheduler(validator.valid);
+    const scheduler = new Scheduler(validator.resolvable);
     scheduler.schedule();
     let result = {};
     for (const promises of Object.values(scheduler.buckets)) {
@@ -53,16 +53,16 @@ export = class IDResolver {
       });
     }
     debug(`Total number of curies that are successfully resolved are: ${Object.keys(result).length}`);
-    result = { ...result, ...this.annotateResolvableButNotRetrievedFromAPIResults(validator.valid, result) };
+    result = { ...result, ...this.annotateResolvableButNotRetrievedFromAPIResults(validator.resolvable, result) };
     result = { ...result, ...this.annotateIrresolvableInput(validator.irresolvable, result) };
     debug(`Total number of results returned are: ${Object.keys(result).length}`);
     return result;
   }
 
   generateIrresolvableBioentities(userInput: any) {
-    const validator = new DefaultResolvableator(userInput);
+    const validator = new DefaultValidator(userInput);
     validator.validate();
-    const result = this.annotateIrresolvableInput(validator.valid, {});
+    const result = this.annotateIrresolvableInput(validator.resolvable, {});
     return result;
   }
 };
