@@ -2,7 +2,7 @@ import { DBIdsObject } from '../common/types';
 import { APIMETA, CURIE } from '../config';
 import { BioEntity } from './base_bioentity';
 
-export class ValidBioEntity extends BioEntity {
+export class ResolvableBioEntity extends BioEntity {
   private _semanticType: string;
   private _dbIDs: DBIdsObject;
 
