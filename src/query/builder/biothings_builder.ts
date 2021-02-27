@@ -7,6 +7,7 @@ import {
   ObjectWithStringKeyAndArrayValues,
   DBIdsObject,
   BioThingsAPIQueryResponse,
+  IndividualResolverOutput
 } from '../../common/types';
 import { APIMETA, TIMEOUT, MAX_BIOTHINGS_INPUT_SIZE } from '../../config';
 import {
@@ -59,8 +60,8 @@ export class BioThingsQueryBuilder extends QueryBuilder {
     return generateObjectWithNoDuplicateElementsInValue(res);
   }
 
-  getDBIDs(prefix: string, semanticType: string, response: any) {
-    const result = {} as any;
+  getDBIDs(prefix: string, semanticType: string, response: any): IndividualResolverOutput {
+    const result = {};
     for (const rec of response) {
       if (!('notfound' in rec)) {
         const curie = generateCurie(prefix, rec.query);
@@ -70,7 +71,7 @@ export class BioThingsQueryBuilder extends QueryBuilder {
     return result;
   }
 
-  buildOneQuery(metadata: MetaDataObject, prefix: string, inputs: string[]) {
+  buildOneQuery(metadata: MetaDataObject, prefix: string, inputs: string[]): Promise<IndividualResolverOutput> {
     const returnFields = this.getReturnFields(metadata.mapping);
     const scopes = this.getInputScopes(metadata.mapping, prefix);
     const biothingsQuery = BioThingsQueryBuilder.queryTemplate
