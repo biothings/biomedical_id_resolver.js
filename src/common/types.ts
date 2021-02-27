@@ -1,26 +1,3 @@
-import { APIMETA } from '../config';
-
-interface ResolverOutputIDObject {
-  identifier: string;
-  label: string;
-}
-
-export interface ResolverOutputDBIDsObject {
-  [prefix: string]: (string | number)[];
-}
-
-export interface ResolverSingleOutputObject {
-  id: ResolverOutputIDObject;
-  curies: string[];
-  db_ids: ResolverOutputDBIDsObject;
-  type: string;
-  flag?: string;
-}
-
-export interface ResolverOutputObject {
-  [curie: string]: ResolverSingleOutputObject;
-}
-
 export interface BioThingsAPIQueryResponse {
   query: string;
   [fieldName: string]: any;
@@ -73,10 +50,6 @@ export interface TmpGrpedIDObject {
 
 export interface TmpGrpedResultObject {
   [curie: string]: TmpGrpedIDObject;
-}
-
-export interface ResolverInputObject {
-  [semanticType: string]: (string | number)[];
 }
 
 export interface APIFieldMappingObject {
@@ -135,4 +108,24 @@ export interface ValidatorObject {
   resolvable: DBIdsObject,
   irresolvable: DBIdsObject,
   validate(): void;
+}
+
+export interface IBioEntity {
+  semanticType: string,
+  primaryID: string,
+  label: string,
+  curies: string[],
+  dbIDs: DBIdsObject
+}
+
+export interface IndividualResolverOutput {
+  [semanticType: string]: IBioEntity
+}
+
+export interface ResolverOutput {
+  [curie: string]: IndividualResolverOutput
+}
+
+export interface IResolver {
+  resolve(userInput: unknown): Promise<ResolverOutput>;
 }
