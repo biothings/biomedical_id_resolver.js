@@ -1,4 +1,4 @@
-import { generateCurie, getPrefixFromCurie, generateObjectWithNoDuplicateElementsInValue, appendArrayOrNonArrayObjectToArray, generateDBID, generateIDTypeDict } from '../src/utils';
+import { generateCurie, getPrefixFromCurie, generateObjectWithNoDuplicateElementsInValue, appendArrayOrNonArrayObjectToArray, generateDBID, generateIDTypeDict } from '../../src/utils';
 
 
 describe("Test Utils Module", () => {

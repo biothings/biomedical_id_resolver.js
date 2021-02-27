@@ -1,5 +1,5 @@
-import { ResolvableBioEntity } from '../src/bioentity/valid_bioentity';
-import { IrresolvableBioEntity } from '../src/bioentity/irresolvable_bioentity';
+import { ResolvableBioEntity } from '../../src/bioentity/valid_bioentity';
+import { IrresolvableBioEntity } from '../../src/bioentity/irresolvable_bioentity';
 
 const CDK2_DB_IDs = {
     "NCBIGene": ["1017"],
