@@ -12,12 +12,12 @@ export const MAX_CONCURRENT_QUERIES = 3;
 
 export const APIMETA: MetaDataItemsObject = {
   Gene: {
-    id_ranks: ['NCBIGene', 'ENSEMBL', 'HGNC', 'SYMBOL', 'OMIM', 'UniProtKB', 'UMLS', 'MGI', 'name'],
+    id_ranks: ['NCBIGENE', 'ENSEMBL', 'HGNC', 'SYMBOL', 'OMIM', 'UniProtKB', 'UMLS', 'MGI', 'name'],
     semantic: 'Gene',
     api_name: 'mygene.info',
     url: 'https://mygene.info/v3/query',
     mapping: {
-      NCBIGene: ['entrezgene'],
+      NCBIGENE: ['entrezgene'],
       name: ['name'],
       SYMBOL: ['symbol'],
       UMLS: ['umls.cui', 'umls.protein_cui'],
@@ -29,7 +29,7 @@ export const APIMETA: MetaDataItemsObject = {
     },
   },
   SequenceVariant: {
-    id_ranks: ['HGVS', 'DBSNP', 'MYVARIANT_HG19', 'ClinVar'],
+    id_ranks: ['HGVS', 'DBSNP', 'MYVARIANT_HG19', 'CLINVAR'],
     api_name: 'myvariant.info',
     semantic: 'SequenceVariant',
     url: 'https://myvariant.info/v1/query',
@@ -37,7 +37,7 @@ export const APIMETA: MetaDataItemsObject = {
       MYVARIANT_HG19: ['_id'],
       DBSNP: ['dbsnp.rsid', 'clinvar.rsid', 'dbnsfp.rsid'],
       HGVS: ['clinvar.hgvs.genomic', 'clinvar.hgvs.protein', 'clinvar.hgvs.coding'],
-      ClinVar: ['clinvar.rcv.accession'],
+      ClINVAR: ['clinvar.rcv.accession'],
     },
   },
   ChemicalSubstance: {
@@ -45,7 +45,7 @@ export const APIMETA: MetaDataItemsObject = {
       'CHEBI',
       'CHEMBL.COMPOUND',
       'DRUGBANK',
-      'PUBCHEM',
+      'PUBCHEM.COMPOUND',
       'MESH',
       'INCHI',
       'INCHIKEY',
@@ -60,7 +60,7 @@ export const APIMETA: MetaDataItemsObject = {
     mapping: {
       'CHEMBL.COMPOUND': ['chembl.molecule_chembl_id', 'drugbank.xrefs.chembl', 'drugcentral.xrefs.chembl_id'],
       DRUGBANK: ['drugcentral.xrefs.drugbank_id', 'pharmgkb.xrefs.drugbank', 'chebi.xrefs.drugbank', 'drugbank.id'],
-      PUBCHEM: [
+      'PUBCHEM.COMPOUND': [
         'pubchem.cid',
         'drugbank.xrefs.pubchem.cid',
         'drugcentral.xrefs.pubchem_cid',
