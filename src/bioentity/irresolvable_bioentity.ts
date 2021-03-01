@@ -3,16 +3,29 @@ import { getPrefixFromCurie, generateDBID } from '../utils';
 import { BioEntity } from './base_bioentity';
 
 export class IrresolvableBioEntity extends BioEntity {
-  private _semanticType: string;
+  private _leafSemanticType: string;
+  private _semanticTypes: string[];
   private curie: string;
+
   constructor(semanticType: string, curie: string) {
     super();
-    this._semanticType = semanticType;
+    this._leafSemanticType = semanticType;
     this.curie = curie;
   }
 
+  get semanticTypes(): string[] {
+    if (typeof this._semanticTypes === "undefined") {
+      return [this._leafSemanticType];
+    }
+    return this._semanticTypes;
+  }
+
   get semanticType(): string {
-    return this._semanticType;
+    return this._leafSemanticType;
+  }
+
+  set semanticTypes(types: string[]) {
+    this._semanticTypes = types;
   }
 
   get primaryID(): string {
