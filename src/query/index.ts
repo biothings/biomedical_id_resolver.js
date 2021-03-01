@@ -1,7 +1,5 @@
 import { Scheduler } from './scheduler';
 import { DBIdsObject, IndividualResolverOutput } from '../common/types';
-
-
 import Debug from 'debug';
 const debug = Debug('biomedical-id-resolver:Query');
 
