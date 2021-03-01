@@ -17,6 +17,7 @@ import {
   generateCurie,
 } from '../../utils';
 import { ResolvableBioEntity } from '../../bioentity/valid_bioentity';
+import { IrresolvableBioEntity } from '../../bioentity/irresolvable_bioentity'
 import { QueryBuilder } from './base_builder';
 import Debug from 'debug';
 const debug = Debug('biomedical-id-resolver:QueryBuilder');
@@ -63,9 +64,11 @@ export class BioThingsQueryBuilder extends QueryBuilder {
   getDBIDs(prefix: string, semanticType: string, response: any): IndividualResolverOutput {
     const result = {};
     for (const rec of response) {
+      const curie = generateCurie(prefix, rec.query);
       if (!('notfound' in rec)) {
-        const curie = generateCurie(prefix, rec.query);
         result[curie] = new ResolvableBioEntity(semanticType, this.getDBIDsHelper(rec));
+      } else {
+        result[curie] = new IrresolvableBioEntity(semanticType, curie);
       }
     }
     return result;
