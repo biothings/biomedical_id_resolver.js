@@ -77,7 +77,7 @@ export interface DBIdsObjects {
 }
 
 export interface GroupedDBIDsObjects {
-  [key: string]: DBIdsObjects
+  [key: string]: DBIdsObjects;
 }
 
 export interface Buckets {
@@ -92,7 +92,7 @@ export interface PromiseAllSettledOutput {
 import { BioLink } from 'biolink-model';
 
 export interface BioLinkHandlerClass {
-  classTree: BioLink["classTree"]
+  classTree: BioLink['classTree'];
 }
 
 export interface BioLinkEntityObject {
@@ -105,8 +105,8 @@ export interface BioLinkEntityObject {
 }
 
 export interface ValidatorObject {
-  resolvable: DBIdsObject,
-  irresolvable: DBIdsObject,
+  resolvable: DBIdsObject;
+  irresolvable: DBIdsObject;
   validate(): void;
 }
 
@@ -115,20 +115,20 @@ export interface BioLinkBasedValidatorObject extends ValidatorObject {
 }
 
 export interface IBioEntity {
-  semanticTypes: string[],
-  semanticType: string,
-  primaryID: string,
-  label: string,
-  curies: string[],
-  dbIDs: DBIdsObject
+  semanticTypes: string[];
+  semanticType: string;
+  primaryID: string;
+  label: string;
+  curies: string[];
+  dbIDs: DBIdsObject;
 }
 
 export interface IndividualResolverOutput {
-  [semanticType: string]: IBioEntity
+  [semanticType: string]: IBioEntity;
 }
 
 export interface ResolverOutput {
-  [curie: string]: IBioEntity[]
+  [curie: string]: IBioEntity[];
 }
 
 export interface IResolver {

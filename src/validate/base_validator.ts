@@ -3,58 +3,59 @@ import IrresolvableIDResolverInputError from '../common/exceptions';
 import { DBIdsObject, ValidatorObject } from '../common/types';
 
 export default abstract class BaseValidator implements ValidatorObject {
-    protected userInput: any;
-    protected _irresolvable: DBIdsObject;
-    protected _resolvable: DBIdsObject;
+  protected userInput: any;
+  protected _irresolvable: DBIdsObject;
+  protected _resolvable: DBIdsObject;
 
-    constructor(userInput: any) {
-        this.userInput = userInput;
-        this._irresolvable = {};
-        this._resolvable = {} as DBIdsObject;
+  constructor(userInput: any) {
+    this.userInput = userInput;
+    this._irresolvable = {};
+    this._resolvable = {} as DBIdsObject;
+  }
+
+  get irresolvable(): DBIdsObject {
+    return this._irresolvable;
+  }
+
+  get resolvable(): DBIdsObject {
+    return this._resolvable;
+  }
+
+  private validateIfInputIsObject(userInput = this.userInput) {
+    if (!_.isPlainObject(userInput)) {
+      throw new IrresolvableIDResolverInputError(
+        'Your Input to ID Resolver is Irresolvable. It should be a plain object!',
+      );
     }
+  }
 
-    get irresolvable(): DBIdsObject {
-        return this._irresolvable;
+  private validateIfValuesOfInputIsArray(userInput = this.userInput) {
+    for (const vals of Object.values(userInput)) {
+      if (!Array.isArray(vals)) {
+        throw new IrresolvableIDResolverInputError(
+          'Your Input to ID Resolver is Irresolvable. All values of your input dictionary should be a list!',
+        );
+      }
     }
+  }
 
-    get resolvable(): DBIdsObject {
-        return this._resolvable;
-    }
-
-    private validateIfInputIsObject(userInput = this.userInput) {
-        if (!_.isPlainObject(userInput)) {
-            throw new IrresolvableIDResolverInputError('Your Input to ID Resolver is Irresolvable. It should be a plain object!');
+  private validateIfEachItemInInputValuesIsCurie(userInput: DBIdsObject = this.userInput) {
+    for (const vals of Object.values(userInput)) {
+      for (const item of vals) {
+        if (!(typeof item === 'string') || !item.includes(':')) {
+          throw new IrresolvableIDResolverInputError(
+            `Your Input to ID Resolver is Irresolvable. Each item in the values of your input dictionary should be a curie. Spotted ${item} is not a curie`,
+          );
         }
+      }
     }
+  }
 
-    private validateIfValuesOfInputIsArray(userInput = this.userInput) {
-        for (const vals of Object.values(userInput)) {
-            if (!Array.isArray(vals)) {
-                throw new IrresolvableIDResolverInputError(
-                    'Your Input to ID Resolver is Irresolvable. All values of your input dictionary should be a list!',
-                );
-            }
-        }
-    }
+  protected validateInputStructure() {
+    this.validateIfInputIsObject(this.userInput);
+    this.validateIfValuesOfInputIsArray(this.userInput);
+    this.validateIfEachItemInInputValuesIsCurie(this.userInput);
+  }
 
-    private validateIfEachItemInInputValuesIsCurie(userInput: DBIdsObject = this.userInput) {
-        for (const vals of Object.values(userInput)) {
-            for (const item of vals) {
-                if (!(typeof item === 'string') || !item.includes(':')) {
-                    throw new IrresolvableIDResolverInputError(
-                        `Your Input to ID Resolver is Irresolvable. Each item in the values of your input dictionary should be a curie. Spotted ${item} is not a curie`,
-                    );
-                }
-            }
-        }
-    }
-
-    protected validateInputStructure() {
-        this.validateIfInputIsObject(this.userInput);
-        this.validateIfValuesOfInputIsArray(this.userInput);
-        this.validateIfEachItemInInputValuesIsCurie(this.userInput);
-    }
-
-    abstract validate(): void;
-
+  abstract validate(): void;
 }

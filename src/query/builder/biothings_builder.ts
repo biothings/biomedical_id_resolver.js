@@ -7,7 +7,7 @@ import {
   ObjectWithStringKeyAndArrayValues,
   DBIdsObject,
   BioThingsAPIQueryResponse,
-  IndividualResolverOutput
+  IndividualResolverOutput,
 } from '../../common/types';
 import { APIMETA, TIMEOUT, MAX_BIOTHINGS_INPUT_SIZE } from '../../config';
 import {
@@ -17,7 +17,7 @@ import {
   generateCurie,
 } from '../../utils';
 import { ResolvableBioEntity } from '../../bioentity/valid_bioentity';
-import { IrresolvableBioEntity } from '../../bioentity/irresolvable_bioentity'
+import { IrresolvableBioEntity } from '../../bioentity/irresolvable_bioentity';
 import { QueryBuilder } from './base_builder';
 import Debug from 'debug';
 const debug = Debug('biomedical-id-resolver:QueryBuilder');

@@ -14,7 +14,7 @@ export class IrresolvableBioEntity extends BioEntity {
   }
 
   get semanticTypes(): string[] {
-    if (typeof this._semanticTypes === "undefined") {
+    if (typeof this._semanticTypes === 'undefined') {
       return [this._leafSemanticType];
     }
     return this._semanticTypes;

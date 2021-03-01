@@ -3,7 +3,6 @@ import BioLinkBasedResolver from './resolve/biolink_based_resolver';
 import DefaultResolver from './resolve/default_resolver';
 import { APIMETA } from './config';
 
-
 export class Resolver implements IResolver {
   private _resolver: IResolver;
   constructor(type: string = undefined) {
@@ -11,7 +10,7 @@ export class Resolver implements IResolver {
   }
 
   private setResolver(type: string) {
-    if (type === "biolink") {
+    if (type === 'biolink') {
       this._resolver = new BioLinkBasedResolver();
     } else {
       this._resolver = new DefaultResolver();

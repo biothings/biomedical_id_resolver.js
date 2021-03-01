@@ -4,8 +4,6 @@ import { APIMETA } from '../config';
 import { getPrefixFromCurie, generateIDTypeDict } from '../utils';
 
 export default class DefaultValidator extends BaseValidator {
-
-
   private handleUndefinedIDs(userInput: DBIdsObject): DBIdsObject {
     if (!('undefined' in userInput)) {
       return userInput;
