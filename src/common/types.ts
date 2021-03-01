@@ -110,7 +110,12 @@ export interface ValidatorObject {
   validate(): void;
 }
 
+export interface BioLinkBasedValidatorObject extends ValidatorObject {
+  valid: DBIdsObject;
+}
+
 export interface IBioEntity {
+  semanticTypes: string[],
   semanticType: string,
   primaryID: string,
   label: string,
@@ -123,7 +128,7 @@ export interface IndividualResolverOutput {
 }
 
 export interface ResolverOutput {
-  [curie: string]: IndividualResolverOutput
+  [curie: string]: IBioEntity[]
 }
 
 export interface IResolver {
