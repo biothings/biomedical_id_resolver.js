@@ -3,7 +3,7 @@ import { DBIdsObject } from '../common/types';
 import { APIMETA } from '../config';
 import { getPrefixFromCurie, generateIDTypeDict } from '../utils';
 
-export class DefaultValidator extends BaseValidator {
+export default class DefaultValidator extends BaseValidator {
 
 
   private handleUndefinedIDs(userInput: DBIdsObject): DBIdsObject {
