@@ -3,12 +3,13 @@ import { APIMETA, CURIE } from '../config';
 import { BioEntity } from './base_bioentity';
 
 export class ResolvableBioEntity extends BioEntity {
-  private _semanticType: string;
+  private _leafSemanticType: string;
+  private _semanticTypes: string[];
   private _dbIDs: DBIdsObject;
 
   constructor(semanticType: string, dbIDs: DBIdsObject) {
     super();
-    this._semanticType = semanticType;
+    this._leafSemanticType = semanticType;
     this._dbIDs = dbIDs;
   }
 
@@ -19,12 +20,23 @@ export class ResolvableBioEntity extends BioEntity {
     return prefix + ':' + val;
   }
 
+  get semanticTypes(): string[] {
+    if (typeof this._semanticTypes === "undefined") {
+      return [this._leafSemanticType];
+    }
+    return this._semanticTypes;
+  }
+
   get semanticType(): string {
-    return this._semanticType;
+    return this._leafSemanticType;
+  }
+
+  set semanticTypes(types: string[]) {
+    this._semanticTypes = types;
   }
 
   get primaryID(): string {
-    const ranks = APIMETA[this._semanticType].id_ranks;
+    const ranks = APIMETA[this._leafSemanticType].id_ranks;
     for (const prefix of ranks) {
       if (prefix in this._dbIDs) {
         return this.getCurieFromVal(this._dbIDs[prefix][0], prefix);
