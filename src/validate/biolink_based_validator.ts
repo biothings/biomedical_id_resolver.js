@@ -4,18 +4,24 @@
 
 import BaseValidator from './base_validator';
 import BioLinkHandlerInstance from '../biolink';
-import { DBIdsObject, BioLinkHandlerClass, DBIdsObjects, BioLinkEntityObject } from '../common/types';
+import { DBIdsObject, BioLinkHandlerClass, DBIdsObjects, BioLinkBasedValidatorObject } from '../common/types';
 import { getPrefixFromCurie } from '../utils';
 import { APIMETA } from '../config'
 
-export default class BioLinkBasedValidator extends BaseValidator {
+export default class BioLinkBasedValidator extends BaseValidator implements BioLinkBasedValidator {
     private _biolink: BioLinkHandlerClass;
+    private _valid: DBIdsObject;
 
     constructor(userInput: unknown) {
         super(userInput);
         this._biolink = BioLinkHandlerInstance;
+        this._valid = {} as DBIdsObject;
         this._resolvable = {} as DBIdsObject;
         this._irresolvable = {} as DBIdsObject;
+    }
+
+    get valid(): DBIdsObject {
+        return this._valid;
     }
 
     private checkIfTypeDefinedInBioLink(userInput: DBIdsObject): DBIdsObject {
@@ -110,7 +116,7 @@ export default class BioLinkBasedValidator extends BaseValidator {
 
     validate() {
         this.validateInputStructure();
-        const validInputs = this.checkIfTypeDefinedInBioLink(this.userInput);
-        this.classify(validInputs);
+        this._valid = this.checkIfTypeDefinedInBioLink(this.userInput);
+        this.classify(this._valid);
     }
 }
