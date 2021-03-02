@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.0.0...v3.1.0) (2021-03-02)
+
+
+### Features
+
+* :sparkles: add function to generate invalid responses ([94ea086](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/94ea0867e8a0b7392cb4df3e889ae68c8dae4a7a))
+
 ## [3.0.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v2.3.1...v3.0.0) (2021-03-01)
 
 
