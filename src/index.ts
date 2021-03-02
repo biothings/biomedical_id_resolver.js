@@ -28,4 +28,6 @@ export class Resolver implements IResolver {
 }
 
 export const METADATA = APIMETA;
-export const generateInvalidBioentities = generateInvalid;
+export function generateInvalidBioentities(input) {
+  return generateInvalid(input);
+} 
