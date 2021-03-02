@@ -2,6 +2,7 @@ import { IResolver, ResolverOutput } from './common/types';
 import BioLinkBasedResolver from './resolve/biolink_based_resolver';
 import DefaultResolver from './resolve/default_resolver';
 import { APIMETA } from './config';
+import generateInvalid from './fake';
 
 export class Resolver implements IResolver {
   private _resolver: IResolver;
@@ -27,3 +28,4 @@ export class Resolver implements IResolver {
 }
 
 export const METADATA = APIMETA;
+export const generateInvalidBioentities = generateInvalid;
