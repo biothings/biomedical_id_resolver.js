@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.1.0...v3.1.1) (2021-03-02)
+
+
+### Bug Fixes
+
+* :bug: fix wrong export method ([f605062](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/f605062a1d63ae1dc117bb25c01df2f91d11062f))
+
 ## [3.1.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.0.0...v3.1.0) (2021-03-02)
 
 
