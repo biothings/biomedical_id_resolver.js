@@ -101,7 +101,7 @@ export const APIMETA: MetaDataItemsObject = {
     mapping: {
       MONDO: ['mondo.mondo'],
       DOID: ['mondo.xrefs.doid'],
-      UMLS: ['mondo.xrefs.umls', 'disgenet.xrefs.umls'],
+      UMLS: ['mondo.xrefs.umls', "mondo.xrefs.umls_cui", 'disgenet.xrefs.umls', "umls.umls", 'disease_ontology.xrefs.umls_cui'],
       name: ['mondo.label', 'disgenet.xrefs.disease_name'],
       MESH: ['mondo.xrefs.mesh', 'disease_ontology.xrefs.mesh', 'ctd.mesh'],
       OMIM: ['mondo.xrefs.omim', 'hpo.omim'],
