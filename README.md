@@ -151,7 +151,8 @@ let input = {
   5. EFO
   6. UMLS
   7. MESH
-  8. name
+  8. GARD
+  9. name
 
 > Pathway ID Resolution is done through biothings.ncats.io/geneset API
 
