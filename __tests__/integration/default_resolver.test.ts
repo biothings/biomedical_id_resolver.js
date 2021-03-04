@@ -14,6 +14,15 @@ describe("Test ID Resolver", () => {
         expect(res['NCBIGENE:1017'][0].label).toEqual("CDK2")
     })
 
+    test("Test valid inputs should be corretly resolved using Disease GARD ID", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "Disease": ["GARD:4206"] });
+        expect(res).toHaveProperty("GARD:4206");
+        expect(res['GARD:4206']).toHaveLength(1);
+        expect(res['GARD:4206'][0]).toBeInstanceOf(ResolvableBioEntity);
+        expect(res['GARD:4206'][0].primaryID).toEqual("MONDO:0015278");
+    })
+
     test("Test BioThings output include integer should be converted to string", async () => {
         const resolver = new DefaultIDResolver();
         const res = await resolver.resolve({ "ChemicalSubstance": ["CHEMBL.COMPOUND:CHEMBL744"] });

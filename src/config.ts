@@ -94,7 +94,7 @@ export const APIMETA: MetaDataItemsObject = {
     },
   },
   Disease: {
-    id_ranks: ['MONDO', 'DOID', 'OMIM', 'ORPHANET', 'EFO', 'UMLS', 'MESH', 'HP', 'name'],
+    id_ranks: ['MONDO', 'DOID', 'OMIM', 'ORPHANET', 'EFO', 'UMLS', 'MESH', 'HP', 'GARD', 'name'],
     semantic: 'Disease',
     api_name: 'mydisease.info',
     url: 'https://mydisease.info/v1/query',
@@ -107,6 +107,7 @@ export const APIMETA: MetaDataItemsObject = {
       OMIM: ['mondo.xrefs.omim', 'hpo.omim'],
       EFO: ['mondo.xrefs.efo'],
       ORPHANET: ['hpo.orphanet', 'mondo.xrefs.orphanet'],
+      GARD: ['mondo.xrefs.gard', 'disease_ontology.xrefs.gard'],
       HP: ['mondo.xrefs.hp'],
     },
   },
