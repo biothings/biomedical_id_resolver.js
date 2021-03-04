@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.1.1...v3.2.0) (2021-03-04)
+
+
+### Features
+
+* :sparkles: include additional mydisease.info fields for UMLS ID ([454fc00](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/454fc0084e80edf5b38de3895c9d19bf5f947992))
+* :sparkles: support resolving Disease GARD ID ([af856d4](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/af856d44fceda1b7192058a7cd0eb16a3aaf445b))
+
 ### [3.1.1](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.1.0...v3.1.1) (2021-03-02)
 
 
