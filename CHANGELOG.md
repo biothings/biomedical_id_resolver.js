@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.1](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.2.0...v3.2.1) (2021-03-12)
+
+
+### Bug Fixes
+
+* :bug: fix wrong uniprot id ([79be269](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/79be269e2f4480cdce62a4d21cf7e0283cf552e2))
+
 ## [3.2.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.1.1...v3.2.0) (2021-03-04)
 
 
