@@ -14,6 +14,16 @@ describe("Test ID Resolver", () => {
         expect(res['NCBIGENE:1017'][0].label).toEqual("CDK2")
     })
 
+    test("Test symbol should be resolved to corresponding human gene", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "Gene": ["SYMBOL:VAMP2"] });
+        expect(res).toHaveProperty("SYMBOL:VAMP2");
+        expect(res['SYMBOL:VAMP2']).toHaveLength(1);
+        expect(res['SYMBOL:VAMP2'][0]).toBeInstanceOf(ResolvableBioEntity);
+        expect(res['SYMBOL:VAMP2'][0].primaryID).toEqual("NCBIGENE:6844");
+        expect(res['SYMBOL:VAMP2'][0].label).toEqual("VAMP2")
+    })
+
     test("Test valid inputs should be corretly resolved using Disease GARD ID", async () => {
         const resolver = new DefaultIDResolver();
         const res = await resolver.resolve({ "Disease": ["GARD:4206"] });
