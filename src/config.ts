@@ -110,7 +110,7 @@ export const APIMETA: MetaDataItemsObject = {
       ],
       name: ['mondo.label', 'disgenet.xrefs.disease_name'],
       MESH: ['mondo.xrefs.mesh', 'disease_ontology.xrefs.mesh', 'ctd.mesh'],
-      OMIM: ['mondo.xrefs.omim', 'hpo.omim'],
+      OMIM: ['mondo.xrefs.omim', 'hpo.omim', 'disgenet.xrefs.omim'],
       EFO: ['mondo.xrefs.efo'],
       ORPHANET: ['hpo.orphanet', 'mondo.xrefs.orphanet'],
       GARD: ['mondo.xrefs.gard', 'disease_ontology.xrefs.gard'],
