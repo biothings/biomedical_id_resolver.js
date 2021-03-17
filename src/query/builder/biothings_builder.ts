@@ -23,7 +23,7 @@ import Debug from 'debug';
 const debug = Debug('biomedical-id-resolver:QueryBuilder');
 
 export class BioThingsQueryBuilder extends QueryBuilder {
-  static queryTemplate: string = 'q={inputs}&scopes={scopes}&fields={fields}&dotfield=true';
+  static queryTemplate: string = 'q={inputs}&scopes={scopes}&fields={fields}&dotfield=true&species=human';
 
   private getReturnFields(fieldMapping: APIFieldMappingObject): string {
     return Object.values(fieldMapping).reduce((prev, current) => prev + current.join(',') + ',', '');
