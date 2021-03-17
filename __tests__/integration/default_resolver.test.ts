@@ -24,6 +24,17 @@ describe("Test ID Resolver", () => {
         expect(res['SYMBOL:VAMP2'][0].label).toEqual("VAMP2")
     })
 
+    test("records from a query with multiple hits should all be collected", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "Disease": ["OMIM:307030"] });
+        expect(res).toHaveProperty("OMIM:307030");
+        expect(res['OMIM:307030']).toHaveLength(1);
+        expect(res['OMIM:307030'][0]).toBeInstanceOf(ResolvableBioEntity);
+        expect(res['OMIM:307030'][0].primaryID).toEqual("MONDO:0010613");
+        expect(res['OMIM:307030'][0].dbIDs.UMLS).toContain("C0268418");
+        expect(res['OMIM:307030'][0].dbIDs.UMLS).toContain("C0574108");
+    })
+
     test("Test valid inputs should be corretly resolved using Disease GARD ID", async () => {
         const resolver = new DefaultIDResolver();
         const res = await resolver.resolve({ "Disease": ["GARD:4206"] });
