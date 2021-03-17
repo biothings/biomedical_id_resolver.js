@@ -8,6 +8,7 @@ import {
   DBIdsObject,
   BioThingsAPIQueryResponse,
   IndividualResolverOutput,
+  GrpedBioThingsAPIQueryResponse,
 } from '../../common/types';
 import { APIMETA, TIMEOUT, MAX_BIOTHINGS_INPUT_SIZE } from '../../config';
 import {
@@ -45,28 +46,44 @@ export class BioThingsQueryBuilder extends QueryBuilder {
     return generateObjectWithNoDuplicateElementsInValue(grped);
   }
 
-  private getDBIDsHelper(record: BioThingsAPIQueryResponse): DBIdsObject {
+  private getDBIDsHelper(records: BioThingsAPIQueryResponse[]): DBIdsObject {
     const res = {} as DBIdsObject;
     const mapping = APIMETA[this.semanticType].mapping;
     Object.keys(mapping).map((prefix) => {
       for (const fieldName of mapping[prefix]) {
-        if (fieldName in record) {
-          if (!(prefix in res)) {
-            res[prefix] = [];
+        records.map(record => {
+          if (fieldName in record) {
+            if (!(prefix in res)) {
+              res[prefix] = [];
+            }
+            res[prefix] = appendArrayOrNonArrayObjectToArray(res[prefix], record[fieldName]);
           }
-          res[prefix] = appendArrayOrNonArrayObjectToArray(res[prefix], record[fieldName]);
-        }
+        })
       }
     });
     return generateObjectWithNoDuplicateElementsInValue(res);
   }
 
-  getDBIDs(prefix: string, semanticType: string, response: any): IndividualResolverOutput {
-    const result = {};
+  private groupResultByQuery(response: BioThingsAPIQueryResponse[]): GrpedBioThingsAPIQueryResponse {
+    const result = {} as GrpedBioThingsAPIQueryResponse;
     for (const rec of response) {
-      const curie = generateCurie(prefix, rec.query);
-      if (!('notfound' in rec)) {
-        result[curie] = new ResolvableBioEntity(semanticType, this.getDBIDsHelper(rec));
+      if (!(rec.query in result)) {
+        result[rec.query] = [];
+      }
+      result[rec.query].push(rec);
+    }
+    return result;
+  }
+
+  getDBIDs(prefix: string, semanticType: string, response: BioThingsAPIQueryResponse[]): IndividualResolverOutput {
+    const result = {};
+    debug(`Raw Query result: ${JSON.stringify(response)}`);
+    const grpedResponse = this.groupResultByQuery(response);
+    debug(`Grped Query Result: ${JSON.stringify(grpedResponse)}`);
+    for (const query in grpedResponse) {
+      const curie = generateCurie(prefix, query);
+      if (!('notfound' in grpedResponse[query][0])) {
+        result[curie] = new ResolvableBioEntity(semanticType, this.getDBIDsHelper(grpedResponse[query]));
       } else {
         result[curie] = new IrresolvableBioEntity(semanticType, curie);
       }
