@@ -3,6 +3,10 @@ export interface BioThingsAPIQueryResponse {
   [fieldName: string]: any;
 }
 
+export interface GrpedBioThingsAPIQueryResponse {
+  [query: string]: BioThingsAPIQueryResponse[];
+}
+
 export interface BioThingsAPIFailedQueryResponse extends BioThingsAPIQueryResponse {
   notfound: true;
 }
