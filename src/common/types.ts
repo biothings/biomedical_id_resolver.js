@@ -66,6 +66,7 @@ export interface MetaDataObject {
   api_name: string;
   url: string;
   mapping: APIFieldMappingObject;
+  additional_attributes_mapping?: APIFieldMappingObject;
 }
 
 export type MetaDataItemsObject = {
@@ -125,6 +126,7 @@ export interface IBioEntity {
   label: string;
   curies: string[];
   dbIDs: DBIdsObject;
+  attributes: DBIdsObject;
 }
 
 export interface IndividualResolverOutput {
