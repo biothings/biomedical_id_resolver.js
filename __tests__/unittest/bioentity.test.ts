@@ -134,4 +134,17 @@ describe("Test IrresolvableBioEntity Class", () => {
 
     })
 
+    describe("Test getAttributes function", () => {
+        test("test getAttributes", () => {
+            const entity = new IrresolvableBioEntity("ChemicalSubstance", "KK:123");
+            const attributes = entity.attributes;
+            expect(attributes).toEqual(
+                {
+
+                }
+            );
+        })
+
+    })
+
 })

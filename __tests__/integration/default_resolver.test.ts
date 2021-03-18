@@ -174,4 +174,11 @@ describe("Test ID Resolver", () => {
         expect(res["NCBIGENE:1017"][0].attributes.type_of_gene).toContain("protein-coding");
 
     })
+
+    test("Test pathway attributes are correctly retrieved", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "Pathway": ["WIKIPATHWAYS:WP151"] });
+        expect(res["WIKIPATHWAYS:WP151"][0].attributes.num_of_participants).toContain("68");
+
+    })
 })
