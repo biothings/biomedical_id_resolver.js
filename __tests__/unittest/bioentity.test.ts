@@ -25,25 +25,25 @@ const DISEASE_DB_IDS = {
 const CHEMBL7512_DB_IDS = { "CHEMBL.COMPOUND": ["CHEMBL7512"], "PUBCHEM": ["53428"] }
 describe("Test ResolvableBioEntity Class", () => {
     test("return semanticType when called semanticType property", () => {
-        const entity = new ResolvableBioEntity("Gene", CDK2_DB_IDs);
+        const entity = new ResolvableBioEntity("Gene", CDK2_DB_IDs, {});
         const res = entity.semanticType;
         expect(res).toEqual("Gene");
     })
     describe("Test getPrimaryID function", () => {
         test("db ids with prefixes defined in metadata should return the primary id", () => {
-            const entity = new ResolvableBioEntity("Gene", CDK2_DB_IDs);
+            const entity = new ResolvableBioEntity("Gene", CDK2_DB_IDs, {});
             const primary_id = entity.primaryID;
             expect(primary_id).toBe("NCBIGENE:1017")
         })
 
         test("db ids always prefixed should return itself", () => {
-            const entity = new ResolvableBioEntity("Disease", DISEASE_DB_IDS);
+            const entity = new ResolvableBioEntity("Disease", DISEASE_DB_IDS, {});
             const primary_id = entity.primaryID;
             expect(primary_id).toBe("MONDO:12345")
         })
 
         test("db ids without prefixes defined in metadata should return undefined", () => {
-            const entity = new ResolvableBioEntity("Gene", DB_ID_WITH_NO_PRIMARY);
+            const entity = new ResolvableBioEntity("Gene", DB_ID_WITH_NO_PRIMARY, {});
             const primary_id = entity.primaryID;
             expect(primary_id).toBeUndefined();
         })
@@ -51,19 +51,19 @@ describe("Test ResolvableBioEntity Class", () => {
 
     describe("Test getLabel function", () => {
         test("if SYMBOL provided in db ids, should return symbol", () => {
-            const entity = new ResolvableBioEntity("Gene", CDK2_DB_IDs);
+            const entity = new ResolvableBioEntity("Gene", CDK2_DB_IDs, {});
             const label = entity.label;
             expect(label).toBe("CDK2");
         })
 
         test("if SYMBOL not provided in db ids and name is provided, should return name", () => {
-            const entity = new ResolvableBioEntity("ChemicalSubstance", RILUZOLE_DB_IDS);
+            const entity = new ResolvableBioEntity("ChemicalSubstance", RILUZOLE_DB_IDS, {});
             const label = entity.label;
             expect(label).toBe("Riluzole");
         })
 
         test("if both SYMBOL and name are not provided in db ids, should return primary id", () => {
-            const entity = new ResolvableBioEntity("ChemicalSubstance", CHEMBL7512_DB_IDS);
+            const entity = new ResolvableBioEntity("ChemicalSubstance", CHEMBL7512_DB_IDS, {});
             const label = entity.label;
             expect(label).toBe("CHEMBL.COMPOUND:CHEMBL7512");
         })
@@ -71,7 +71,7 @@ describe("Test ResolvableBioEntity Class", () => {
 
     describe("Test getCuries function", () => {
         test("test getCuries", () => {
-            const entity = new ResolvableBioEntity("ChemicalSubstance", CHEMBL7512_DB_IDS);
+            const entity = new ResolvableBioEntity("ChemicalSubstance", CHEMBL7512_DB_IDS, {});
             const curies = entity.curies;
             expect(curies).toContain("CHEMBL.COMPOUND:CHEMBL7512");
             expect(curies).toHaveLength(2);
@@ -81,7 +81,7 @@ describe("Test ResolvableBioEntity Class", () => {
 
     describe("Test getDBIDs function", () => {
         test("test getDBIDs", () => {
-            const entity = new ResolvableBioEntity("ChemicalSubstance", CHEMBL7512_DB_IDS);
+            const entity = new ResolvableBioEntity("ChemicalSubstance", CHEMBL7512_DB_IDS, {});
             const dbIDs = entity.dbIDs;
             expect(dbIDs).toEqual(CHEMBL7512_DB_IDS);
         })
