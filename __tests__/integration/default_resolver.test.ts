@@ -139,4 +139,39 @@ describe("Test ID Resolver", () => {
         expect(res['NCBIGENE:1017'][0].label).toEqual("CDK2");
         expect(res['NCBIGENE:1017'][1]).toBeInstanceOf(IrresolvableBioEntity);
     })
+
+    test("Test chemical attributes are correctly retrieved", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "ChemicalSubstance": ["CHEMBL.COMPOUND:CHEMBL744"] });
+        expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.drugbank_taxonomy_class).toContain("Benzothiazoles");
+        expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.chembl_max_phase).toContain("4");
+        expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.chembl_molecule_type).toContain("Small molecule");
+        expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.drugbank_drug_category).toContain("Anticonvulsants");
+        expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.drugbank_groups).toContain("approved");
+        expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.drugbank_kingdom).toContain("Organic compounds");
+        expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.drugbank_superclass).toContain('Organoheterocyclic compounds');
+        expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.contraindications).toContain('Drug-induced hepatitis');
+        expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.contraindications).toContain('Drug-induced hepatitis');
+        expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.indications).toContain('Amyotrophic lateral sclerosis');
+        expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.mesh_pharmacology_class).toContain('Anticonvulsants');
+        expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.fda_epc_pharmacology_class).toContain('Benzothiazole');
+    })
+
+    test("Test variant attributes are correctly retrieved", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "SequenceVariant": ["DBSNP:rs796065306"] });
+        expect(res["DBSNP:rs796065306"][0].attributes.cadd_consequence).toContain("NON_SYNONYMOUS");
+        expect(res["DBSNP:rs796065306"][0].attributes.cadd_variant_type).toContain("SNV");
+        expect(res["DBSNP:rs796065306"][0].attributes.dbsnp_variant_type).toContain("snv");
+        expect(res["DBSNP:rs796065306"][0].attributes.clinvar_clinical_significance).toContain("Pathogenic");
+        expect(res["DBSNP:rs796065306"][0].attributes.sift_category).toContain("deleterious");
+    })
+
+    test("Test gene attributes are correctly retrieved", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "Gene": ["NCBIGENE:1017"] });
+        expect(res["NCBIGENE:1017"][0].attributes.interpro).toContain("Protein kinase domain");
+        expect(res["NCBIGENE:1017"][0].attributes.type_of_gene).toContain("protein-coding");
+
+    })
 })
