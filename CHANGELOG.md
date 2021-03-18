@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.3.0...v3.4.0) (2021-03-18)
+
+
+### Features
+
+* :sparkles: add num_of_participants as property for pathwayy ([15eb081](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/15eb081e5d6e8e3daf75a82f64dc2b5c5f61f878))
+
 ## [3.3.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.2.1...v3.3.0) (2021-03-18)
 
 
