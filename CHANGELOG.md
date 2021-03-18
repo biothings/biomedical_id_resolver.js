@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.2.1...v3.3.0) (2021-03-18)
+
+
+### Features
+
+* :sparkles: add additional attributes property for bioentity ([490ed46](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/490ed4653106c9ef3273fed963a11067bce6d2fa))
+* :sparkles: handling cases when one query returns multiple hits from biothings api ([cdb66cb](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/cdb66cb58c4bda97f1193d83d081b042f817cab2))
+
+
+### Bug Fixes
+
+* :bug: fix bug that symbol not resolved to human gene by default ([d5eec4f](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/d5eec4f2862c84c047d1be9a6ffaef03c97fa124))
+
+
+### Refactor
+
+* :recycle: add additional attributes mapping to config ([56326b5](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/56326b58493e863291faa92d4fecf9dca3f23630))
+* :recycle: add omim mapping in config ([2a59874](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/2a59874f123f02151f035c9da97fa231f3707805))
+
 ### [3.2.1](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.2.0...v3.2.1) (2021-03-12)
 
 
