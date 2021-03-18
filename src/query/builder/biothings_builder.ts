@@ -64,6 +64,27 @@ export class BioThingsQueryBuilder extends QueryBuilder {
     return generateObjectWithNoDuplicateElementsInValue(res);
   }
 
+  private getAttributesHelper(records: BioThingsAPIQueryResponse[]): DBIdsObject {
+    const res = {} as DBIdsObject;
+    const mapping = APIMETA[this.semanticType].additional_attributes_mapping;
+    if (typeof mapping === "undefined") {
+      return res;
+    }
+    Object.keys(mapping).map((attr) => {
+      for (const fieldName of mapping[attr]) {
+        records.map(record => {
+          if (fieldName in record) {
+            if (!(attr in res)) {
+              res[attr] = [];
+            }
+            res[attr] = appendArrayOrNonArrayObjectToArray(res[attr], record[fieldName]);
+          }
+        })
+      }
+    });
+    return generateObjectWithNoDuplicateElementsInValue(res);
+  }
+
   private groupResultByQuery(response: BioThingsAPIQueryResponse[]): GrpedBioThingsAPIQueryResponse {
     const result = {} as GrpedBioThingsAPIQueryResponse;
     for (const rec of response) {
@@ -77,13 +98,11 @@ export class BioThingsQueryBuilder extends QueryBuilder {
 
   getDBIDs(prefix: string, semanticType: string, response: BioThingsAPIQueryResponse[]): IndividualResolverOutput {
     const result = {};
-    debug(`Raw Query result: ${JSON.stringify(response)}`);
     const grpedResponse = this.groupResultByQuery(response);
-    debug(`Grped Query Result: ${JSON.stringify(grpedResponse)}`);
     for (const query in grpedResponse) {
       const curie = generateCurie(prefix, query);
       if (!('notfound' in grpedResponse[query][0])) {
-        result[curie] = new ResolvableBioEntity(semanticType, this.getDBIDsHelper(grpedResponse[query]));
+        result[curie] = new ResolvableBioEntity(semanticType, this.getDBIDsHelper(grpedResponse[query]), this.getAttributesHelper(grpedResponse[query]));
       } else {
         result[curie] = new IrresolvableBioEntity(semanticType, curie);
       }
@@ -92,7 +111,12 @@ export class BioThingsQueryBuilder extends QueryBuilder {
   }
 
   buildOneQuery(metadata: MetaDataObject, prefix: string, inputs: string[]): Promise<IndividualResolverOutput> {
-    const returnFields = this.getReturnFields(metadata.mapping);
+    const idReturnFields = this.getReturnFields(metadata.mapping);
+    let attrReturnFields = '';
+    if ("additional_attributes_mapping" in metadata) {
+      attrReturnFields = this.getReturnFields(metadata.additional_attributes_mapping)
+    }
+    const returnFields = idReturnFields + attrReturnFields;
     const scopes = this.getInputScopes(metadata.mapping, prefix);
     const biothingsQuery = BioThingsQueryBuilder.queryTemplate
       .replace('{inputs}', inputs.join(','))

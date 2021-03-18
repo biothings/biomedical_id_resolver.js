@@ -45,4 +45,8 @@ export class IrresolvableBioEntity extends BioEntity {
       [getPrefixFromCurie(this.curie)]: [this.curie],
     };
   }
+
+  get attributes(): DBIdsObject {
+    return {};
+  }
 }

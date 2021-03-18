@@ -14,4 +14,6 @@ export abstract class BioEntity implements IBioEntity {
   abstract get curies(): string[];
 
   abstract get dbIDs(): DBIdsObject;
+
+  abstract get attributes(): DBIdsObject;
 }

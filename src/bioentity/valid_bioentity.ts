@@ -6,11 +6,13 @@ export class ResolvableBioEntity extends BioEntity {
   private _leafSemanticType: string;
   private _semanticTypes: string[];
   private _dbIDs: DBIdsObject;
+  private _attributes: DBIdsObject;
 
-  constructor(semanticType: string, dbIDs: DBIdsObject) {
+  constructor(semanticType: string, dbIDs: DBIdsObject, attributes: DBIdsObject) {
     super();
     this._leafSemanticType = semanticType;
     this._dbIDs = dbIDs;
+    this._attributes = attributes;
   }
 
   private getCurieFromVal(val: string, prefix: string): string {
@@ -67,5 +69,9 @@ export class ResolvableBioEntity extends BioEntity {
 
   get dbIDs(): DBIdsObject {
     return this._dbIDs;
+  }
+
+  get attributes(): DBIdsObject {
+    return this._attributes;
   }
 }
