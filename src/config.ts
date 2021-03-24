@@ -100,6 +100,55 @@ export const APIMETA: MetaDataItemsObject = {
       fda_epc_pharmacology_class: ['drugcentral.pharmacology_class.fda_epc.description'],
     },
   },
+  Drug: {
+    id_ranks: [
+      'CHEBI',
+      'CHEMBL.COMPOUND',
+      'DRUGBANK',
+      'PUBCHEM.COMPOUND',
+      'MESH',
+      'INCHI',
+      'INCHIKEY',
+      'UNII',
+      'KEGG',
+      'UMLS',
+      'name',
+    ],
+    semantic: 'ChemicalSubstance',
+    api_name: 'mychem.info',
+    url: 'https://mychem.info/v1/query',
+    mapping: {
+      'CHEMBL.COMPOUND': ['chembl.molecule_chembl_id', 'drugbank.xrefs.chembl', 'drugcentral.xrefs.chembl_id'],
+      DRUGBANK: ['drugcentral.xrefs.drugbank_id', 'pharmgkb.xrefs.drugbank', 'chebi.xrefs.drugbank', 'drugbank.id'],
+      'PUBCHEM.COMPOUND': [
+        'pubchem.cid',
+        'drugbank.xrefs.pubchem.cid',
+        'drugcentral.xrefs.pubchem_cid',
+        'pharmgkb.xrefs.pubchem.cid',
+      ],
+      CHEBI: ['chebi.id', 'chembl.chebi_par_id', 'drugbank.xrefs.chebi', 'drugcentral.xrefs.chebi'],
+      UMLS: ['drugcentral.xrefs.umlscui', 'pharmgkb.xrefs.umls', 'umls.cui'],
+      MESH: ['umls.mesh', 'drugcentral.xrefs.mesh_descriptor_ui', 'ginas.xrefs.MESH', 'pharmgkb.xrefs.mesh'],
+      UNII: ['drugcentral.xrefs.unii', 'unii.unii', 'aeolus.unii', 'ginas.unii'],
+      INCHIKEY: ['drugbank.inchi_key', 'ginas.inchikey', 'unii.inchikey', 'chebi.inchikey'],
+      INCHI: ['drugbank.inchi', 'chebi.inchi', 'chembl.inchi'],
+      KEGG: ['drugbank.xrefs.kegg.cid'],
+      name: ['chembl.pref_name', 'drugbank.name', 'umls.name', 'ginas.preferred_name', 'pharmgkb.name', 'chebi.name'],
+    },
+    additional_attributes_mapping: {
+      chembl_max_phase: ['chembl.max_phase'],
+      chembl_molecule_type: ['chembl.molecule_type'],
+      drugbank_drug_category: ['drugbank.categories.category'],
+      drugbank_taxonomy_class: ['drugbank.taxonomy.class'],
+      drugbank_groups: ['drugbank.groups'],
+      drugbank_kingdom: ['drugbank.taxonomy.kingdom'],
+      drugbank_superclass: ['drugbank.taxonomy.superclass'],
+      contraindications: ['drugcentral.drug_use.contraindication.concept_name'],
+      indications: ['drugcentral.drug_use.indication.concept_name'],
+      mesh_pharmacology_class: ['drugcentral.pharmacology_class.mesh_pa.description'],
+      fda_epc_pharmacology_class: ['drugcentral.pharmacology_class.fda_epc.description'],
+    },
+  },
   PhenotypicFeature: {
     id_ranks: ['UMLS', 'SNOMEDCT', 'HP', 'MEDDRA', 'EFO', 'NCIT', 'MESH', 'MP', 'name'],
     semantic: 'PhenotypicFeature',
@@ -153,7 +202,7 @@ export const APIMETA: MetaDataItemsObject = {
       KEGG: ['xrefs.kegg_reaction'],
       REACT: ['xrefs.reactome'],
       name: ['name'],
-    }
+    },
   },
   BiologicalProcess: {
     id_ranks: ['GO', 'MetaCyc', 'REACT', 'KEGG', 'name'],
@@ -186,15 +235,15 @@ export const APIMETA: MetaDataItemsObject = {
     api_name: 'geneset API',
     url: 'https://biothings.ncats.io/geneset/query',
     mapping: {
-      Reactome: ['reactome'],
+      REACT: ['reactome'],
       WIKIPATHWAYS: ['wikipathways'],
       KEGG: ['kegg'],
       PHARMGKB: ['pharmgkb'],
       name: ['name'],
     },
     additional_attributes_mapping: {
-      num_of_participants: ['num_of_participants']
-    }
+      num_of_participants: ['num_of_participants'],
+    },
   },
   AnatomicalEntity: {
     id_ranks: ['UBERON', 'UMLS', 'MESH', 'NCIT', 'name'],
