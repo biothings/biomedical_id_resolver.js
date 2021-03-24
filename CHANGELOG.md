@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.1](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.4.0...v3.4.1) (2021-03-24)
+
+
+### Bug Fixes
+
+* :bug: fix wrong react id mapping ([78e27bd](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/78e27bd43b358435bf02c2f83abd11ecb2330e1b))
+
 ## [3.4.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.3.0...v3.4.0) (2021-03-18)
 
 
