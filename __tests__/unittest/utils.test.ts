@@ -123,6 +123,12 @@ describe("Test Utils Module", () => {
             const res = generateDBID(input);
             expect(res).toEqual('1017');
         })
+
+        test("id with multiple colons in it should only trim the chars before the first occurrence of colon", () => {
+            const input = 'WIKIPATHWAYS:pathway:1017';
+            const res = generateDBID(input);
+            expect(res).toEqual('pathway:1017');
+        })
     })
 
     describe("Test generateIDTypeDict function", () => {

@@ -115,4 +115,13 @@ describe("Test ID Resolver", () => {
         expect(res['NCBIGENE:1017'][0].label).toEqual("CDK2");
         expect(res['NCBIGENE:1017'][1]).toBeInstanceOf(IrresolvableBioEntity);
     })
+
+    test("Test input with multiple colons in it should just be classified as irresolvable but not cause an error", async () => {
+        const resolver = new BioLinkBasedResolver();
+        const res = await resolver.resolve({ "Gene": ["NCBIGENE:GENE:1017"] });
+        expect(res).toHaveProperty("NCBIGENE:GENE:1017");
+        expect(res["NCBIGENE:GENE:1017"]).toHaveLength(1);
+        expect(res['NCBIGENE:GENE:1017'][0]).toBeInstanceOf(IrresolvableBioEntity);
+        expect(res['NCBIGENE:GENE:1017'][0].primaryID).toEqual("NCBIGENE:GENE:1017");
+    })
 })
