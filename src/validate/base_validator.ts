@@ -51,10 +51,28 @@ export default abstract class BaseValidator implements ValidatorObject {
     }
   }
 
+  private checkIfCommaInInput(userInput: DBIdsObject = this.userInput) {
+    for (const key of Object.keys(userInput)) {
+      const irresolvable = [];
+      for (const item of userInput[key]) {
+        if (typeof item === "string" && item.includes(',')) {
+          irresolvable.push(item)
+        }
+      }
+      userInput[key] = userInput[key].filter(item => !irresolvable.includes(item));
+      if (irresolvable.length > 0) {
+        this._irresolvable[key] = irresolvable;
+      }
+
+    }
+    return userInput
+  }
+
   protected validateInputStructure() {
     this.validateIfInputIsObject(this.userInput);
     this.validateIfValuesOfInputIsArray(this.userInput);
     this.validateIfEachItemInInputValuesIsCurie(this.userInput);
+    this.userInput = this.checkIfCommaInInput(this.userInput);
   }
 
   abstract validate(): void;
