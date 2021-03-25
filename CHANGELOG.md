@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.2](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.4.1...v3.4.2) (2021-03-25)
+
+
+### Features
+
+* :sparkles: support translating LINCS id ([ec2f8f4](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/ec2f8f4ac7175a5722e99e93f0f85033fa23b1d7))
+
+
+### Refactor
+
+* :recycle: update the logics of generateDBID to handle input with multiple colons ([6bb755f](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/6bb755f6bc406e894f749bf8b07d4e3625339d24))
+
 ### [3.4.1](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.4.0...v3.4.1) (2021-03-24)
 
 
