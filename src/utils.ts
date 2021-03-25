@@ -15,7 +15,7 @@ export function getPrefixFromCurie(curie: string): string {
 
 export function generateDBID(val: string): string {
   if (!CURIE.ALWAYS_PREFIXED.includes(val.split(':')[0])) {
-    return val.split(':').slice(-1)[0];
+    return val.substring(val.indexOf(':') + 1);
   } else {
     return val;
   }
