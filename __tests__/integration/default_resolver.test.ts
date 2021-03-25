@@ -24,6 +24,16 @@ describe("Test ID Resolver", () => {
         expect(res['SYMBOL:VAMP2'][0].label).toEqual("VAMP2")
     })
 
+    test("Test LINCS ID should be resolved", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "ChemicalSubstance": ["LINCS:LSM-2471"] });
+        expect(res).toHaveProperty("LINCS:LSM-2471");
+        expect(res['LINCS:LSM-2471']).toHaveLength(1);
+        expect(res['LINCS:LSM-2471'][0]).toBeInstanceOf(ResolvableBioEntity);
+        expect(res['LINCS:LSM-2471'][0].primaryID).toEqual("CHEBI:8863");
+        expect(res['LINCS:LSM-2471'][0].dbIDs.LINCS).toEqual(["LSM-2471"]);
+    })
+
     test("records from a query with multiple hits should all be collected", async () => {
         const resolver = new DefaultIDResolver();
         const res = await resolver.resolve({ "Disease": ["OMIM:307030"] });
