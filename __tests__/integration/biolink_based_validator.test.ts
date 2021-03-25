@@ -76,4 +76,14 @@ describe("Integration test for BioLink Based Validator", () => {
         expect(validator.irresolvable).toHaveProperty('Gene', ["KEGG.GENE:1234"]);
         expect(validator.irresolvable).toHaveProperty('NamedThing', ["KEGG.GENE:1234"]);
     })
+
+    test("Item with comma in it should be counted as irresolvable", () => {
+        const input = {
+            ChemicalSubstance: ["KEGG:1,2"]
+        }
+        const validator = new BioLinkBasedValidator(input);
+        validator.validate();
+        expect(validator.resolvable).toEqual({});
+        expect(validator.irresolvable).toHaveProperty('ChemicalSubstance', ["KEGG:1,2"]);
+    })
 })
