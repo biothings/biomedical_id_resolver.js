@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.3](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.4.2...v3.4.3) (2021-03-25)
+
+
+### Bug Fixes
+
+* :bug: if comma in input, classify as irresolvable ([df92f2a](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/df92f2a04c2764f46714ff649d642637bd094630))
+
 ### [3.4.2](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.4.1...v3.4.2) (2021-03-25)
 
 
