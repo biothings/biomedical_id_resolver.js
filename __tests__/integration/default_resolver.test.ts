@@ -34,6 +34,26 @@ describe("Test ID Resolver", () => {
         expect(res['LINCS:LSM-2471'][0].dbIDs.LINCS).toEqual(["LSM-2471"]);
     })
 
+    test("Test Protein Uniprot ID should be resolved", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "Protein": ["UniProtKB:P24941"] });
+        expect(res).toHaveProperty("UniProtKB:P24941");
+        expect(res['UniProtKB:P24941']).toHaveLength(1);
+        expect(res['UniProtKB:P24941'][0]).toBeInstanceOf(ResolvableBioEntity);
+        expect(res['UniProtKB:P24941'][0].primaryID).toEqual("UniProtKB:P24941");
+        expect(res['UniProtKB:P24941'][0].dbIDs.ENSEMBL).toContain("ENSP00000243067")
+    })
+
+    test("Test Protein ENSEMBL ID should be resolved", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "Protein": ["ENSEMBL:ENSP00000243067"] });
+        expect(res).toHaveProperty("ENSEMBL:ENSP00000243067");
+        expect(res['ENSEMBL:ENSP00000243067']).toHaveLength(1);
+        expect(res['ENSEMBL:ENSP00000243067'][0]).toBeInstanceOf(ResolvableBioEntity);
+        expect(res['ENSEMBL:ENSP00000243067'][0].primaryID).toEqual("UniProtKB:P24941");
+        expect(res['ENSEMBL:ENSP00000243067'][0].dbIDs.ENSEMBL).toContain("ENSP00000243067")
+    })
+
     test("records from a query with multiple hits should all be collected", async () => {
         const resolver = new DefaultIDResolver();
         const res = await resolver.resolve({ "Disease": ["OMIM:307030"] });
