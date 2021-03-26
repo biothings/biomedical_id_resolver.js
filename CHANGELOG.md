@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.4.3...v3.5.0) (2021-03-26)
+
+
+### Features
+
+* :sparkles: support resolving protein ids ([fc5c899](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/fc5c8996552da7a0a73a965a8ab5b1640a7b19a1))
+
 ### [3.4.3](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.4.2...v3.4.3) (2021-03-25)
 
 
