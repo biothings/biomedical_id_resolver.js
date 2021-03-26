@@ -32,6 +32,22 @@ export const APIMETA: MetaDataItemsObject = {
       type_of_gene: ['type_of_gene'],
     },
   },
+  Protein: {
+    id_ranks: ['UniProtKB', 'ENSEMBL', 'SYMBOL', 'UMLS', 'name'],
+    semantic: 'Protein',
+    api_name: 'mygene.info',
+    url: 'https://mygene.info/v3/query',
+    mapping: {
+      name: ['name'],
+      SYMBOL: ['symbol'],
+      UMLS: ['umls.cui', 'umls.protein_cui'],
+      UniProtKB: ['uniprot.Swiss-Prot'],
+      ENSEMBL: ['ensembl.protein'],
+    },
+    additional_attributes_mapping: {
+      interpro: ['interpro.desc']
+    },
+  },
   SequenceVariant: {
     id_ranks: ['HGVS', 'DBSNP', 'MYVARIANT_HG19', 'CLINVAR'],
     api_name: 'myvariant.info',
