@@ -124,4 +124,14 @@ describe("Test ID Resolver", () => {
         expect(res['NCBIGENE:GENE:1017'][0]).toBeInstanceOf(IrresolvableBioEntity);
         expect(res['NCBIGENE:GENE:1017'][0].primaryID).toEqual("NCBIGENE:GENE:1017");
     })
+
+    test("Test input with space in it should be correctly resolved", async () => {
+        const resolver = new BioLinkBasedResolver();
+        const res = await resolver.resolve({ "ChemicalSubstance": ["name:Regorafenib", "name:Sunitinib", "name:Imatinib", "name:Ponatinib", "name:Dasatinib", "name:Bosutinib", "name:Imatinib Mesylate"] });
+        expect(res).toHaveProperty("name:Imatinib Mesylate");
+        expect(res).toHaveProperty("name:Regorafenib");
+        expect(res["name:Imatinib Mesylate"]).toHaveLength(1);
+        expect(res["name:Imatinib Mesylate"][0]).toBeInstanceOf(ResolvableBioEntity);
+    })
+
 })
