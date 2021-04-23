@@ -211,4 +211,10 @@ describe("Test ID Resolver", () => {
         expect(res["WIKIPATHWAYS:WP151"][0].attributes.num_of_participants).toContain("68");
 
     })
+
+    test("Test pathway biocarta id are correctly resolved", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "Pathway": ["BIOCARTA:hbxpathway"] });
+        expect(res["BIOCARTA:hbxpathway"][0]).toBeInstanceOf(ResolvableBioEntity);
+    })
 })
