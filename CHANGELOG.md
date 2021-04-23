@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.7.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.6.0...v3.7.0) (2021-04-23)
+
+
+### Features
+
+* :sparkles: use json request body for biothings api ([f8edcb8](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/f8edcb80c313994f81d9c9fbfa95492f22a31837))
+
 ## [3.6.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.5.0...v3.6.0) (2021-04-23)
 
 
