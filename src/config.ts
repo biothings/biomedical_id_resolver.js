@@ -45,7 +45,7 @@ export const APIMETA: MetaDataItemsObject = {
       ENSEMBL: ['ensembl.protein'],
     },
     additional_attributes_mapping: {
-      interpro: ['interpro.desc']
+      interpro: ['interpro.desc'],
     },
   },
   SequenceVariant: {
@@ -256,6 +256,7 @@ export const APIMETA: MetaDataItemsObject = {
       REACT: ['reactome'],
       WIKIPATHWAYS: ['wikipathways'],
       KEGG: ['kegg'],
+      BIOCARTA: ['biocarta'],
       PHARMGKB: ['pharmgkb'],
       name: ['name'],
     },
