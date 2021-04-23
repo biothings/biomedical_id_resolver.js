@@ -127,14 +127,23 @@ export class BioThingsQueryBuilder extends QueryBuilder {
       .replace('{scopes}', scopes)
       .replace('{fields}', returnFields);
     debug(
-      `One Axios Query is built--- method: post, url: ${metadata.url}, timeout: ${TIMEOUT}, data: ${biothingsQuery}`,
+      `One Axios Query is built--- method: post, url: ${metadata.url}, timeout: ${TIMEOUT}, data: ${biothingsQuery}, inputs: ${inputs}`,
     );
     return axios({
       method: 'post',
       url: metadata.url,
       timeout: TIMEOUT,
-      data: biothingsQuery,
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      params: {
+        fields: returnFields,
+        dotfield: true,
+        species: "human"
+      },
+      // data: biothingsQuery,
+      data: {
+        q: inputs,
+        scopes: scopes,
+      },
+      headers: { 'content-type': 'application/json' },
     }).then((response) => this.getDBIDs(prefix, this.semanticType, response.data));
   }
 
