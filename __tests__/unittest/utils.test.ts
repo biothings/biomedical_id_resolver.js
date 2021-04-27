@@ -11,14 +11,14 @@ describe("Test Utils Module", () => {
 
         test("id that is not always a curie should return prefix plus colon and itself", () => {
             const inputID = '1017';
-            const res = generateCurie('NCBIGENE', inputID);
-            expect(res).toEqual('NCBIGENE:1017');
+            const res = generateCurie('NCBIGene', inputID);
+            expect(res).toEqual('NCBIGene:1017');
         })
 
         test("id that is Irresolvable should return prefix plus colon and itself", () => {
             const inputID = '1017';
-            const res = generateCurie('NCBIGENE1', inputID);
-            expect(res).toEqual('NCBIGENE1:1017');
+            const res = generateCurie('NCBIGene1', inputID);
+            expect(res).toEqual('NCBIGene1:1017');
         })
     })
 
@@ -107,13 +107,13 @@ describe("Test Utils Module", () => {
         })
 
         test("id which is not default curie should return prefixed removed version", () => {
-            const input = 'NCBIGENE:1017';
+            const input = 'NCBIGene:1017';
             const res = generateDBID(input);
             expect(res).toEqual('1017');
         })
 
         test("id which is not valid but has curie should return prefixed removed version", () => {
-            const input = 'NCBIGENE1:1017';
+            const input = 'NCBIGene1:1017';
             const res = generateDBID(input);
             expect(res).toEqual('1017');
         })
@@ -134,7 +134,7 @@ describe("Test Utils Module", () => {
     describe("Test generateIDTypeDict function", () => {
         test("Test generateIDTypeDict function", () => {
             const res = generateIDTypeDict();
-            expect(res).toHaveProperty('NCBIGENE', ['Gene'])
+            expect(res).toHaveProperty('NCBIGene', ['Gene'])
             expect(res).toHaveProperty('OMIM', ['Gene', 'Disease'])
         })
     })

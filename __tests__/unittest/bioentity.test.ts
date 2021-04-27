@@ -2,7 +2,7 @@ import { ResolvableBioEntity } from '../../src/bioentity/valid_bioentity';
 import { IrresolvableBioEntity } from '../../src/bioentity/irresolvable_bioentity';
 
 const CDK2_DB_IDs = {
-    "NCBIGENE": ["1017"],
+    "NCBIGene": ["1017"],
     "HGNC": ["1771"],
     "SYMBOL": ["CDK2"],
     "name": ["cyclin dependent kinase 2"],
@@ -33,7 +33,7 @@ describe("Test ResolvableBioEntity Class", () => {
         test("db ids with prefixes defined in metadata should return the primary id", () => {
             const entity = new ResolvableBioEntity("Gene", CDK2_DB_IDs, {});
             const primary_id = entity.primaryID;
-            expect(primary_id).toBe("NCBIGENE:1017")
+            expect(primary_id).toBe("NCBIGene:1017")
         })
 
         test("db ids always prefixed should return itself", () => {

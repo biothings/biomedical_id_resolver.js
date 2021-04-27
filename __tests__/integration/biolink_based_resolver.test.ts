@@ -6,12 +6,12 @@ jest.setTimeout(30000)
 describe("Test ID Resolver", () => {
     test("Test valid inputs should be corretly resolved", async () => {
         const resolver = new BioLinkBasedResolver();
-        const res = await resolver.resolve({ "Gene": ["NCBIGENE:1017"] });
-        expect(res).toHaveProperty("NCBIGENE:1017");
-        expect(res['NCBIGENE:1017']).toHaveLength(1);
-        expect(res['NCBIGENE:1017'][0]).toBeInstanceOf(ResolvableBioEntity);
-        expect(res['NCBIGENE:1017'][0].primaryID).toEqual("NCBIGENE:1017");
-        expect(res['NCBIGENE:1017'][0].label).toEqual("CDK2")
+        const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"] });
+        expect(res).toHaveProperty("NCBIGene:1017");
+        expect(res['NCBIGene:1017']).toHaveLength(1);
+        expect(res['NCBIGene:1017'][0]).toBeInstanceOf(ResolvableBioEntity);
+        expect(res['NCBIGene:1017'][0].primaryID).toEqual("NCBIGene:1017");
+        expect(res['NCBIGene:1017'][0].label).toEqual("CDK2")
     })
 
     test("Test BioThings output include integer should be converted to string", async () => {
@@ -23,12 +23,12 @@ describe("Test ID Resolver", () => {
 
     test("Test valid inputs from multiple semantic types should be corretly resolved", async () => {
         const resolver = new BioLinkBasedResolver();
-        const res = await resolver.resolve({ "Gene": ["NCBIGENE:1017"], "ChemicalSubstance": ["DRUGBANK:DB01609"] });
-        expect(res).toHaveProperty("NCBIGENE:1017");
-        expect(res['NCBIGENE:1017']).toHaveLength(1);
-        expect(res['NCBIGENE:1017'][0]).toBeInstanceOf(ResolvableBioEntity);
-        expect(res['NCBIGENE:1017'][0].primaryID).toEqual("NCBIGENE:1017");
-        expect(res['NCBIGENE:1017'][0].label).toEqual("CDK2");
+        const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"], "ChemicalSubstance": ["DRUGBANK:DB01609"] });
+        expect(res).toHaveProperty("NCBIGene:1017");
+        expect(res['NCBIGene:1017']).toHaveLength(1);
+        expect(res['NCBIGene:1017'][0]).toBeInstanceOf(ResolvableBioEntity);
+        expect(res['NCBIGene:1017'][0].primaryID).toEqual("NCBIGene:1017");
+        expect(res['NCBIGene:1017'][0].label).toEqual("CDK2");
         expect(res).toHaveProperty("DRUGBANK:DB01609");
         expect(res["DRUGBANK:DB01609"]).toHaveLength(1);
         expect(res['DRUGBANK:DB01609'][0]).toBeInstanceOf(ResolvableBioEntity);
@@ -37,7 +37,7 @@ describe("Test ID Resolver", () => {
 
     test("Test Irresolvable inputs should be part of the result", async () => {
         const resolver = new BioLinkBasedResolver();
-        const res = await resolver.resolve({ "Gene": ["NCBIGENE:1017", "kkk:123"] });
+        const res = await resolver.resolve({ "Gene": ["NCBIGene:1017", "kkk:123"] });
         expect(res).toHaveProperty("kkk:123");
         expect(res['kkk:123']).toHaveLength(1);
         expect(res['kkk:123'][0]).toBeInstanceOf(IrresolvableBioEntity);
@@ -46,29 +46,29 @@ describe("Test ID Resolver", () => {
     })
 
     test("test large batch of inputs should be correctly resolved", async () => {
-        const fakeNCBIGENEInputs = [...Array(1990).keys()].map(item => 'NCBIGENE:' + item.toString());
+        const fakeNCBIGeneInputs = [...Array(1990).keys()].map(item => 'NCBIGene:' + item.toString());
         const fakeOMIMGeneInputs = [...Array(2300).keys()].map(item => "OMIM:" + item.toString());
         const fakeDrugbankInputs = [...Array(3500).keys()].map(item => "DRUGBANK:DB00" + item.toString());
         const resolver = new BioLinkBasedResolver();
         const res = await resolver.resolve({
-            Gene: [...fakeNCBIGENEInputs, ...fakeOMIMGeneInputs],
+            Gene: [...fakeNCBIGeneInputs, ...fakeOMIMGeneInputs],
             ChemicalSubstance: fakeDrugbankInputs
         })
-        expect(Object.keys(res)).toHaveLength(fakeDrugbankInputs.length + fakeNCBIGENEInputs.length + fakeOMIMGeneInputs.length);
+        expect(Object.keys(res)).toHaveLength(fakeDrugbankInputs.length + fakeNCBIGeneInputs.length + fakeOMIMGeneInputs.length);
         expect(res['OMIM:0'][0]).toBeInstanceOf(IrresolvableBioEntity)
 
     })
 
     test("Test inputs with NamedThing semanticType should be corretly resolved", async () => {
         const resolver = new BioLinkBasedResolver();
-        const res = await resolver.resolve({ "NamedThing": ["NCBIGENE:1017"] });
-        expect(res).toHaveProperty("NCBIGENE:1017");
-        expect(res["NCBIGENE:1017"]).toHaveLength(2);
-        expect(res['NCBIGENE:1017'][0]).toBeInstanceOf(ResolvableBioEntity);
-        expect(res['NCBIGENE:1017'][0].primaryID).toEqual("NCBIGENE:1017");
-        expect(res['NCBIGENE:1017'][0].label).toEqual("CDK2");
-        expect(res['NCBIGENE:1017'][0].semanticType).toEqual("Gene");
-        expect(res["NCBIGENE:1017"][0].semanticTypes).toContain("NamedThing");
+        const res = await resolver.resolve({ "NamedThing": ["NCBIGene:1017"] });
+        expect(res).toHaveProperty("NCBIGene:1017");
+        expect(res["NCBIGene:1017"]).toHaveLength(2);
+        expect(res['NCBIGene:1017'][0]).toBeInstanceOf(ResolvableBioEntity);
+        expect(res['NCBIGene:1017'][0].primaryID).toEqual("NCBIGene:1017");
+        expect(res['NCBIGene:1017'][0].label).toEqual("CDK2");
+        expect(res['NCBIGene:1017'][0].semanticType).toEqual("Gene");
+        expect(res["NCBIGene:1017"][0].semanticTypes).toContain("NamedThing");
     })
 
     test("Test inputs with NamedThing semanticType and could be mapped to multiple semantictypes should be corretly resolved", async () => {
@@ -90,7 +90,7 @@ describe("Test ID Resolver", () => {
         const valid = res["OMIM:116953"].filter(item => item instanceof ResolvableBioEntity);
         expect(valid).toHaveLength(1);
         expect(valid[0]).toBeInstanceOf(ResolvableBioEntity);
-        expect(valid[0].primaryID).toEqual("NCBIGENE:1017");
+        expect(valid[0].primaryID).toEqual("NCBIGene:1017");
         expect(valid[0].label).toEqual("CDK2");
         expect(valid[0].semanticType).toEqual("Gene");
         expect(valid[0].semanticTypes).toContain("NamedThing");
@@ -107,22 +107,22 @@ describe("Test ID Resolver", () => {
 
     test("Test Irresolvable inputs should not overwrite the result of a valid input", async () => {
         const resolver = new BioLinkBasedResolver();
-        const res = await resolver.resolve({ "Gene": ["NCBIGENE:1017"], "Disease": ["NCBIGENE:1017"] });
-        expect(res).toHaveProperty("NCBIGENE:1017");
-        expect(res["NCBIGENE:1017"]).toHaveLength(2);
-        expect(res['NCBIGENE:1017'][0]).toBeInstanceOf(ResolvableBioEntity);
-        expect(res['NCBIGENE:1017'][0].primaryID).toEqual("NCBIGENE:1017");
-        expect(res['NCBIGENE:1017'][0].label).toEqual("CDK2");
-        expect(res['NCBIGENE:1017'][1]).toBeInstanceOf(IrresolvableBioEntity);
+        const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"], "Disease": ["NCBIGene:1017"] });
+        expect(res).toHaveProperty("NCBIGene:1017");
+        expect(res["NCBIGene:1017"]).toHaveLength(2);
+        expect(res['NCBIGene:1017'][0]).toBeInstanceOf(ResolvableBioEntity);
+        expect(res['NCBIGene:1017'][0].primaryID).toEqual("NCBIGene:1017");
+        expect(res['NCBIGene:1017'][0].label).toEqual("CDK2");
+        expect(res['NCBIGene:1017'][1]).toBeInstanceOf(IrresolvableBioEntity);
     })
 
     test("Test input with multiple colons in it should just be classified as irresolvable but not cause an error", async () => {
         const resolver = new BioLinkBasedResolver();
-        const res = await resolver.resolve({ "Gene": ["NCBIGENE:GENE:1017"] });
-        expect(res).toHaveProperty("NCBIGENE:GENE:1017");
-        expect(res["NCBIGENE:GENE:1017"]).toHaveLength(1);
-        expect(res['NCBIGENE:GENE:1017'][0]).toBeInstanceOf(IrresolvableBioEntity);
-        expect(res['NCBIGENE:GENE:1017'][0].primaryID).toEqual("NCBIGENE:GENE:1017");
+        const res = await resolver.resolve({ "Gene": ["NCBIGene:GENE:1017"] });
+        expect(res).toHaveProperty("NCBIGene:GENE:1017");
+        expect(res["NCBIGene:GENE:1017"]).toHaveLength(1);
+        expect(res['NCBIGene:GENE:1017'][0]).toBeInstanceOf(IrresolvableBioEntity);
+        expect(res['NCBIGene:GENE:1017'][0].primaryID).toEqual("NCBIGene:GENE:1017");
     })
 
     test("Test input with space in it should be correctly resolved", async () => {
