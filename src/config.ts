@@ -79,6 +79,7 @@ export const APIMETA: MetaDataItemsObject = {
       'UNII',
       'KEGG',
       'UMLS',
+      'RHEA',
       'name',
     ],
     semantic: 'ChemicalSubstance',
@@ -101,6 +102,7 @@ export const APIMETA: MetaDataItemsObject = {
       INCHI: ['drugbank.inchi', 'chebi.inchi', 'chembl.inchi'],
       KEGG: ['drugbank.xrefs.kegg.cid'],
       LINCS: ['unichem.lincs'],
+      RHEA: ['chebi.xrefs.rhea'],
       name: ['chembl.pref_name', 'drugbank.name', 'umls.name', 'ginas.preferred_name', 'pharmgkb.name', 'chebi.name'],
     },
     additional_attributes_mapping: {
@@ -130,6 +132,7 @@ export const APIMETA: MetaDataItemsObject = {
       'KEGG',
       'UMLS',
       'LINCS',
+      'RHEA',
       'name',
     ],
     semantic: 'ChemicalSubstance',
@@ -151,6 +154,7 @@ export const APIMETA: MetaDataItemsObject = {
       INCHIKEY: ['drugbank.inchi_key', 'ginas.inchikey', 'unii.inchikey', 'chebi.inchikey'],
       INCHI: ['drugbank.inchi', 'chebi.inchi', 'chembl.inchi'],
       KEGG: ['drugbank.xrefs.kegg.cid'],
+      RHEA: ['chebi.xrefs.rhea'],
       name: ['chembl.pref_name', 'drugbank.name', 'umls.name', 'ginas.preferred_name', 'pharmgkb.name', 'chebi.name'],
     },
     additional_attributes_mapping: {
