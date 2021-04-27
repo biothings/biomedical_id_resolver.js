@@ -27,7 +27,7 @@ export default class BioLinkBasedValidator extends BaseValidator implements BioL
   private checkIfTypeDefinedInBioLink(userInput: DBIdsObject): DBIdsObject {
     const tmp = {};
     for (const semanticType in userInput) {
-      if (semanticType in this._biolink.classTree.entities) {
+      if (semanticType in this._biolink.classTree.objects) {
         tmp[semanticType] = userInput[semanticType];
       } else {
         this._irresolvable[semanticType] = userInput[semanticType];
