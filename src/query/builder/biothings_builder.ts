@@ -136,7 +136,7 @@ export class BioThingsQueryBuilder extends QueryBuilder {
       params: {
         fields: returnFields,
         dotfield: true,
-        species: "human"
+        species: 'human',
       },
       // data: biothingsQuery,
       data: {
