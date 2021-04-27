@@ -217,4 +217,19 @@ describe("Test ID Resolver", () => {
         const res = await resolver.resolve({ "Pathway": ["BIOCARTA:hbxpathway"] });
         expect(res["BIOCARTA:hbxpathway"][0]).toBeInstanceOf(ResolvableBioEntity);
     })
+
+    test("Test chemical ids can be resolved as RHEA ids", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "ChemicalSubstance": ["PUBCHEM.COMPOUND:5460389"] });
+        expect(res["PUBCHEM.COMPOUND:5460389"][0]).toBeInstanceOf(ResolvableBioEntity);
+        expect(res["PUBCHEM.COMPOUND:5460389"][0].dbIDs).toHaveProperty("RHEA");
+        expect(res["PUBCHEM.COMPOUND:5460389"][0].dbIDs.RHEA).toContain("RHEA:37975")
+    })
+
+    test("Test RHEA ids can be correctly resolved", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "ChemicalSubstance": ["RHEA:37975"] });
+        expect(res["RHEA:37975"][0]).toBeInstanceOf(ResolvableBioEntity);
+        expect(res["RHEA:37975"][0].primaryID).toEqual("CHEBI:16169")
+    })
 })
