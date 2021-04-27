@@ -12,12 +12,12 @@ export const MAX_CONCURRENT_QUERIES = 3;
 
 export const APIMETA: MetaDataItemsObject = {
   Gene: {
-    id_ranks: ['NCBIGENE', 'ENSEMBL', 'HGNC', 'SYMBOL', 'OMIM', 'UniProtKB', 'UMLS', 'MGI', 'name'],
+    id_ranks: ['NCBIGene', 'ENSEMBL', 'HGNC', 'SYMBOL', 'OMIM', 'UniProtKB', 'UMLS', 'MGI', 'name'],
     semantic: 'Gene',
     api_name: 'mygene.info',
     url: 'https://mygene.info/v3/query',
     mapping: {
-      NCBIGENE: ['entrezgene'],
+      NCBIGene: ['entrezgene'],
       name: ['name'],
       SYMBOL: ['symbol'],
       UMLS: ['umls.cui', 'umls.protein_cui'],
