@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.8.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.7.0...v3.8.0) (2021-04-27)
+
+
+### Bug Fixes
+
+* :bug: change NCBIGENE to NCBIGene ([267548e](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/267548e507dfa6d93eaa12b831eb195f6a1866c9))
+
+
+### Refactor
+
+* :recycle: adjust to new syntax in biolink model package ([b7d53ab](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/b7d53ab4be5e8374e2188c00c3a374295e4a6844))
+
 ## [3.7.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.6.0...v3.7.0) (2021-04-23)
 
 
