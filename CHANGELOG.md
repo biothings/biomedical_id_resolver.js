@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.9.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.8.0...v3.9.0) (2021-04-27)
+
+
+### Features
+
+* :sparkles: support resolving RHEA chemical ids ([11a5aac](https://github.com/kevinxin90/biomedical_id_resolver.js/commit/11a5aacde7f313eec61be61b42fbf68a0fa507d3))
+
 ## [3.8.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.7.0...v3.8.0) (2021-04-27)
 
 
