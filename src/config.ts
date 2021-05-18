@@ -252,7 +252,7 @@ export const APIMETA: MetaDataItemsObject = {
     },
   },
   Pathway: {
-    id_ranks: ['REACT', 'KEGG', 'PHARMGKB', 'WIKIPATHWAYS', 'name'],
+    id_ranks: ['REACT', 'KEGG', 'PHARMGKB', 'WIKIPATHWAYS', 'BIOCARTA', 'name'],
     semantic: 'Pathway',
     api_name: 'geneset API',
     url: 'https://biothings.ncats.io/geneset/query',
