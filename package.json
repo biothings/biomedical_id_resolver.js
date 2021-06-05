@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kevinxin90/biomedical_id_resolver.js.git"
+    "url": "git+https://github.com/biothings/biomedical_id_resolver.js.git"
   },
   "keywords": [
     "id",
@@ -31,9 +31,9 @@
   "author": "jiwen xin",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kevinxin90/biomedical_id_resolver.js/issues"
+    "url": "https://github.com/biothings/biomedical_id_resolver.js/issues"
   },
-  "homepage": "https://github.com/kevinxin90/biomedical_id_resolver.js#readme",
+  "homepage": "https://github.com/biothings/biomedical_id_resolver.js#readme",
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/debug": "^4.1.5",
