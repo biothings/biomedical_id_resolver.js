@@ -210,7 +210,7 @@ export const APIMETA: MetaDataItemsObject = {
       ORPHANET: ['hpo.orphanet', 'mondo.xrefs.orphanet'],
       GARD: ['mondo.xrefs.gard', 'disease_ontology.xrefs.gard'],
       HP: ['mondo.xrefs.hp'],
-      SNOMEDCT: ['umls.snomed.preferred', 'umls.snomed.non-preferred', 'disease_ontology.xrefs.snomedct_us_2020_09_01'],
+      SNOMEDCT: ['mondo.xrefs.sctid', 'umls.snomed.preferred', 'umls.snomed.non-preferred'],
       NCIT: ['mondo.xrefs.ncit', 'disease_ontology.xrefs.ncit']
     },
   },
