@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.9.1](https://github.com/biothings/biomedical_id_resolver.js/compare/v3.9.0...v3.9.1) (2021-06-22)
+
 ## [3.9.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.8.0...v3.9.0) (2021-04-27)
 
 
