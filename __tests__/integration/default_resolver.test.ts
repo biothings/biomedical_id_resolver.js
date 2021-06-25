@@ -226,7 +226,8 @@ describe("Test ID Resolver", () => {
         expect(res["PUBCHEM.COMPOUND:5460389"][0].dbIDs.RHEA).toContain("RHEA:37975")
     })
 
-    test("Test RHEA ids can be correctly resolved", async () => {
+    // skip RHEA test below per https://github.com/biothings/biomedical_id_resolver.js/pull/56
+    test.skip("Test RHEA ids can be correctly resolved", async () => {
         const resolver = new DefaultIDResolver();
         const res = await resolver.resolve({ "ChemicalSubstance": ["RHEA:37975"] });
         expect(res["RHEA:37975"][0]).toBeInstanceOf(ResolvableBioEntity);
