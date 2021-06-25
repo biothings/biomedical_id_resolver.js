@@ -1,5 +1,4 @@
 {
-    "extends": "../../tsconfig.json",
     "compilerOptions": {
         "outDir": "./built",
         "allowJs": true,
@@ -17,10 +16,5 @@
     "exclude": [
         "node_modules",
         "__tests__/"
-    ],
-    "references": [
-        {
-          "path": "../biolink-model"
-        }
-      ]
+    ]
 }
