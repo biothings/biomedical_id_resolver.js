@@ -1,10 +1,10 @@
-![Test Coveralls](https://github.com/kevinxin90/biomedical_id_resolver.js/workflows/Test%20Coveralls/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/kevinxin90/biomedical_id_resolver.js/badge.svg?branch=master)](https://coveralls.io/github/kevinxin90/biomedical_id_resolver.js?branch=master)
+![Test Coveralls](https://github.com/biothings/biomedical_id_resolver.js/workflows/Test%20Coveralls/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/biothings/biomedical_id_resolver.js/badge.svg?branch=master)](https://coveralls.io/github/biothings/biomedical_id_resolver.js?branch=master)
 ![npm](https://img.shields.io/npm/dw/biomedical_id_resolver)
-![GitHub issues](https://img.shields.io/github/issues/kevinxin90/biomedical_id_resolver.js)
+![GitHub issues](https://img.shields.io/github/issues/biothings/biomedical_id_resolver.js)
 ![NPM](https://img.shields.io/npm/l/biomedical_id_resolver)
 ![npm](https://img.shields.io/npm/v/biomedical_id_resolver?style=plastic)
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/kevinxin90/biomedical_id_resolver.js)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/biothings/biomedical_id_resolver.js)
 
 
 
@@ -25,7 +25,7 @@ const resolve = require('biomedical_id_resolver');
 // input should be an object, with semantic type as the key, and array of CURIEs as value
 let input = {
     "Gene": ["NCBIGene:1017", "NCBIGene:1018", "HGNC:1177"],
-    "ChemicalSubstance": ["CHEBI:15377"],
+    "SmallMolecule": ["CHEBI:15377"],
     "Disease": ["MONDO:0004976"],
     "Cell": ["CL:0002372"]
   };
@@ -114,7 +114,24 @@ let input = {
   5. OMIM
   6. UniProtKB
   7. UMLS
-  8. name
+  8. MGI
+  9. name
+
+  > Transcript ID resolution is done through MyGene.info API
+
+- Transcript
+  1. ENSEMBL
+  2. SYMBOL
+  3. name
+
+  > Protein ID resolution is done through MyGene.info API
+
+- Protein
+  1. UniProtKB
+  2. ENSEMBL
+  3. SYMBOL
+  4. UMLS
+  5. name
 
 > Variant ID resolution is done through MyVariant.info API
 
@@ -124,26 +141,45 @@ let input = {
   3. MYVARIANT_HG19
   4. ClinVar
 
-> ChemicalSubstance ID resolution is done through MyChem.info API
+> SmallMolecule ID resolution is done through MyChem.info API
 
-- ChemicalSubstance
+- SmallMolecule
     1. CHEBI
     2. CHEMBL.COMPOUND
     3. DRUGBANK
-    4. PUBCHEM
+    4. PUBCHEM.COMPOUND
     5. MESH
     6. INCHI
     7. INCHIKEY
     8. UNII
-    9. KEGG
-    10. UMLS
-    11. name
-    12. id
+    9. UMLS
+    10. CAS
+    11. HMDB
+    12. LINCS
+    13. name
+
+> Drug ID resolution is done through MyChem.info API
+
+- Drug
+    1. CHEBI
+    2. CHEMBL.COMPOUND
+    3. DRUGBANK
+    4. PUBCHEM.COMPOUND
+    5. MESH
+    6. INCHI
+    7. INCHIKEY
+    8. UNII
+    9. UMLS
+    10. CAS
+    11. HMDB
+    12. LINCS
+    13. RXCUI
+    14. NDC
+    15. name
 
 > Disease ID Resolution is done through MyDisease.info API
 
 - Disease
-
   1. MONDO
   2. DOID
   3. OMIM
@@ -151,17 +187,23 @@ let input = {
   5. EFO
   6. UMLS
   7. MESH
-  8. GARD
-  9. name
+  8. HP
+  9. GARD
+  10. SNOMEDCT
+  11. NCIT
+  12. name
 
 > Pathway ID Resolution is done through biothings.ncats.io/geneset API
 
 - Pathway
-  1. Reactome
+  1. REACT
   2. KEGG
-  3. PHARMGKB
+  3. PHARMGKB.PATHWAYS
   4. WIKIPATHWAYS
-  5. name
+  5. BIOCARTA
+  6. GO
+  7. SMPDB
+  8. name
 
 > MolecularActivity ID Resolution is done through BioThings Gene Ontology Molecular Activity API
 
@@ -170,19 +212,14 @@ let input = {
   2. MetaCyc
   3. RHEA
   4. KEGG.REACTION
-  5. Reactome
+  5. REACT
+  6. name
 
 > CellularComponent ID Resolution is done through BioThings Gene Ontology Cellular Component API
 
 - CellularComponent
   1. GO
-  2. MESH
-  3. UMLS
-  4. NCIT
-  5. SNOMEDCT
-  6. UBERON
-  7. CL
-  8. name
+  2. name
 
 > BiologicalProcess ID Resolution is done through BioThings Gene Ontology Biological Process API
 
@@ -190,7 +227,7 @@ let input = {
 
   1. GO
   2. MetaCyc
-  3. Reactome
+  3. REACT
   4. name
 
 > AnatomicalEntity ID Resolution is done through BioThings UBERON API
@@ -198,9 +235,8 @@ let input = {
 - AnatomicalEntity
   1. UBERON
   2. UMLS
-  3. NCIT
-  4. MESH
-  5. name
+  3. MESH
+  4. name
 
 > PhenotypicFeature ID Resolution is done through BioThings HPO API
 
@@ -215,16 +251,21 @@ let input = {
   8. MP
   9. name
 
-> Cell ID Resolution is done through nodenormalization API
+> ClinicalFinding ID Resolution is done through MyDisease.info API
+
+- ClinicalFinding
+  1. LOINC
+  2. NCIT
+  3. EFO
+  4. name
+
+> Cell ID Resolution is done through Biothings Cell Ontology API
 
 - Cell
   1. CL
-  2. UMLS
-  3. NCIT
-  4. MESH
-  5. UBERON
-  6. SNOMEDCT
-  7. name
+  2. NCIT
+  3. MESH
+  4. name
 
 ## Development
 
@@ -234,9 +275,9 @@ let input = {
 3. Run `npm ci` to install the dependencies.
 4. scripts are stored in `/src` folder
 5. Add test to `/__tests__` folder
-6. run `npm run release` to bump version and generte change log
+6. run `npm run release` to bump version and generate change log
 7. run `npx depcheck` to check for unused packages in package.json
 
 ## CHANGELOG
 
-See [CHANGELOG.md](https://github.com/kevinxin90/biomedical_id_resolver.js/blob/master/CHANGELOG.md)
+See [CHANGELOG.md](https://github.com/biothings/biomedical_id_resolver.js/blob/master/CHANGELOG.md)
