@@ -16,14 +16,14 @@ describe("Test ID Resolver", () => {
 
     test("Test BioThings output include integer should be converted to string", async () => {
         const resolver = new BioLinkBasedResolver();
-        const res = await resolver.resolve({ "ChemicalSubstance": ["CHEMBL.COMPOUND:CHEMBL744"] });
+        const res = await resolver.resolve({ "SmallMolecule": ["CHEMBL.COMPOUND:CHEMBL744"] });
         expect(res['CHEMBL.COMPOUND:CHEMBL744'][0]).toBeInstanceOf(ResolvableBioEntity);
         expect(res['CHEMBL.COMPOUND:CHEMBL744'][0].dbIDs["PUBCHEM.COMPOUND"]).toEqual(["5070"]);
     })
 
-    test("Test valid inputs from multiple semantic types should be corretly resolved", async () => {
+    test("Test valid inputs from multiple semantic types should be correctly resolved", async () => {
         const resolver = new BioLinkBasedResolver();
-        const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"], "ChemicalSubstance": ["DRUGBANK:DB01609"] });
+        const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"], "SmallMolecule": ["DRUGBANK:DB01609"] });
         expect(res).toHaveProperty("NCBIGene:1017");
         expect(res['NCBIGene:1017']).toHaveLength(1);
         expect(res['NCBIGene:1017'][0]).toBeInstanceOf(ResolvableBioEntity);
@@ -52,14 +52,14 @@ describe("Test ID Resolver", () => {
         const resolver = new BioLinkBasedResolver();
         const res = await resolver.resolve({
             Gene: [...fakeNCBIGeneInputs, ...fakeOMIMGeneInputs],
-            ChemicalSubstance: fakeDrugbankInputs
+            SmallMolecule: fakeDrugbankInputs
         })
         expect(Object.keys(res)).toHaveLength(fakeDrugbankInputs.length + fakeNCBIGeneInputs.length + fakeOMIMGeneInputs.length);
         expect(res['OMIM:0'][0]).toBeInstanceOf(IrresolvableBioEntity)
 
     })
 
-    test("Test inputs with NamedThing semanticType should be corretly resolved", async () => {
+    test("Test inputs with NamedThing semanticType should be correctly resolved", async () => {
         const resolver = new BioLinkBasedResolver();
         const res = await resolver.resolve({ "NamedThing": ["NCBIGene:1017"] });
         expect(res).toHaveProperty("NCBIGene:1017");
@@ -71,7 +71,7 @@ describe("Test ID Resolver", () => {
         expect(res["NCBIGene:1017"][0].semanticTypes).toContain("NamedThing");
     })
 
-    test("Test inputs with NamedThing semanticType and could be mapped to multiple semantictypes should be corretly resolved", async () => {
+    test("Test inputs with NamedThing semanticType and could be mapped to multiple semantictypes should be correctly resolved", async () => {
         const resolver = new BioLinkBasedResolver();
         const res = await resolver.resolve({ "NamedThing": ["UMLS:C0008780"] });
         expect(res).toHaveProperty("UMLS:C0008780");
@@ -83,7 +83,7 @@ describe("Test ID Resolver", () => {
         expect(valid[0].semanticTypes).toContain("NamedThing");
     })
 
-    test("Test inputs with NamedThing semanticType and could be mapped to multiple semantictypes using OMIM ID as example should be corretly resolved", async () => {
+    test("Test inputs with NamedThing semanticType and could be mapped to multiple semantictypes using OMIM ID as example should be correctly resolved", async () => {
         const resolver = new BioLinkBasedResolver();
         const res = await resolver.resolve({ "NamedThing": ["OMIM:116953"] });
         expect(res).toHaveProperty("OMIM:116953");
@@ -127,7 +127,7 @@ describe("Test ID Resolver", () => {
 
     test("Test input with space in it should be correctly resolved", async () => {
         const resolver = new BioLinkBasedResolver();
-        const res = await resolver.resolve({ "ChemicalSubstance": ["name:Regorafenib", "name:Sunitinib", "name:Imatinib", "name:Ponatinib", "name:Dasatinib", "name:Bosutinib", "name:Imatinib Mesylate"] });
+        const res = await resolver.resolve({ "SmallMolecule": ["name:Regorafenib", "name:Sunitinib", "name:Imatinib", "name:Ponatinib", "name:Dasatinib", "name:Bosutinib", "name:Imatinib Mesylate"] });
         expect(res).toHaveProperty("name:Imatinib Mesylate");
         expect(res).toHaveProperty("name:Regorafenib");
         expect(res["name:Imatinib Mesylate"]).toHaveLength(1);
