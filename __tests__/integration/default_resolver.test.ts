@@ -218,7 +218,8 @@ describe("Test ID Resolver", () => {
         expect(res["BIOCARTA:hbxpathway"][0]).toBeInstanceOf(ResolvableBioEntity);
     })
 
-    test("Test chemical ids can be resolved as RHEA ids", async () => {
+    // skip RHEA test below per https://github.com/biothings/biomedical_id_resolver.js/pull/56
+    test.skip("Test chemical ids can be resolved as RHEA ids", async () => {
         const resolver = new DefaultIDResolver();
         const res = await resolver.resolve({ "ChemicalSubstance": ["PUBCHEM.COMPOUND:5460389"] });
         expect(res["PUBCHEM.COMPOUND:5460389"][0]).toBeInstanceOf(ResolvableBioEntity);
