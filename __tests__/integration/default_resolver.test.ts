@@ -218,6 +218,20 @@ describe("Test ID Resolver", () => {
         expect(res["BIOCARTA:hbxpathway"][0]).toBeInstanceOf(ResolvableBioEntity);
     })
 
+    test("Test SNOMEDCT id are correctly resolved", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "Disease": ["SNOMEDCT:49455004"] });
+        console.log(res)
+        expect(res["SNOMEDCT:49455004"][0]).toBeInstanceOf(ResolvableBioEntity);
+    })
+
+    test("Test NCIT id are correctly resolved", async () => {
+        const resolver = new DefaultIDResolver();
+        const res = await resolver.resolve({ "Disease": ["NCIT:C116936"] });
+        console.log(res)
+        expect(res["NCIT:C116936"][0]).toBeInstanceOf(ResolvableBioEntity);
+    })
+
     // skip RHEA test below per https://github.com/biothings/biomedical_id_resolver.js/pull/56
     test.skip("Test chemical ids can be resolved as RHEA ids", async () => {
         const resolver = new DefaultIDResolver();
