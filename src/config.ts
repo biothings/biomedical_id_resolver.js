@@ -189,7 +189,7 @@ export const APIMETA: MetaDataItemsObject = {
     },
   },
   Disease: {
-    id_ranks: ['MONDO', 'DOID', 'OMIM', 'ORPHANET', 'EFO', 'UMLS', 'MESH', 'HP', 'GARD', 'name'],
+    id_ranks: ['MONDO', 'DOID', 'OMIM', 'ORPHANET', 'SNOMEDCT', 'NCIT', 'EFO', 'UMLS', 'MESH', 'HP', 'GARD', 'name'],
     semantic: 'Disease',
     api_name: 'mydisease.info',
     url: 'https://mydisease.info/v1/query',
@@ -210,6 +210,8 @@ export const APIMETA: MetaDataItemsObject = {
       ORPHANET: ['hpo.orphanet', 'mondo.xrefs.orphanet'],
       GARD: ['mondo.xrefs.gard', 'disease_ontology.xrefs.gard'],
       HP: ['mondo.xrefs.hp'],
+      SNOMEDCT: ['mondo.xrefs.sctid', 'umls.snomed.preferred', 'umls.snomed.non-preferred'],
+      NCIT: ['mondo.xrefs.ncit', 'disease_ontology.xrefs.ncit']
     },
   },
   MolecularActivity: {
