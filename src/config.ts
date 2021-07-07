@@ -121,14 +121,6 @@ export const APIMETA: MetaDataItemsObject = {
     api_name: 'mychem.info',
     url: 'https://mychem.info/v1/query',
     mapping: {
-      'CHEMBL.COMPOUND': ['chembl.molecule_chembl_id', 'drugbank.xrefs.chembl', 'drugcentral.xrefs.chembl_id'],
-      DRUGBANK: ['drugcentral.xrefs.drugbank_id', 'pharmgkb.xrefs.drugbank', 'chebi.xrefs.drugbank', 'drugbank.id'],
-      'PUBCHEM.COMPOUND': [
-        'pubchem.cid',
-        'drugbank.xrefs.pubchem.cid',
-        'drugcentral.xrefs.pubchem_cid',
-        'pharmgkb.xrefs.pubchem.cid',
-      ],
       'CHEMBL.COMPOUND': ['chembl.molecule_chembl_id', 'drugbank.xrefs.chembl', 'drugcentral.xrefs.chembl_id', 'unichem.chembl'],
       DRUGBANK: ['drugcentral.xrefs.drugbank_id', 'pharmgkb.xrefs.drugbank', 'chebi.xrefs.drugbank', 'drugbank.id', 'unichem.drugbank'],
       'PUBCHEM.COMPOUND': ['pubchem.cid', 'drugbank.xrefs.pubchem.cid', 'drugcentral.xrefs.pubchem_cid', 'pharmgkb.xrefs.pubchem.cid', 'chebi.xrefs.pubchem.cid', 'unichem.pubchem'],
