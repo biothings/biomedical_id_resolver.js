@@ -195,7 +195,7 @@ export const APIMETA: MetaDataItemsObject = {
     url: 'https://mydisease.info/v1/query',
     mapping: {
       LOINC: ['mondo.xrefs.loinc'],
-      NCIT: ['mondo.xrefs.ncit', 'disease_ontology.xrefs.ncit']
+      NCIT: ['mondo.xrefs.ncit', 'disease_ontology.xrefs.ncit'],
       EFO: ['mondo.xrefs.efo', 'disgenet.xrefs.efo', 'disease_ontology.xrefs.efo'],
       name: ['mondo.label', 'disgenet.xrefs.disease_name', 'disease_ontology.name'],
     },
