@@ -57,7 +57,7 @@ export const APIMETA: MetaDataItemsObject = {
       MYVARIANT_HG19: ['_id'],
       DBSNP: ['dbsnp.rsid', 'clinvar.rsid', 'dbnsfp.rsid'],
       HGVS: ['clinvar.hgvs.genomic', 'clinvar.hgvs.protein', 'clinvar.hgvs.coding'],
-      ClINVAR: ['clinvar.rcv.accession'],
+      ClINVAR: ['clinvar.variant_id', 'dbnsfp.clinvar.clinvar_id'],
     },
     additional_attributes_mapping: {
       cadd_consequence: ['cadd.consequence'],
