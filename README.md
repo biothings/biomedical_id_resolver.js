@@ -124,21 +124,41 @@ let input = {
   3. MYVARIANT_HG19
   4. ClinVar
 
-> ChemicalSubstance ID resolution is done through MyChem.info API
+> ChemicalSubstance, Drug ID resolution is done through MyChem.info API
 
 - ChemicalSubstance
     1. CHEBI
     2. CHEMBL.COMPOUND
     3. DRUGBANK
-    4. PUBCHEM
+    4. PUBCHEM.COMPOUND
     5. MESH
     6. INCHI
     7. INCHIKEY
     8. UNII
-    9. KEGG
+    9. KEGG.COMPOUND
     10. UMLS
-    11. name
-    12. id
+    11. LINCS
+    12. CAS
+    13. HMDB
+    14. name
+
+- Drug
+    1. CHEBI
+    2. CHEMBL.COMPOUND
+    3. DRUGBANK
+    4. PUBCHEM.COMPOUND
+    5. MESH
+    6. INCHI
+    7. INCHIKEY
+    8. UNII
+    9. KEGG.COMPOUND
+    10. UMLS
+    11. LINCS
+    12. CAS
+    13. HMDB
+    14. RXCUI
+    15. NDC
+    16. name
 
 > Disease ID Resolution is done through MyDisease.info API
 
