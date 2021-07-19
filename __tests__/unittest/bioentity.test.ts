@@ -11,7 +11,7 @@ const CDK2_DB_IDs = {
 const RILUZOLE_DB_IDS = {
     "CHEMBL.COMPOUND": ["CHEMBL744"],
     "name": ["Riluzole", "RILUZOLE"],
-    "PUBCHEM": ["5070"],
+    "PUBCHEM.COMPOUND": ["5070"],
 }
 
 const DB_ID_WITH_NO_PRIMARY = {
@@ -22,7 +22,11 @@ const DISEASE_DB_IDS = {
     "MONDO": ["MONDO:12345"]
 }
 
-const CHEMBL7512_DB_IDS = { "CHEMBL.COMPOUND": ["CHEMBL7512"], "PUBCHEM": ["53428"] }
+const CHEMBL7512_DB_IDS = {
+    "CHEMBL.COMPOUND": ["CHEMBL7512"],
+    "PUBCHEM.COMPOUND": ["53428"]
+}
+
 describe("Test ResolvableBioEntity Class", () => {
     test("return semanticType when called semanticType property", () => {
         const entity = new ResolvableBioEntity("Gene", CDK2_DB_IDs, {});
