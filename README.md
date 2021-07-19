@@ -157,11 +157,14 @@ let input = {
 > Pathway ID Resolution is done through biothings.ncats.io/geneset API
 
 - Pathway
-  1. Reactome
+  1. REACT
   2. KEGG
-  3. PHARMGKB
+  3. PHARMGKB.PATHWAYS
   4. WIKIPATHWAYS
-  5. name
+  5. BIOCARTA
+  6. GO
+  7. SMPDB
+  8. name
 
 > MolecularActivity ID Resolution is done through BioThings Gene Ontology Molecular Activity API
 
