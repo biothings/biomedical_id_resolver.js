@@ -67,7 +67,7 @@ export const APIMETA: MetaDataItemsObject = {
       sift_category: ['cadd.sift.cat'],
     },
   },
-  ChemicalSubstance: {
+  SmallMolecule: {
     id_ranks: [
       'CHEBI',
       'CHEMBL.COMPOUND',
@@ -81,7 +81,7 @@ export const APIMETA: MetaDataItemsObject = {
       'UMLS',
       'name',
     ],
-    semantic: 'ChemicalSubstance',
+    semantic: 'SmallMolecule',
     api_name: 'mychem.info',
     url: 'https://mychem.info/v1/query',
     mapping: {
@@ -132,7 +132,7 @@ export const APIMETA: MetaDataItemsObject = {
       'LINCS',
       'name',
     ],
-    semantic: 'ChemicalSubstance',
+    semantic: 'Drug',
     api_name: 'mychem.info',
     url: 'https://mychem.info/v1/query',
     mapping: {
