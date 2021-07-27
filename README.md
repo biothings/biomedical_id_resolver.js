@@ -25,7 +25,7 @@ const resolve = require('biomedical_id_resolver');
 // input should be an object, with semantic type as the key, and array of CURIEs as value
 let input = {
     "Gene": ["NCBIGene:1017", "NCBIGene:1018", "HGNC:1177"],
-    "ChemicalSubstance": ["CHEBI:15377"],
+    "SmallMolecule": ["CHEBI:15377"],
     "Disease": ["MONDO:0004976"],
     "Cell": ["CL:0002372"]
   };
@@ -124,9 +124,9 @@ let input = {
   3. MYVARIANT_HG19
   4. ClinVar
 
-> ChemicalSubstance ID resolution is done through MyChem.info API
+> SmallMolecule ID resolution is done through MyChem.info API
 
-- ChemicalSubstance
+- SmallMolecule
     1. CHEBI
     2. CHEMBL.COMPOUND
     3. DRUGBANK
