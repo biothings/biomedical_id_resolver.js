@@ -18,6 +18,7 @@ export type ResolvableSemanticTypes =
   | 'Disease'
   | 'DiseaseOrPhenotypicFeature'
   | 'PhenotypicFeature'
+  | 'ClinicalFinding'
   | 'MolecularActivity'
   | 'BiologicalProcess'
   | 'CellularComponent'
@@ -32,6 +33,7 @@ export enum ResolvableTypes {
   Disease = 'Disease',
   DiseaseOrPhenotypicFeature = 'DiseaseOrPhenotypicFeature',
   PhenotypicFeature = 'PhenotypicFeature',
+  ClinicalFinding = 'ClinicalFinding',
   MolecularActivity = 'MolecularActivity',
   BiologicalProcess = 'BiologicalProcess',
   CellularComponent = 'CellularComponent',

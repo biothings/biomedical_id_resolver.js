@@ -140,7 +140,7 @@ let input = {
     11. name
     12. id
 
-> Disease ID Resolution is done through MyDisease.info API
+> Disease, ClinicalFinding ID Resolution is done through MyDisease.info API
 
 - Disease
 
@@ -153,6 +153,12 @@ let input = {
   7. MESH
   8. GARD
   9. name
+
+- ClinicalFinding
+  1. LOINC
+  2. NCIT
+  3. EFO
+  4. name
 
 > Pathway ID Resolution is done through biothings.ncats.io/geneset API
 

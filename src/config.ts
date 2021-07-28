@@ -210,6 +210,18 @@ export const APIMETA: MetaDataItemsObject = {
       NCIT: ['mondo.xrefs.ncit', 'disease_ontology.xrefs.ncit']
     },
   },
+  ClinicalFinding: {
+    id_ranks: ['LOINC', 'NCIT', 'EFO', 'name'],
+    semantic: 'Disease',
+    api_name: 'mydisease.info',
+    url: 'https://mydisease.info/v1/query',
+    mapping: {
+      LOINC: ['mondo.xrefs.loinc'],
+      NCIT: ['mondo.xrefs.ncit', 'disease_ontology.xrefs.ncit'],
+      EFO: ['mondo.xrefs.efo', 'disgenet.xrefs.efo', 'disease_ontology.xrefs.efo'],
+      name: ['mondo.label', 'disgenet.xrefs.disease_name', 'disease_ontology.name'],
+    },
+  },
   MolecularActivity: {
     id_ranks: ['GO', 'MetaCyc', 'RHEA', 'KEGG', 'REACT', 'name'],
     semantic: 'MolecularActivity',
