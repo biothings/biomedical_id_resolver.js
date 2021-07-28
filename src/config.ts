@@ -241,13 +241,14 @@ export const APIMETA: MetaDataItemsObject = {
     },
   },
   BiologicalProcess: {
-    id_ranks: ['GO', 'MetaCyc', 'REACT', 'name'],
+    id_ranks: ['GO', 'MetaCyc', 'REACT', 'KEGG', 'name'],
     semantic: 'BiologicalProcess',
     api_name: 'Gene Ontology Biological Process API',
     url: 'https://biothings.ncats.io/go_bp/query',
     mapping: {
       GO: ['_id'],
       MetaCyc: ['xrefs.metacyc'],
+      KEGG: ['xrefs.kegg_pathway'],
       REACT: ['xrefs.reactome'],
       name: ['name'],
     },

@@ -216,8 +216,9 @@ let input = {
 
   1. GO
   2. MetaCyc
-  3. REACT
-  4. name
+  3. KEGG
+  4. REACT
+  5. name
 
 > AnatomicalEntity ID Resolution is done through BioThings UBERON API
 
