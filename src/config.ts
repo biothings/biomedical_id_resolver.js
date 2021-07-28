@@ -56,7 +56,7 @@ export const APIMETA: MetaDataItemsObject = {
     mapping: {
       MYVARIANT_HG19: ['_id'],
       DBSNP: ['dbsnp.rsid', 'clinvar.rsid', 'dbnsfp.rsid'],
-      HGVS: ['clinvar.hgvs.genomic', 'clinvar.hgvs.protein', 'clinvar.hgvs.coding'],
+      HGVS: ['clinvar.hgvs.genomic', 'clinvar.hgvs.protein', 'clinvar.hgvs.coding', 'dbnsfp.clinvar.hgvs'],
       ClINVAR: ['clinvar.rcv.accession'],
     },
     additional_attributes_mapping: {
@@ -190,22 +190,16 @@ export const APIMETA: MetaDataItemsObject = {
     api_name: 'mydisease.info',
     url: 'https://mydisease.info/v1/query',
     mapping: {
-      MONDO: ['mondo.mondo'],
-      DOID: ['mondo.xrefs.doid'],
-      UMLS: [
-        'mondo.xrefs.umls',
-        'mondo.xrefs.umls_cui',
-        'disgenet.xrefs.umls',
-        'umls.umls',
-        'disease_ontology.xrefs.umls_cui',
-      ],
-      name: ['mondo.label', 'disgenet.xrefs.disease_name'],
+      MONDO: ['mondo.mondo', 'disgenet.xrefs.mondo'],
+      DOID: ['mondo.xrefs.doid', 'disease_ontology.doid', 'disgenet.xrefs.doid'],
+      UMLS: ['mondo.xrefs.umls', 'mondo.xrefs.umls_cui', 'disgenet.xrefs.umls', 'umls.umls', 'disease_ontology.xrefs.umls_cui'],
+      name: ['mondo.label', 'disgenet.xrefs.disease_name', 'disease_ontology.name'],
       MESH: ['mondo.xrefs.mesh', 'disease_ontology.xrefs.mesh', 'ctd.mesh'],
-      OMIM: ['mondo.xrefs.omim', 'hpo.omim', 'disgenet.xrefs.omim'],
-      EFO: ['mondo.xrefs.efo'],
+      OMIM: ['mondo.xrefs.omim', 'hpo.omim', 'disgenet.xrefs.omim', 'disease_ontology.xrefs.omim'],
+      EFO: ['mondo.xrefs.efo', 'disgenet.xrefs.efo', 'disease_ontology.xrefs.efo'],
       ORPHANET: ['hpo.orphanet', 'mondo.xrefs.orphanet'],
       GARD: ['mondo.xrefs.gard', 'disease_ontology.xrefs.gard'],
-      HP: ['mondo.xrefs.hp'],
+      HP: ['mondo.xrefs.hp', 'disgenet.xrefs.hp'],
       SNOMEDCT: ['mondo.xrefs.sctid', 'umls.snomed.preferred', 'umls.snomed.non-preferred'],
       NCIT: ['mondo.xrefs.ncit', 'disease_ontology.xrefs.ncit']
     },
