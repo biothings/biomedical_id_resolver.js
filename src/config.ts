@@ -249,16 +249,18 @@ export const APIMETA: MetaDataItemsObject = {
     },
   },
   Pathway: {
-    id_ranks: ['REACT', 'KEGG', 'PHARMGKB', 'WIKIPATHWAYS', 'BIOCARTA', 'name'],
+    id_ranks: ['REACT', 'KEGG', 'PHARMGKB.PATHWAYS', 'WIKIPATHWAYS', 'BIOCARTA', 'GO', 'SMPDB', 'name'],
     semantic: 'Pathway',
-    api_name: 'geneset API',
+    api_name: 'Geneset API',
     url: 'https://biothings.ncats.io/geneset/query',
     mapping: {
       REACT: ['reactome'],
       WIKIPATHWAYS: ['wikipathways'],
       KEGG: ['kegg'],
       BIOCARTA: ['biocarta'],
-      PHARMGKB: ['pharmgkb'],
+      'PHARMGKB.PATHWAYS': ['pharmgkb'],
+      GO: ['go'],
+      SMPDB: ['smpdb'],
       name: ['name'],
     },
     additional_attributes_mapping: {
