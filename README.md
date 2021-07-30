@@ -124,23 +124,43 @@ let input = {
   3. MYVARIANT_HG19
   4. ClinVar
 
-> SmallMolecule ID resolution is done through MyChem.info API
+> SmallMolecule, Drug ID resolution is done through MyChem.info API
 
 - SmallMolecule
     1. CHEBI
     2. CHEMBL.COMPOUND
     3. DRUGBANK
-    4. PUBCHEM
+    4. PUBCHEM.COMPOUND
     5. MESH
     6. INCHI
     7. INCHIKEY
     8. UNII
-    9. KEGG
+    9. KEGG.COMPOUND
     10. UMLS
-    11. name
-    12. id
+    11. LINCS
+    12. CAS
+    13. HMDB
+    14. name
 
-> Disease ID Resolution is done through MyDisease.info API
+- Drug
+    1. CHEBI
+    2. CHEMBL.COMPOUND
+    3. DRUGBANK
+    4. PUBCHEM.COMPOUND
+    5. MESH
+    6. INCHI
+    7. INCHIKEY
+    8. UNII
+    9. KEGG.COMPOUND
+    10. UMLS
+    11. LINCS
+    12. CAS
+    13. HMDB
+    14. RXCUI
+    15. NDC
+    16. name
+
+> Disease, ClinicalFinding ID Resolution is done through MyDisease.info API
 
 - Disease
 
@@ -154,14 +174,23 @@ let input = {
   8. GARD
   9. name
 
+- ClinicalFinding
+  1. LOINC
+  2. NCIT
+  3. EFO
+  4. name
+
 > Pathway ID Resolution is done through biothings.ncats.io/geneset API
 
 - Pathway
-  1. Reactome
+  1. REACT
   2. KEGG
-  3. PHARMGKB
+  3. PHARMGKB.PATHWAYS
   4. WIKIPATHWAYS
-  5. name
+  5. BIOCARTA
+  6. GO
+  7. SMPDB
+  8. name
 
 > MolecularActivity ID Resolution is done through BioThings Gene Ontology Molecular Activity API
 
