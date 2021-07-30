@@ -124,9 +124,9 @@ let input = {
   3. MYVARIANT_HG19
   4. ClinVar
 
-> SmallMolecule, Drug ID resolution is done through MyChem.info API
+> SmallMolecule / ChemicalSubstance, Drug ID resolution is done through MyChem.info API
 
-- SmallMolecule
+- SmallMolecule / ChemicalSubstance
     1. CHEBI
     2. CHEMBL.COMPOUND
     3. DRUGBANK

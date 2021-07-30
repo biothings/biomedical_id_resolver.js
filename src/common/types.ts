@@ -15,6 +15,7 @@ export type ResolvableSemanticTypes =
   | 'Gene'
   | 'SequenceVariant'
   | 'SmallMolecule'
+  | 'ChemicalSubstance'
   | 'Drug'
   | 'Disease'
   | 'DiseaseOrPhenotypicFeature'
@@ -31,6 +32,7 @@ export enum ResolvableTypes {
   Gene = 'Gene',
   SequenceVariant = 'SequenceVariant',
   SmallMolecule = 'SmallMolecule',
+  ChemicalSubstance = 'ChemicalSubstance',
   Drug = 'Drug',
   Disease = 'Disease',
   DiseaseOrPhenotypicFeature = 'DiseaseOrPhenotypicFeature',
