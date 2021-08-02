@@ -254,12 +254,13 @@ export const APIMETA: MetaDataItemsObject = {
     },
   },
   CellularComponent: {
-    id_ranks: ['GO', 'name'],
+    id_ranks: ['GO', 'MetaCyc', 'name'],
     semantic: 'CellularComponent',
     api_name: 'Gene Ontology Cellular Component API',
     url: 'https://biothings.ncats.io/go_cc/query',
     mapping: {
       GO: ['_id'],
+      MetaCyc: ['xrefs.metacyc'],  // field missing in the API?
       name: ['name'],
     },
   },
@@ -281,7 +282,7 @@ export const APIMETA: MetaDataItemsObject = {
     },
   },
   AnatomicalEntity: {
-    id_ranks: ['UBERON', 'UMLS', 'MESH', 'name'],
+    id_ranks: ['UBERON', 'UMLS', 'MESH', 'NCIT', 'name'],
     semantic: 'AnatomicalEntity',
     api_name: 'UBERON API',
     url: 'https://biothings.ncats.io/uberon/query',
@@ -289,11 +290,12 @@ export const APIMETA: MetaDataItemsObject = {
       UBERON: ['_id'],
       UMLS: ['xrefs.umls'],
       MESH: ['xrefs.mesh'],
+      NCIT: ['xrefs.ncit'],  // field missing in the API?
       name: ['name'],
     },
   },
   Cell: {
-    id_ranks: ['CL', 'NCIT', 'MESH', 'name'],
+    id_ranks: ['CL', 'NCIT', 'MESH', 'EFO', 'name'],
     semantic: 'Cell',
     api_name: 'Cell Ontology API',
     url: 'https://biothings.ncats.io/cell_ontology/query',
@@ -301,6 +303,7 @@ export const APIMETA: MetaDataItemsObject = {
       CL: ['_id'],
       NCIT: ['xrefs.ncit'],
       MESH: ['xrefs.mesh'],
+      EFO: ['xrefs.efo'],  // field missing in the API?
       name: ['name'],
     },
   },
