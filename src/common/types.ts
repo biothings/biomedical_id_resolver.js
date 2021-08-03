@@ -13,6 +13,8 @@ export interface BioThingsAPIFailedQueryResponse extends BioThingsAPIQueryRespon
 
 export type ResolvableSemanticTypes =
   | 'Gene'
+  | 'Transcript'
+  | 'Protein'
   | 'SequenceVariant'
   | 'SmallMolecule'
   | 'Drug'
@@ -29,6 +31,8 @@ export type ResolvableSemanticTypes =
 
 export enum ResolvableTypes {
   Gene = 'Gene',
+  Transcript = 'Transcript',
+  Protein = 'Protein',
   SequenceVariant = 'SequenceVariant',
   SmallMolecule = 'SmallMolecule',
   Drug = 'Drug',
