@@ -61,13 +61,13 @@ describe("Test ResolvableBioEntity Class", () => {
         })
 
         test("if SYMBOL not provided in db ids and name is provided, should return name", () => {
-            const entity = new ResolvableBioEntity("ChemicalSubstance", RILUZOLE_DB_IDS, {});
+            const entity = new ResolvableBioEntity("SmallMolecule", RILUZOLE_DB_IDS, {});
             const label = entity.label;
             expect(label).toBe("Riluzole");
         })
 
         test("if both SYMBOL and name are not provided in db ids, should return primary id", () => {
-            const entity = new ResolvableBioEntity("ChemicalSubstance", CHEMBL7512_DB_IDS, {});
+            const entity = new ResolvableBioEntity("SmallMolecule", CHEMBL7512_DB_IDS, {});
             const label = entity.label;
             expect(label).toBe("CHEMBL.COMPOUND:CHEMBL7512");
         })
@@ -75,7 +75,7 @@ describe("Test ResolvableBioEntity Class", () => {
 
     describe("Test getCuries function", () => {
         test("test getCuries", () => {
-            const entity = new ResolvableBioEntity("ChemicalSubstance", CHEMBL7512_DB_IDS, {});
+            const entity = new ResolvableBioEntity("SmallMolecule", CHEMBL7512_DB_IDS, {});
             const curies = entity.curies;
             expect(curies).toContain("CHEMBL.COMPOUND:CHEMBL7512");
             expect(curies).toHaveLength(2);
@@ -85,7 +85,7 @@ describe("Test ResolvableBioEntity Class", () => {
 
     describe("Test getDBIDs function", () => {
         test("test getDBIDs", () => {
-            const entity = new ResolvableBioEntity("ChemicalSubstance", CHEMBL7512_DB_IDS, {});
+            const entity = new ResolvableBioEntity("SmallMolecule", CHEMBL7512_DB_IDS, {});
             const dbIDs = entity.dbIDs;
             expect(dbIDs).toEqual(CHEMBL7512_DB_IDS);
         })
@@ -118,7 +118,7 @@ describe("Test IrresolvableBioEntity Class", () => {
 
     describe("Test getCuries function", () => {
         test("test getCuries", () => {
-            const entity = new IrresolvableBioEntity("ChemicalSubstance", "KK:123");
+            const entity = new IrresolvableBioEntity("SmallMolecule", "KK:123");
             const curies = entity.curies;
             expect(curies).toEqual(["KK:123"]);
         })
@@ -127,7 +127,7 @@ describe("Test IrresolvableBioEntity Class", () => {
 
     describe("Test getDBIDs function", () => {
         test("test getDBIDs", () => {
-            const entity = new IrresolvableBioEntity("ChemicalSubstance", "KK:123");
+            const entity = new IrresolvableBioEntity("SmallMolecule", "KK:123");
             const dbIDs = entity.dbIDs;
             expect(dbIDs).toEqual(
                 {
@@ -140,7 +140,7 @@ describe("Test IrresolvableBioEntity Class", () => {
 
     describe("Test getAttributes function", () => {
         test("test getAttributes", () => {
-            const entity = new IrresolvableBioEntity("ChemicalSubstance", "KK:123");
+            const entity = new IrresolvableBioEntity("SmallMolecule", "KK:123");
             const attributes = entity.attributes;
             expect(attributes).toEqual(
                 {

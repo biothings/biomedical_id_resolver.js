@@ -25,7 +25,7 @@ const resolve = require('biomedical_id_resolver');
 // input should be an object, with semantic type as the key, and array of CURIEs as value
 let input = {
     "Gene": ["NCBIGene:1017", "NCBIGene:1018", "HGNC:1177"],
-    "ChemicalSubstance": ["CHEBI:15377"],
+    "SmallMolecule": ["CHEBI:15377"],
     "Disease": ["MONDO:0004976"],
     "Cell": ["CL:0002372"]
   };
@@ -137,9 +137,9 @@ let input = {
   3. MYVARIANT_HG19
   4. ClinVar
 
-> ChemicalSubstance, Drug ID resolution is done through MyChem.info API
+> SmallMolecule, Drug ID resolution is done through MyChem.info API
 
-- ChemicalSubstance
+- SmallMolecule
     1. CHEBI
     2. CHEMBL.COMPOUND
     3. DRUGBANK
@@ -151,7 +151,9 @@ let input = {
     9. KEGG.COMPOUND
     10. UMLS
     11. LINCS
-    12. name
+    12. CAS
+    13. HMDB
+    14. name
 
 - Drug
     1. CHEBI
@@ -165,9 +167,13 @@ let input = {
     9. KEGG.COMPOUND
     10. UMLS
     11. LINCS
-    12. name
+    12. CAS
+    13. HMDB
+    14. RXCUI
+    15. NDC
+    16. name
 
-> Disease ID Resolution is done through MyDisease.info API
+> Disease, ClinicalFinding ID Resolution is done through MyDisease.info API
 
 - Disease
 
@@ -184,6 +190,12 @@ let input = {
   11. GARD
   12. name
 
+- ClinicalFinding
+  1. LOINC
+  2. NCIT
+  3. EFO
+  4. name
+
 > Pathway ID Resolution is done through biothings.ncats.io/geneset API
 
 - Pathway
@@ -192,7 +204,9 @@ let input = {
   3. PHARMGKB.PATHWAYS
   4. WIKIPATHWAYS
   5. BIOCARTA
-  6. name
+  6. GO
+  7. SMPDB
+  8. name
 
 > MolecularActivity ID Resolution is done through BioThings Gene Ontology Molecular Activity API
 
@@ -226,7 +240,8 @@ let input = {
   1. UBERON
   2. UMLS
   3. MESH
-  4. name
+  4. NCIT
+  5. name
 
 > PhenotypicFeature ID Resolution is done through BioThings HPO API
 
@@ -247,7 +262,8 @@ let input = {
   1. CL
   2. NCIT
   3. MESH
-  4. name
+  4. EFO
+  5. name
 
 ## Development
 

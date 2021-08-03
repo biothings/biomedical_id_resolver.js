@@ -16,11 +16,12 @@ export type ResolvableSemanticTypes =
   | 'Transcript'
   | 'Protein'
   | 'SequenceVariant'
-  | 'ChemicalSubstance'
+  | 'SmallMolecule'
   | 'Drug'
   | 'Disease'
   | 'DiseaseOrPhenotypicFeature'
   | 'PhenotypicFeature'
+  | 'ClinicalFinding'
   | 'MolecularActivity'
   | 'BiologicalProcess'
   | 'CellularComponent'
@@ -33,11 +34,12 @@ export enum ResolvableTypes {
   Transcript = 'Transcript',
   Protein = 'Protein',
   SequenceVariant = 'SequenceVariant',
-  ChemicalSubstance = 'ChemicalSubstance',
+  SmallMolecule = 'SmallMolecule',
   Drug = 'Drug',
   Disease = 'Disease',
   DiseaseOrPhenotypicFeature = 'DiseaseOrPhenotypicFeature',
   PhenotypicFeature = 'PhenotypicFeature',
+  ClinicalFinding = 'ClinicalFinding',
   MolecularActivity = 'MolecularActivity',
   BiologicalProcess = 'BiologicalProcess',
   CellularComponent = 'CellularComponent',
