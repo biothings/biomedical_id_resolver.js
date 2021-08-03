@@ -188,7 +188,8 @@ let input = {
   9. MESH
   10. HP
   11. GARD
-  12. name
+  12. MEDDRA
+  13. name
 
 - ClinicalFinding
   1. LOINC
@@ -222,7 +223,8 @@ let input = {
 
 - CellularComponent
   1. GO
-  2. name
+  2. MetaCyc
+  3. name
 
 > BiologicalProcess ID Resolution is done through BioThings Gene Ontology Biological Process API
 
@@ -230,8 +232,8 @@ let input = {
 
   1. GO
   2. MetaCyc
-  3. KEGG
-  4. REACT
+  3. REACT
+  4. KEGG
   5. name
 
 > AnatomicalEntity ID Resolution is done through BioThings UBERON API
