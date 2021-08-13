@@ -110,11 +110,11 @@ let input = {
   1. NCBIGene
   2. ENSEMBL
   3. HGNC
-  4. SYMBOL
+  4. MGI
   5. OMIM
-  6. UniProtKB
-  7. UMLS
-  8. MGI
+  6. UMLS
+  7. SYMBOL
+  8. UniProtKB
   9. name
 
 - Transcript
@@ -125,52 +125,52 @@ let input = {
 - Protein
   1. UniProtKB
   2. ENSEMBL
-  3. SYMBOL
-  4. UMLS
+  3. UMLS
+  4. SYMBOL
   5. name
 
 > Variant ID resolution is done through MyVariant.info API
 
 - SequenceVariant
-  1. HGVS
+  1. CLINVAR
   2. DBSNP
-  3. MYVARIANT_HG19
-  4. ClinVar
+  3. HGVS
+  4. MYVARIANT_HG19
 
 > SmallMolecule, Drug ID resolution is done through MyChem.info API
 
 - SmallMolecule
-    1. CHEBI
+    1. PUBCHEM.COMPOUND
     2. CHEMBL.COMPOUND
-    3. DRUGBANK
-    4. PUBCHEM.COMPOUND
-    5. MESH
-    6. INCHI
-    7. INCHIKEY
-    8. UNII
+    3. UNII
+    4. CHEBI
+    5. DRUGBANK
+    6. MESH
+    7. CAS
+    8. HMDB
     9. KEGG.COMPOUND
-    10. UMLS
-    11. LINCS
-    12. CAS
-    13. HMDB
+    10. INCHI
+    11. INCHIKEY
+    12. UMLS
+    13. LINCS
     14. name
 
 - Drug
-    1. CHEBI
-    2. CHEMBL.COMPOUND
+    1. RXCUI
+    2. NDC
     3. DRUGBANK
     4. PUBCHEM.COMPOUND
-    5. MESH
-    6. INCHI
-    7. INCHIKEY
-    8. UNII
-    9. KEGG.COMPOUND
-    10. UMLS
-    11. LINCS
-    12. CAS
-    13. HMDB
-    14. RXCUI
-    15. NDC
+    5. CHEMBL.COMPOUND
+    6. UNII
+    7. CHEBI
+    8. MESH
+    9. CAS
+    10. HMDB
+    11. KEGG.COMPOUND
+    12. INCHI
+    13. INCHIKEY
+    14. UMLS
+    15. LINCS
     16. name
 
 > Disease, ClinicalFinding ID Resolution is done through MyDisease.info API
@@ -181,14 +181,14 @@ let input = {
   2. DOID
   3. OMIM
   4. ORPHANET
-  5. SNOMEDCT
-  6. NCIT
-  7. EFO
-  8. UMLS
-  9. MESH
-  10. HP
-  11. GARD
-  12. MEDDRA
+  5. EFO
+  6. UMLS
+  7. MESH
+  8. MEDDRA
+  9. NCIT
+  10. SNOMEDCT
+  11. HP
+  12. GARD
   13. name
 
 - ClinicalFinding
@@ -200,23 +200,23 @@ let input = {
 > Pathway ID Resolution is done through biothings.ncats.io/geneset API
 
 - Pathway
-  1. REACT
-  2. KEGG
-  3. PHARMGKB.PATHWAYS
-  4. WIKIPATHWAYS
-  5. BIOCARTA
-  6. GO
-  7. SMPDB
+  1. GO
+  2. REACT
+  3. KEGG
+  4. SMPDB
+  5. PHARMGKB.PATHWAYS
+  6. WIKIPATHWAYS
+  7. BIOCARTA
   8. name
 
 > MolecularActivity ID Resolution is done through BioThings Gene Ontology Molecular Activity API
 
 - MolecularActivity
   1. GO
-  2. MetaCyc
+  2. REACT
   3. RHEA
-  4. KEGG.REACTION
-  5. REACT
+  4. MetaCyc
+  5. KEGG.REACTION
   6. name
 
 > CellularComponent ID Resolution is done through BioThings Gene Ontology Cellular Component API
@@ -231,8 +231,8 @@ let input = {
 - BiologicalProcess
 
   1. GO
-  2. MetaCyc
-  3. REACT
+  2. REACT
+  3. MetaCyc
   4. KEGG
   5. name
 
@@ -248,14 +248,14 @@ let input = {
 > PhenotypicFeature ID Resolution is done through BioThings HPO API
 
 - PhenotypicFeature
-  1. UMLS
-  2. SNOMEDCT
-  3. HP
-  4. MEDDRA
-  5. EFO
-  6. NCIT
-  7. MESH
-  8. MP
+  1. HP
+  2. EFO
+  3. NCIT
+  4. UMLS
+  5. MEDDRA
+  6. MP
+  7. SNOMEDCT
+  8. MESH
   9. name
 
 > Cell ID Resolution is done through Biothings Cell Ontology API

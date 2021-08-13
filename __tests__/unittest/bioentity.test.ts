@@ -69,7 +69,7 @@ describe("Test ResolvableBioEntity Class", () => {
         test("if both SYMBOL and name are not provided in db ids, should return primary id", () => {
             const entity = new ResolvableBioEntity("SmallMolecule", CHEMBL7512_DB_IDS, {});
             const label = entity.label;
-            expect(label).toBe("CHEMBL.COMPOUND:CHEMBL7512");
+            expect(label).toBe("PUBCHEM.COMPOUND:53428");
         })
     });
 

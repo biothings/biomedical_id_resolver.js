@@ -30,7 +30,7 @@ describe("Test ID Resolver", () => {
         expect(res).toHaveProperty("LINCS:LSM-2471");
         expect(res['LINCS:LSM-2471']).toHaveLength(1);
         expect(res['LINCS:LSM-2471'][0]).toBeInstanceOf(ResolvableBioEntity);
-        expect(res['LINCS:LSM-2471'][0].primaryID).toEqual("CHEBI:8863");
+        expect(res['LINCS:LSM-2471'][0].primaryID).toEqual("PUBCHEM.COMPOUND:5070");
         expect(res['LINCS:LSM-2471'][0].dbIDs.LINCS).toEqual(["LSM-2471"]);
     })
 
