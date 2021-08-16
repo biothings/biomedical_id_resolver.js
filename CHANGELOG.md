@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.10.0](https://github.com/biothings/biomedical_id_resolver.js/compare/v3.9.1...v3.10.0) (2021-08-16)
+
+
+### Features
+
+* support Disease NCIT, SNOMEDCT IDs ([9cc4908](https://github.com/biothings/biomedical_id_resolver.js/commit/9cc4908a62fe176212e0f2b23ed0d9ca381b7c83))
+
+
+### Bug Fixes
+
+* add BiologicalProcess KEGG back in ([ccf257a](https://github.com/biothings/biomedical_id_resolver.js/commit/ccf257a6041d01157d6646113b1ff699145d63f6))
+* add ClinicalFinding semantic type ([56f083f](https://github.com/biothings/biomedical_id_resolver.js/commit/56f083ff06406bdb5d8ebc59d0ebe40319928c4b))
+* add Disease, SequenceVariant mappings ([e36bc09](https://github.com/biothings/biomedical_id_resolver.js/commit/e36bc091d1f1988441fd96f987829fe146f65de0))
+* add MEDDRA id mapping for Disease semantic type ([e914976](https://github.com/biothings/biomedical_id_resolver.js/commit/e9149760a1361389b27d5b674545f897068a16a6))
+* add Pathway GO, SMPDB IDs ([c8b2556](https://github.com/biothings/biomedical_id_resolver.js/commit/c8b2556846dcf8d482cfabab85cb39afdf6b37db))
+* adjust fields for mapping SNOMEDCT ([88dd2a4](https://github.com/biothings/biomedical_id_resolver.js/commit/88dd2a49021bfc42b22ade2936fb0f56d7a80e80))
+* config + types file: ChemicalSubstance -> SmallMolecule, drug semantic type ([2cfbe88](https://github.com/biothings/biomedical_id_resolver.js/commit/2cfbe889bc32d070a2712a7dbbc43649ecdaa754))
+* quick fixes to README to match config file ([da6df54](https://github.com/biothings/biomedical_id_resolver.js/commit/da6df549d54837d340501a8424e7a7166be241a0))
+* reformatting, add mappings + ID prefixes ([546f5a7](https://github.com/biothings/biomedical_id_resolver.js/commit/546f5a70f6f2a003e737e27a0133440829d8095a))
+* remove ChemicalSubstance support ([d78a30f](https://github.com/biothings/biomedical_id_resolver.js/commit/d78a30f7fd254812a808ca2479d0a3c759d7b3ff))
+* simple changes ([df2139c](https://github.com/biothings/biomedical_id_resolver.js/commit/df2139c70c3be0292fddf9e1a6bcfa78961874d6))
+* try to add backwards compatibility for ChemicalSubstance ([987ab97](https://github.com/biothings/biomedical_id_resolver.js/commit/987ab97fb52fb9baa94f3bd425f19857c130065e))
+* update README to reflect config/types file changes ([3792602](https://github.com/biothings/biomedical_id_resolver.js/commit/3792602fcc361b65f5551b13451f3fa7f4d2b1a1))
+* update rhea tests ([95ec48f](https://github.com/biothings/biomedical_id_resolver.js/commit/95ec48f23e9eca197f1d31db61815afb163fb845))
+* update tests for ChemicalSubstance -> SmallMolecule ([0699af0](https://github.com/biothings/biomedical_id_resolver.js/commit/0699af00ede0dedbb063bf405c7d59159ce517f7))
+
 ### [3.9.1](https://github.com/biothings/biomedical_id_resolver.js/compare/v3.9.0...v3.9.1) (2021-06-22)
 
 ## [3.9.0](https://github.com/kevinxin90/biomedical_id_resolver.js/compare/v3.8.0...v3.9.0) (2021-04-27)
