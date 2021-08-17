@@ -26,11 +26,11 @@ describe("Test ID Resolver", () => {
 
     test("Test LINCS ID should be resolved", async () => {
         const resolver = new DefaultIDResolver();
-        const res = await resolver.resolve({ "ChemicalSubstance": ["LINCS:LSM-2471"] });
+        const res = await resolver.resolve({ "SmallMolecule": ["LINCS:LSM-2471"] });
         expect(res).toHaveProperty("LINCS:LSM-2471");
         expect(res['LINCS:LSM-2471']).toHaveLength(1);
         expect(res['LINCS:LSM-2471'][0]).toBeInstanceOf(ResolvableBioEntity);
-        expect(res['LINCS:LSM-2471'][0].primaryID).toEqual("CHEBI:8863");
+        expect(res['LINCS:LSM-2471'][0].primaryID).toEqual("PUBCHEM.COMPOUND:5070");
         expect(res['LINCS:LSM-2471'][0].dbIDs.LINCS).toEqual(["LSM-2471"]);
     })
 
@@ -76,14 +76,14 @@ describe("Test ID Resolver", () => {
 
     test("Test BioThings output include integer should be converted to string", async () => {
         const resolver = new DefaultIDResolver();
-        const res = await resolver.resolve({ "ChemicalSubstance": ["CHEMBL.COMPOUND:CHEMBL744"] });
+        const res = await resolver.resolve({ "SmallMolecule": ["CHEMBL.COMPOUND:CHEMBL744"] });
         expect(res['CHEMBL.COMPOUND:CHEMBL744'][0]).toBeInstanceOf(ResolvableBioEntity);
         expect(res['CHEMBL.COMPOUND:CHEMBL744'][0].dbIDs["PUBCHEM.COMPOUND"]).toEqual(["5070"]);
     })
 
     test("Test valid inputs from multiple semantic types should be corretly resolved", async () => {
         const resolver = new DefaultIDResolver();
-        const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"], "ChemicalSubstance": ["DRUGBANK:DB01609"] });
+        const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"], "SmallMolecule": ["DRUGBANK:DB01609"] });
         expect(res).toHaveProperty("NCBIGene:1017");
         expect(res['NCBIGene:1017']).toHaveLength(1);
         expect(res['NCBIGene:1017'][0]).toBeInstanceOf(ResolvableBioEntity);
@@ -112,7 +112,7 @@ describe("Test ID Resolver", () => {
         const resolver = new DefaultIDResolver();
         const res = await resolver.resolve({
             Gene: [...fakeNCBIGeneInputs, ...fakeOMIMGeneInputs],
-            ChemicalSubstance: fakeDrugbankInputs
+            SmallMolecule: fakeDrugbankInputs
         })
         expect(Object.keys(res)).toHaveLength(fakeDrugbankInputs.length + fakeNCBIGeneInputs.length + fakeOMIMGeneInputs.length);
         expect(res['OMIM:0'][0]).toBeInstanceOf(IrresolvableBioEntity)
@@ -172,7 +172,7 @@ describe("Test ID Resolver", () => {
 
     test("Test chemical attributes are correctly retrieved", async () => {
         const resolver = new DefaultIDResolver();
-        const res = await resolver.resolve({ "ChemicalSubstance": ["CHEMBL.COMPOUND:CHEMBL744"] });
+        const res = await resolver.resolve({ "SmallMolecule": ["CHEMBL.COMPOUND:CHEMBL744"] });
         expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.drugbank_taxonomy_class).toContain("Benzothiazoles");
         expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.chembl_max_phase).toContain("4");
         expect(res["CHEMBL.COMPOUND:CHEMBL744"][0].attributes.chembl_molecule_type).toContain("Small molecule");
@@ -232,20 +232,20 @@ describe("Test ID Resolver", () => {
         expect(res["NCIT:C116936"][0]).toBeInstanceOf(ResolvableBioEntity);
     })
 
-    // skip RHEA test below per https://github.com/biothings/biomedical_id_resolver.js/pull/56
-    test.skip("Test chemical ids can be resolved as RHEA ids", async () => {
+    // update RHEA test to use MolecularActivity semantic type
+    test("Test molecular activity ids can be resolved as RHEA ids", async () => {
         const resolver = new DefaultIDResolver();
-        const res = await resolver.resolve({ "ChemicalSubstance": ["PUBCHEM.COMPOUND:5460389"] });
-        expect(res["PUBCHEM.COMPOUND:5460389"][0]).toBeInstanceOf(ResolvableBioEntity);
-        expect(res["PUBCHEM.COMPOUND:5460389"][0].dbIDs).toHaveProperty("RHEA");
-        expect(res["PUBCHEM.COMPOUND:5460389"][0].dbIDs.RHEA).toContain("RHEA:37975")
+        const res = await resolver.resolve({ "MolecularActivity": ["GO:0010176"] });
+        expect(res["GO:0010176"][0]).toBeInstanceOf(ResolvableBioEntity);
+        expect(res["GO:0010176"][0].dbIDs).toHaveProperty("RHEA");
+        expect(res["GO:0010176"][0].dbIDs.RHEA).toContain("RHEA:37975")
     })
 
-    // skip RHEA test below per https://github.com/biothings/biomedical_id_resolver.js/pull/56
-    test.skip("Test RHEA ids can be correctly resolved", async () => {
+    // update RHEA test to use MolecularActivity semantic type
+    test("Test RHEA ids can be correctly resolved", async () => {
         const resolver = new DefaultIDResolver();
-        const res = await resolver.resolve({ "ChemicalSubstance": ["RHEA:37975"] });
+        const res = await resolver.resolve({ "MolecularActivity": ["RHEA:37975"] });
         expect(res["RHEA:37975"][0]).toBeInstanceOf(ResolvableBioEntity);
-        expect(res["RHEA:37975"][0].primaryID).toEqual("CHEBI:16169")
+        expect(res["RHEA:37975"][0].primaryID).toEqual("GO:0010176")
     })
 })

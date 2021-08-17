@@ -117,13 +117,13 @@ describe("Test Validator Class", () => {
 
     describe("Test validate function", () => {
         test("valid answers can be retrieved through valid property of the class", () => {
-            const test_data = { "Gene": ["NCBIGene:1017", "kkk:1323"], "ChemicalSubstance": ["DRUGBANK:DB0001"] };
+            const test_data = { "Gene": ["NCBIGene:1017", "kkk:1323"], "SmallMolecule": ["DRUGBANK:DB0001"] };
             const vd = new DefaultValidator(test_data);
             vd.validate();
             expect(vd.resolvable).toHaveProperty("Gene");
             expect(vd.resolvable.Gene).toEqual(['NCBIGene:1017']);
-            expect(vd.resolvable).toHaveProperty("ChemicalSubstance");
-            expect(vd.resolvable.ChemicalSubstance).toEqual(["DRUGBANK:DB0001"])
+            expect(vd.resolvable).toHaveProperty("SmallMolecule");
+            expect(vd.resolvable.SmallMolecule).toEqual(["DRUGBANK:DB0001"])
         })
     })
 })
