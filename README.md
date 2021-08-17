@@ -102,6 +102,110 @@ let input = {
 }
 ```
 
+## Query Using [SRI node normalizer](https://nodenormalization-sri-dev.renci.org/1.1/docs#/)
+### Usage
+```js
+const resolver = require('biomedical_id_resolver');
+
+// input can be an object, with semantic type as the key, and array of CURIEs as value
+let input = {
+    "Gene": ["NCBIGene:1017", "NCBIGene:1018", "HGNC:1177"],
+    "SmallMolecule": ["CHEBI:15377"],
+    "Disease": ["MONDO:0004976"],
+    "Cell": ["CL:0002372"]
+};
+
+//input can also be an array of curies
+input = ["NCBIGene:1017", "MONDO:0004976"];
+
+(async () => {
+  let res = await resolver.resolveSRI(input);
+  console.log(res);
+})();
+```
+
+### Example Output
+The output contains `id` and `equivalent_identifiers` straight from SRI as well as the same fields as the base resolver to make it backwards compatible with it.
+```json
+{
+  "NCBIGene:1017": [
+    {
+      "id": {
+        "identifier": "NCBIGene:1017",
+        "label": "CDK2"
+      },
+      "equivalent_identifiers": [
+        {
+          "identifier": "NCBIGene:1017",
+          "label": "CDK2"
+        },
+        {
+          "identifier": "ENSEMBL:ENSG00000123374"
+        },
+        {
+          "identifier": "HGNC:1771",
+          "label": "CDK2"
+        },
+        {
+          "identifier": "OMIM:116953"
+        },
+        {
+          "identifier": "UMLS:C1332733",
+          "label": "CDK2 gene"
+        }
+      ],
+      "type": [
+        "biolink:Gene",
+        "biolink:GeneOrGeneProduct",
+        "biolink:BiologicalEntity",
+        "biolink:NamedThing",
+        "biolink:Entity",
+        "biolink:MacromolecularMachineMixin"
+      ],
+      "primaryID": "NCBIGene:1017",
+      "label": "CDK2",
+      "attributes": {},
+      "semanticType": "Gene",
+      "semanticTypes": [
+        "biolink:Gene",
+        "biolink:GeneOrGeneProduct",
+        "biolink:BiologicalEntity",
+        "biolink:NamedThing",
+        "biolink:Entity",
+        "biolink:MacromolecularMachineMixin"
+      ],
+      "dbIDs": {
+        "NCBIGene": [
+          "1017"
+        ],
+        "ENSEMBL": [
+          "ENSG00000123374"
+        ],
+        "HGNC": [
+          "1771"
+        ],
+        "OMIM": [
+          "116953"
+        ],
+        "UMLS": [
+          "C1332733"
+        ],
+        "name": [
+          "CDK2",
+          "CDK2 gene"
+        ]
+      },
+      "curies": [
+        "NCBIGene:1017",
+        "ENSEMBL:ENSG00000123374",
+        "HGNC:1771",
+        "OMIM:116953",
+        "UMLS:C1332733"
+      ]
+    }
+  ]
+}
+```
 ## Available Semantic Types & prefixes
 
 > Gene, Transcript, Protein ID resolution is done through MyGene.info API

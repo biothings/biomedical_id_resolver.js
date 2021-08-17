@@ -148,3 +148,20 @@ export interface ResolverOutput {
 export interface IResolver {
   resolve(userInput: unknown): Promise<ResolverOutput>;
 }
+
+export interface IDOBject {
+  identifier: string;
+  label: string;
+}
+export interface SRIBioEntity extends IBioEntity {
+  id: IDOBject;
+  equivalent_identifiers: IDOBject[];
+}
+
+export interface SRIResolverOutput {
+  [curie: string]: SRIBioEntity[];
+}
+
+export interface ResolverInput {
+  [type: string]: string[]
+}
