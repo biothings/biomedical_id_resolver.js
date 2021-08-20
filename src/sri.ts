@@ -38,7 +38,11 @@ export function transformResults(results): SRIResolverOutput {
       entry.attributes = {};
       entry.semanticType = entry.type[0].split(":")[1]; // get first semantic type without biolink prefix
       entry.semanticTypes = entry.type;
-      entry.curies = Array.from(new Set(entry.equivalent_identifiers.map(id_obj => id_obj.identifier))).filter((x) => (x != null))
+
+      let names = Array.from(new Set(entry.equivalent_identifiers.map(id_obj => id_obj.label))).filter((x) => (x != null));
+      let curies = Array.from(new Set(entry.equivalent_identifiers.map(id_obj => id_obj.identifier))).filter((x) => (x != null));
+
+      entry.curies = [...curies, ...names.map(name => `name:${name}`)];
 
       //assemble dbIDs
       entry.dbIDs = {}
@@ -59,7 +63,7 @@ export function transformResults(results): SRIResolverOutput {
           }
         }
       })
-      entry.dbIDs.name = Array.from(new Set(entry.equivalent_identifiers.map(id_obj => id_obj.label))).filter((x) => (x != null));
+      entry.dbIDs.name = names;
     }
     
     results[key] = [entry];
