@@ -28,7 +28,8 @@ export function transformResults(results): SRIResolverOutput {
         semanticType: '',
         semanticTypes: [''],
         dbIDs: {
-          [id_type]: CURIE.ALWAYS_PREFIXED.includes(id_type) ? key : key.split(":")[1]
+          [id_type]: CURIE.ALWAYS_PREFIXED.includes(id_type) ? key : key.split(":")[1],
+          name: [key]
         }
       };
     } else {
@@ -42,25 +43,21 @@ export function transformResults(results): SRIResolverOutput {
       let names = Array.from(new Set(entry.equivalent_identifiers.map(id_obj => id_obj.label))).filter((x) => (x != null));
       let curies = Array.from(new Set(entry.equivalent_identifiers.map(id_obj => id_obj.identifier))).filter((x) => (x != null));
 
-      entry.curies = [...curies, ...names.map(name => `name:${name}`)];
+      entry.curies = [...curies];
 
       //assemble dbIDs
       entry.dbIDs = {}
       entry.equivalent_identifiers.forEach((id_obj) => {
         let id_type = id_obj.identifier.split(":")[0];
+        if (!Array.isArray(entry.dbIDs[id_type])) {
+          entry.dbIDs[id_type] = [];
+        }
+
         if (CURIE.ALWAYS_PREFIXED.includes(id_type)) {
-          if (Array.isArray(entry.dbIDs[id_type])) {
-            entry.dbIDs[id_type].push(id_obj.identifier);
-          } else {
-            entry.dbIDs[id_type] = [id_obj.identifier];
-          }
+          entry.dbIDs[id_type].push(id_obj.identifier);
         } else {
           let curie_without_prefix = id_obj.identifier.split(":")[1];
-          if (Array.isArray(entry.dbIDs[id_type])) {
-            entry.dbIDs[id_type].push(curie_without_prefix);
-          } else {
-            entry.dbIDs[id_type] = [curie_without_prefix];
-          }
+          entry.dbIDs[id_type].push(curie_without_prefix);
         }
       })
       entry.dbIDs.name = names;
