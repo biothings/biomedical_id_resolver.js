@@ -26,8 +26,13 @@ export function transformResults(results): SRIResolverOutput {
         curies: [key],
         attributes: {},
         semanticType: '',
+        _leafSemanticType: '',
         semanticTypes: [''],
         dbIDs: {
+          [id_type]: CURIE.ALWAYS_PREFIXED.includes(id_type) ? key : key.split(":")[1],
+          name: [key]
+        },
+        _dbIDs: {
           [id_type]: CURIE.ALWAYS_PREFIXED.includes(id_type) ? key : key.split(":")[1],
           name: [key]
         }
@@ -61,6 +66,9 @@ export function transformResults(results): SRIResolverOutput {
         }
       })
       entry.dbIDs.name = names;
+
+      entry._leafSemanticType = entry.semanticType;
+      entry._dbIDs = entry.dbIDs;
     }
     
     results[key] = [entry];
