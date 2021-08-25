@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { CURIE } from './config';
-import { SRIResolverOutput } from './common/types';
+import { SRIResolverOutput, ResolverInput } from './common/types';
+import Debug from 'debug';
+const debug = Debug('biomedical-id-resolver:QueryBuilder');
 
 //input: array of curies
-export async function query(api_input: string[]) {
+async function query(api_input: string[]) {
   let url: URL = new URL('https://nodenormalization-sri-dev.renci.org/1.1/get_normalized_nodes'); // TODO: change to non-dev version when ready
   //@ts-ignore
   url.search = new URLSearchParams(api_input.map(curie => ["curie", curie]));
@@ -11,7 +13,7 @@ export async function query(api_input: string[]) {
   return res.data;
 }
 
-export function transformResults(results): SRIResolverOutput {
+function transformResults(results, semanticType: string): SRIResolverOutput {
   Object.keys(results).forEach((key) => {
     let entry = results[key];
     let id_type = key.split(":")[0];
@@ -25,9 +27,9 @@ export function transformResults(results): SRIResolverOutput {
         label: key,
         curies: [key],
         attributes: {},
-        semanticType: '',
-        _leafSemanticType: '',
-        semanticTypes: [''],
+        semanticType: semanticType,
+        _leafSemanticType: semanticType,
+        semanticTypes: [semanticType],
         dbIDs: {
           [id_type]: CURIE.ALWAYS_PREFIXED.includes(id_type) ? key : key.split(":")[1],
           name: [key]
@@ -43,6 +45,9 @@ export function transformResults(results): SRIResolverOutput {
       entry.label = entry.id.label || entry.id.identifier;
       entry.attributes = {};
       entry.semanticType = entry.type[0].split(":")[1]; // get first semantic type without biolink prefix
+      if (semanticType !== entry.semanticType) {
+        debug(`SRI resolved semantic type ${entry.semanticType} doesn't match input semantic type ${semanticType}`);
+      }
       entry.semanticTypes = entry.type;
 
       let names = Array.from(new Set(entry.equivalent_identifiers.map(id_obj => id_obj.label))).filter((x) => (x != null));
@@ -74,4 +79,13 @@ export function transformResults(results): SRIResolverOutput {
     results[key] = [entry];
   });
   return results;
+}
+
+export async function _resolveSRI(userInput: ResolverInput): Promise<SRIResolverOutput> {
+  let results = await Promise.all(Object.keys(userInput).map(async (semanticType) => {
+    let query_results = await query(userInput[semanticType]);
+    return transformResults(query_results, semanticType);
+  }));
+
+  return Object.assign({}, ...results); //convert array of objects into single object
 }

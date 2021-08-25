@@ -17,19 +17,10 @@ describe("Test SRI Resolver", () => {
     expect(res["NCBIGene:1017"][0].dbIDs).toEqual(expect.any(Object));
   });
 
-  test("Test array of curies", async () => {
-    let input = ["NCBIGene:1017", "MONDO:0004976"];
-    const res = await resolveSRI(input);
-    expect(res["NCBIGene:1017"]).toEqual(expect.any(Array));
-    expect(res["NCBIGene:1017"][0].primaryID).toEqual("NCBIGene:1017");
-    expect(res["NCBIGene:1017"][0].label).toEqual("CDK2");
-    expect(res["NCBIGene:1017"][0].semanticType).toEqual("Gene");
-    expect(res["NCBIGene:1017"][0].semanticTypes).toEqual(expect.any(Array));
-    expect(res["NCBIGene:1017"][0].dbIDs).toEqual(expect.any(Object));
-  });
-
   test("Test unresolvable curie", async () => {
-    let input = ["NCBIGene:ABCD"];
+    let input = {
+      "Gene": ["NCBIGene:ABCD"],
+    };
     const res = await resolveSRI(input);
     expect(res["NCBIGene:ABCD"]).toEqual(expect.any(Array));
     expect(res["NCBIGene:ABCD"][0].primaryID).toEqual("NCBIGene:ABCD");

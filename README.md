@@ -107,16 +107,13 @@ let input = {
 ```js
 const resolver = require('biomedical_id_resolver');
 
-// input can be an object, with semantic type as the key, and array of CURIEs as value
+// input must be an object, with semantic type as the key, and array of CURIEs as value
 let input = {
     "Gene": ["NCBIGene:1017", "NCBIGene:1018", "HGNC:1177"],
     "SmallMolecule": ["CHEBI:15377"],
     "Disease": ["MONDO:0004976"],
     "Cell": ["CL:0002372"]
 };
-
-//input can also be an array of curies
-input = ["NCBIGene:1017", "MONDO:0004976"];
 
 (async () => {
   let res = await resolver.resolveSRI(input);

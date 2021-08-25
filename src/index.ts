@@ -3,7 +3,7 @@ import BioLinkBasedResolver from './resolve/biolink_based_resolver';
 import DefaultResolver from './resolve/default_resolver';
 import { APIMETA } from './config';
 import generateInvalid from './fake';
-import { query, transformResults } from './sri';
+import { _resolveSRI } from './sri';
 
 export class Resolver implements IResolver {
   private _resolver: IResolver;
@@ -28,21 +28,8 @@ export class Resolver implements IResolver {
   }
 }
 
-export async function resolveSRI(userInput: ResolverInput | string[]): Promise<SRIResolverOutput> {
-  let api_input;
-  try {
-    if (Array.isArray(userInput)) {
-      api_input = userInput;
-    } else {
-      api_input = Object.values(userInput).flat();
-    }
-  } catch (error) {
-    console.warn("Input is not in the right shape. Expected an array of curies or an object of arrays of curies.");
-    return {};
-  }
-
-  let query_results = await query(api_input);
-  return transformResults(query_results);
+export async function resolveSRI(userInput: ResolverInput): Promise<SRIResolverOutput> {
+  return await _resolveSRI(userInput);
 }
 
 export const METADATA = APIMETA;
