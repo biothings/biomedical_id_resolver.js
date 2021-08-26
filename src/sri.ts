@@ -2,15 +2,26 @@ import axios from 'axios';
 import { CURIE } from './config';
 import { SRIResolverOutput, ResolverInput } from './common/types';
 import Debug from 'debug';
-const debug = Debug('biomedical-id-resolver:QueryBuilder');
+import _ from 'lodash';
+const debug = Debug('bte:biomedical-id-resolver:SRI');
 
 //input: array of curies
 async function query(api_input: string[]) {
   let url: URL = new URL('https://nodenormalization-sri-dev.renci.org/1.1/get_normalized_nodes'); // TODO: change to non-dev version when ready
-  //@ts-ignore
-  url.search = new URLSearchParams(api_input.map(curie => ["curie", curie]));
-  let res = await axios.get(url.toString());
-  return res.data;
+
+  //SRI returns a 414 error if the length of the url query is greater than 65536, split into chunks of 1500 curies to be on the safe side (lower number if still running into 414 errors)
+  let chunked_input = _.chunk(api_input, 1500); 
+
+  let axios_queries = chunked_input.map((input) => {
+    //@ts-ignore
+    url.search = new URLSearchParams(input.map(curie => ["curie", curie]));
+    return axios.get(url.toString());
+  });
+
+  //convert res array into single object with all curies
+  let res = await Promise.all(axios_queries);
+  res = res.map(r => r.data);
+  return Object.assign({}, ...res);
 }
 
 function transformResults(results, semanticType: string): SRIResolverOutput {
@@ -46,7 +57,7 @@ function transformResults(results, semanticType: string): SRIResolverOutput {
       entry.attributes = {};
       entry.semanticType = entry.type[0].split(":")[1]; // get first semantic type without biolink prefix
       if (semanticType !== entry.semanticType) {
-        debug(`SRI resolved semantic type ${entry.semanticType} doesn't match input semantic type ${semanticType}`);
+        debug(`SRI resolved semantic type ${entry.semanticType} doesn't match input semantic type ${semanticType}. SRI Entry: ${JSON.stringify(entry, null, 2)}`);
       }
       entry.semanticTypes = entry.type;
 
