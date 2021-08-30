@@ -42,11 +42,11 @@ function transformResults(results, semanticType: string): SRIResolverOutput {
         _leafSemanticType: semanticType,
         semanticTypes: [semanticType],
         dbIDs: {
-          [id_type]: CURIE.ALWAYS_PREFIXED.includes(id_type) ? key : key.split(":")[1],
+          [id_type]: [CURIE.ALWAYS_PREFIXED.includes(id_type) ? key : key.split(":")[1]],
           name: [key]
         },
         _dbIDs: {
-          [id_type]: CURIE.ALWAYS_PREFIXED.includes(id_type) ? key : key.split(":")[1],
+          [id_type]: [CURIE.ALWAYS_PREFIXED.includes(id_type) ? key : key.split(":")[1]],
           name: [key]
         }
       };
