@@ -57,7 +57,7 @@ function transformResults(results, semanticType: string): SRIResolverOutput {
       entry.attributes = {};
       entry.semanticType = entry.type[0].split(":")[1]; // get first semantic type without biolink prefix
       if (semanticType !== entry.semanticType) {
-        debug(`SRI resolved semantic type ${entry.semanticType} doesn't match input semantic type ${semanticType}. SRI Entry: ${JSON.stringify(entry, null, 2)}`);
+        debug(`SRI resolved semantic type ${entry.semanticType} doesn't match input semantic type ${semanticType} for curie ${entry.primaryID}.`);
       }
       entry.semanticTypes = entry.type;
 
