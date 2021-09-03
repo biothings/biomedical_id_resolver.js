@@ -101,5 +101,15 @@ export async function _resolveSRI(userInput: ResolverInput): Promise<SRIResolver
     return transformResults(query_results, semanticType);
   }));
 
-  return Object.assign({}, ...results); //convert array of objects into single object
+  return results.reduce((result, currentObj) => {
+    for(let curie in currentObj) {
+      if (currentObj.hasOwnProperty(curie)) {
+        if (!result.hasOwnProperty(curie)) {
+          result[curie] = [];
+        }
+        result[curie] = [...result[curie], ...currentObj[curie]];
+      }
+    }
+    return result;
+  }, {}); //convert array of objects into single object
 }
