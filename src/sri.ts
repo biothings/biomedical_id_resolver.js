@@ -4,6 +4,7 @@ import { SRIResolverOutput, ResolverInput } from './common/types';
 import Debug from 'debug';
 import _ from 'lodash';
 const debug = Debug('bte:biomedical-id-resolver:SRI');
+import { addAttributes } from './attr';
 
 //input: array of curies
 async function query(api_input: string[]) {
@@ -25,7 +26,7 @@ async function query(api_input: string[]) {
 }
 
 function transformResults(results, semanticType: string): SRIResolverOutput {
-  Object.keys(results).forEach((key) => {
+  Object.keys(results).forEach(async (key) => {
     let entry = results[key];
     let id_type = key.split(":")[0];
     if (entry === null) { //handle unresolvable entities
@@ -37,7 +38,7 @@ function transformResults(results, semanticType: string): SRIResolverOutput {
         primaryID: key,
         label: key,
         curies: [key],
-        attributes: {},
+        attributes: await addAttributes(semanticType, id_type, key),
         semanticType: semanticType,
         _leafSemanticType: semanticType,
         semanticTypes: [semanticType],
