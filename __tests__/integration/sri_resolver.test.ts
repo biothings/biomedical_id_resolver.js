@@ -25,5 +25,26 @@ describe("Test SRI Resolver", () => {
     expect(res["NCBIGene:ABCD"]).toEqual(expect.any(Array));
     expect(res["NCBIGene:ABCD"][0].primaryID).toEqual("NCBIGene:ABCD");
     expect(res["NCBIGene:ABCD"][0].label).toEqual("NCBIGene:ABCD");
+    expect(res["NCBIGene:ABCD"][0].dbIDs.name).toEqual(expect.any(Array));
+    expect(res["NCBIGene:ABCD"][0].dbIDs.NCBIGene).toEqual(expect.any(Array));
   });
+
+  test("Test SRI Semantic type resolver", async () => {
+    let input = {
+      unknown: ["NCBIGene:3778"],
+    };
+    const res = await resolveSRI(input);
+    expect(res["NCBIGene:3778"]).toEqual(expect.any(Array));
+    expect(res["NCBIGene:3778"][0].semanticType).toEqual("Gene");
+  })
+
+  test("Test Same ID different semantic types", async () => {
+    let input = {
+      "Gene": ["NCBIGene:1017"],
+      "Disease": ["NCBIGene:1017"]
+    };
+    const res = await resolveSRI(input);
+    expect(res["NCBIGene:1017"].length).toBeGreaterThan(1);
+  });
+
 });
