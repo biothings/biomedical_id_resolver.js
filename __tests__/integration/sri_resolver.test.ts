@@ -23,6 +23,7 @@ describe("Test SRI Resolver", () => {
     };
     const res = await resolveSRI(input);
     expect(res["NCBIGene:ABCD"]).toEqual(expect.any(Array));
+    expect(res["NCBIGene:ABCD"][0].semanticType).toEqual("Gene");
     expect(res["NCBIGene:ABCD"][0].primaryID).toEqual("NCBIGene:ABCD");
     expect(res["NCBIGene:ABCD"][0].label).toEqual("NCBIGene:ABCD");
     expect(res["NCBIGene:ABCD"][0].dbIDs.name).toEqual(expect.any(Array));
@@ -45,6 +46,25 @@ describe("Test SRI Resolver", () => {
     };
     const res = await resolveSRI(input);
     expect(res["NCBIGene:1017"].length).toBeGreaterThan(1);
+  });
+
+  test("Test using SRI to get semantic types", async () => {
+    let input = {
+      unknown: ["NCBIGene:1017"]
+    };
+    const res = await resolveSRI(input);
+    expect(res["NCBIGene:1017"].length).toBe(1);
+    expect(res["NCBIGene:1017"][0].semanticType).toEqual("Gene");
+  });
+
+  test("Test handling semantic type conflicts", async () => {
+    let input = {
+      "SmallMolecule": ["PUBCHEM.COMPOUND:23680530"]
+    };
+    const res = await resolveSRI(input);
+    expect(res["PUBCHEM.COMPOUND:23680530"].length).toBe(2);
+    expect(res["PUBCHEM.COMPOUND:23680530"][0].semanticType).toEqual("MolecularMixture");
+    expect(res["PUBCHEM.COMPOUND:23680530"][1].semanticType).toEqual("SmallMolecule");
   });
 
 });

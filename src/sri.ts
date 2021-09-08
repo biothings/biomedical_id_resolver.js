@@ -1,11 +1,20 @@
 import axios from 'axios';
 import { CURIE } from './config';
-import { SRIResolverOutput, ResolverInput } from './common/types';
+import { SRIResolverOutput, ResolverInput, SRIBioEntity } from './common/types';
 import Debug from 'debug';
 import _ from 'lodash';
 const debug = Debug('bte:biomedical-id-resolver:SRI');
 
+//convert object of arrays into array of unique IDs
+function combineInputs(userInput: ResolverInput): string[] {
+  let result = Object.keys(userInput).reduce(function (r, k) {
+    return r.concat(userInput[k]);
+  }, []);
+  return [...new Set(result)];
+}
+
 //input: array of curies
+//handles querying and batching of inputs
 async function query(api_input: string[]) {
   let url: URL = new URL('https://nodenormalization-sri-dev.renci.org/1.1/get_normalized_nodes'); // TODO: change to non-dev version when ready
 
@@ -24,70 +33,84 @@ async function query(api_input: string[]) {
   return Object.assign({}, ...res);
 }
 
-function transformResults(results, semanticType: string): SRIResolverOutput {
+//build id resolution object for curies that couldn't be resolved
+function UnresolvableEntry(curie: string, semanticType: string): SRIBioEntity {
+  let id_type = curie.split(":")[0];
+  return {
+    id: {
+      identifier: curie,
+      label: curie
+    },
+    equivalent_identifiers: [{
+      identifier: curie,
+      label: curie
+    }],
+    primaryID: curie,
+    label: curie,
+    curies: [curie],
+    attributes: {},
+    semanticType: semanticType,
+    _leafSemanticType: semanticType,
+    type: [semanticType],
+    semanticTypes: [semanticType],
+    dbIDs: {
+      [id_type]: [CURIE.ALWAYS_PREFIXED.includes(id_type) ? curie : curie.split(":")[1]],
+      name: [curie]
+    },
+    _dbIDs: {
+      [id_type]: [CURIE.ALWAYS_PREFIXED.includes(id_type) ? curie: curie.split(":")[1]],
+      name: [curie]
+    }
+  }
+}
+
+//build id resolution object for curies that were successfully resolved by SRI
+function ResolvableEntry(SRIEntry): SRIBioEntity {
+  let entry = SRIEntry;
+  
+  //add fields included in biomedical-id-resolver
+  entry.primaryID = entry.id.identifier;
+  entry.label = entry.id.label || entry.id.identifier;
+  entry.attributes = {};
+  entry.semanticType = entry.type[0].split(":")[1]; // get first semantic type without biolink prefix
+  entry._leafSemanticType = entry.semanticType;
+  entry.semanticTypes = entry.type;
+
+  let names = Array.from(new Set(entry.equivalent_identifiers.map(id_obj => id_obj.label))).filter((x) => (x != null));
+  let curies = Array.from(new Set(entry.equivalent_identifiers.map(id_obj => id_obj.identifier))).filter((x) => (x != null));
+
+  entry.curies = [...curies];
+
+  //assemble dbIDs
+  entry.dbIDs = {}
+  entry.equivalent_identifiers.forEach((id_obj) => {
+    let id_type = id_obj.identifier.split(":")[0];
+    if (!Array.isArray(entry.dbIDs[id_type])) {
+      entry.dbIDs[id_type] = [];
+    }
+
+    if (CURIE.ALWAYS_PREFIXED.includes(id_type)) {
+      entry.dbIDs[id_type].push(id_obj.identifier);
+    } else {
+      let curie_without_prefix = id_obj.identifier.split(":")[1];
+      entry.dbIDs[id_type].push(curie_without_prefix);
+    }
+  })
+  entry.dbIDs.name = names;
+
+  entry._dbIDs = entry.dbIDs;
+
+  return entry;
+}
+
+//transform output from SRI into original resolver shape
+function transformResults(results): SRIResolverOutput {
   Object.keys(results).forEach((key) => {
     let entry = results[key];
-    let id_type = key.split(":")[0];
     if (entry === null) { //handle unresolvable entities
-      entry = {
-        id: {
-          identifier: key,
-          label: key
-        },
-        primaryID: key,
-        label: key,
-        curies: [key],
-        attributes: {},
-        semanticType: semanticType,
-        _leafSemanticType: semanticType,
-        semanticTypes: [semanticType],
-        dbIDs: {
-          [id_type]: [CURIE.ALWAYS_PREFIXED.includes(id_type) ? key : key.split(":")[1]],
-          name: [key]
-        },
-        _dbIDs: {
-          [id_type]: [CURIE.ALWAYS_PREFIXED.includes(id_type) ? key : key.split(":")[1]],
-          name: [key]
-        }
-      };
+      entry = UnresolvableEntry(key, null);
     } else {
-      //add fields included in biomedical-id-resolver
-      entry.primaryID = entry.id.identifier;
-      entry.label = entry.id.label || entry.id.identifier;
-      entry.attributes = {};
-      entry.semanticType = entry.type[0].split(":")[1]; // get first semantic type without biolink prefix
-      entry.semanticTypes = entry.type;
-      if (semanticType !== entry.semanticType && semanticType !== 'unknown') {
-        debug(`SRI resolved semantic type ${entry.semanticType} doesn't match input semantic type ${semanticType} for curie ${entry.primaryID}. Setting to ${semanticType}.`);
-        //replace semantic type with input semantic type
-        entry.semanticType = semanticType;
-        entry.semanticTypes[0] = semanticType;
-      }
-
-      let names = Array.from(new Set(entry.equivalent_identifiers.map(id_obj => id_obj.label))).filter((x) => (x != null));
-      let curies = Array.from(new Set(entry.equivalent_identifiers.map(id_obj => id_obj.identifier))).filter((x) => (x != null));
-
-      entry.curies = [...curies];
-
-      //assemble dbIDs
-      entry.dbIDs = {}
-      entry.equivalent_identifiers.forEach((id_obj) => {
-        let id_type = id_obj.identifier.split(":")[0];
-        if (!Array.isArray(entry.dbIDs[id_type])) {
-          entry.dbIDs[id_type] = [];
-        }
-
-        if (CURIE.ALWAYS_PREFIXED.includes(id_type)) {
-          entry.dbIDs[id_type].push(id_obj.identifier);
-        } else {
-          let curie_without_prefix = id_obj.identifier.split(":")[1];
-          entry.dbIDs[id_type].push(curie_without_prefix);
-        }
-      })
-      entry.dbIDs.name = names;
-
-      entry._leafSemanticType = entry.semanticType;
-      entry._dbIDs = entry.dbIDs;
+      entry = ResolvableEntry(entry);
     }
     
     results[key] = [entry];
@@ -95,21 +118,46 @@ function transformResults(results, semanticType: string): SRIResolverOutput {
   return results;
 }
 
-export async function _resolveSRI(userInput: ResolverInput): Promise<SRIResolverOutput> {
-  let results = await Promise.all(Object.keys(userInput).map(async (semanticType) => {
-    let query_results = await query(userInput[semanticType]);
-    return transformResults(query_results, semanticType);
-  }));
-
-  return results.reduce((result, currentObj) => {
-    for(let curie in currentObj) {
-      if (currentObj.hasOwnProperty(curie)) {
-        if (!result.hasOwnProperty(curie)) {
-          result[curie] = [];
-        }
-        result[curie] = [...result[curie], ...currentObj[curie]];
-      }
+//add entries with original semantic types if they don't match the SRI resolved types
+function mapInputSemanticTypes(originalInput: ResolverInput, result: SRIResolverOutput): SRIResolverOutput {
+  Object.keys(originalInput).forEach((semanticType) => {
+    if (semanticType === 'unknown') { //rely on SRI type if input is unknown
+      return;
     }
-    return result;
-  }, {}); //convert array of objects into single object
+
+    let uniqueInputs = [...new Set(originalInput[semanticType])];
+    uniqueInputs.forEach((curie) => {
+      let entry = result[curie][0];
+      if (!entry.semanticType) {
+        entry._leafSemanticType = semanticType;
+        entry.semanticType = semanticType;
+        entry.semanticTypes = [semanticType];
+        entry.type = [semanticType];
+      } else if (entry.semanticType !== semanticType) { //add entry if SRI semantic type doesn't match input semantic type
+        debug(`SRI resolved type '${entry.semanticType}' doesn't match input semantic type '${semanticType}' for curie '${entry.primaryID}'. Adding entry for '${semanticType}'.`)
+        let new_entry = _.cloneDeep(entry);
+
+        new_entry._leafSemanticType = semanticType;
+        new_entry.semanticType = semanticType;
+        new_entry.semanticTypes[0] = semanticType;
+        new_entry.type[0] = semanticType;
+
+        result[curie].push(new_entry);
+      }
+    })
+  })
+
+  return result;
+}
+
+export async function _resolveSRI(userInput: ResolverInput): Promise<SRIResolverOutput> {
+  let uniqueInputIDs = combineInputs(userInput);
+
+  let queryResults = await query(uniqueInputIDs);
+
+  queryResults = transformResults(queryResults);
+
+  queryResults = mapInputSemanticTypes(userInput, queryResults);
+
+  return queryResults;
 }

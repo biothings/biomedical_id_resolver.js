@@ -154,8 +154,11 @@ export interface IDOBject {
   label: string;
 }
 export interface SRIBioEntity extends IBioEntity {
+  _leafSemanticType: string; // @deprecated use semanticType instead
+  _dbIDs: DBIdsObject; // @deprecated use dbIDs instead
   id: IDOBject;
   equivalent_identifiers: IDOBject[];
+  type: string[];
 }
 
 export interface SRIResolverOutput {

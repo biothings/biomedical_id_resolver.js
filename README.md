@@ -108,11 +108,17 @@ let input = {
 const resolver = require('biomedical_id_resolver');
 
 // input must be an object, with semantic type as the key, and array of CURIEs as value
+
 let input = {
     "Gene": ["NCBIGene:1017", "NCBIGene:1018", "HGNC:1177"],
     "SmallMolecule": ["CHEBI:15377"],
     "Disease": ["MONDO:0004976"],
     "Cell": ["CL:0002372"]
+};
+
+// use unknown as the semantic type if you want SRI to figure out the semantic type
+let input = {
+    "unknown": ["NCBIGene:1017", "MONDO:0004976"],
 };
 
 (async () => {
@@ -122,7 +128,7 @@ let input = {
 ```
 
 ### Example Output
-The output contains `id` and `equivalent_identifiers` straight from SRI as well as the same fields as the base resolver to make it backwards compatible with it.
+The output contains `id` and `equivalent_identifiers` straight from SRI as well as the same fields as the base resolver to make it backwards compatible with it. If the SRI resolved semantic type doesn't agree with the input semantic type, there will be 2 entries in the array for the curie.
 ```json
 {
   "NCBIGene:1017": [
