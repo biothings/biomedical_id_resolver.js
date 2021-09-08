@@ -121,7 +121,8 @@ function transformResults(results): SRIResolverOutput {
 //add entries with original semantic types if they don't match the SRI resolved types
 function mapInputSemanticTypes(originalInput: ResolverInput, result: SRIResolverOutput): SRIResolverOutput {
   Object.keys(originalInput).forEach((semanticType) => {
-    if (semanticType === 'unknown') { //rely on SRI type if input is unknown
+    if (semanticType === 'unknown' || semanticType === 'undefined' || 
+      semanticType === 'NamedThing') { //rely on SRI type if input is unknown, undefined, or NamedThing
       return;
     }
 

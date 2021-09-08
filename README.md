@@ -116,7 +116,7 @@ let input = {
     "Cell": ["CL:0002372"]
 };
 
-// use unknown as the semantic type if you want SRI to figure out the semantic type
+// SRI resolver will figure out the semantic type if the input type is 'unknown', 'undefined', or 'NamedThing'
 let input = {
     "unknown": ["NCBIGene:1017", "MONDO:0004976"],
 };
