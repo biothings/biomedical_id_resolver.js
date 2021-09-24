@@ -25,30 +25,31 @@ async function query(api_input: string[]) {
   return Object.assign({}, ...res);
 }
 
-function transformResults(results, semanticType: string): SRIResolverOutput {
-  Object.keys(results).forEach(async (key) => {
-    let entry = results[key];
-    let id_type = key.split(":")[0];
+async function transformResults(results, semanticType: string): Promise<SRIResolverOutput> {
+  let cached : object = {};
+  for (const entityID of Object.keys(results)) {
+    let entry = results[entityID];
+    let id_type = entityID.split(":")[0];
     if (entry === null) { //handle unresolvable entities
       entry = {
         id: {
-          identifier: key,
-          label: key
+          identifier: entityID,
+          label: entityID
         },
-        primaryID: key,
-        label: key,
-        curies: [key],
-        attributes: await addAttributes(semanticType, id_type, key),
+        primaryID: entityID,
+        label: entityID,
+        curies: [entityID],
+        attributes: {},
         semanticType: semanticType,
         _leafSemanticType: semanticType,
         semanticTypes: [semanticType],
         dbIDs: {
-          [id_type]: [CURIE.ALWAYS_PREFIXED.includes(id_type) ? key : key.split(":")[1]],
-          name: [key]
+          [id_type]: [CURIE.ALWAYS_PREFIXED.includes(id_type) ? entityID : entityID.split(":")[1]],
+          name: [entityID]
         },
         _dbIDs: {
-          [id_type]: [CURIE.ALWAYS_PREFIXED.includes(id_type) ? key : key.split(":")[1]],
-          name: [key]
+          [id_type]: [CURIE.ALWAYS_PREFIXED.includes(id_type) ? entityID : entityID.split(":")[1]],
+          name: [entityID]
         }
       };
     } else {
@@ -87,9 +88,15 @@ function transformResults(results, semanticType: string): SRIResolverOutput {
       entry._leafSemanticType = entry.semanticType;
       entry._dbIDs = entry.dbIDs;
     }
-    
-    results[key] = [entry];
-  });
+    if (!Object.prototype.hasOwnProperty.call(cached, entityID)) {
+      let attributes = await addAttributes(semanticType, entityID);
+      cached[entityID] = attributes;
+      entry.attributes = attributes;
+    }else{
+      entry.attributes = cached[entityID];
+    }
+    results[entityID] = [entry];
+  }
   return results;
 }
 
