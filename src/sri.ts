@@ -73,7 +73,6 @@ async function ResolvableEntry(SRIEntry): Promise<SRIBioEntity>{
   entry.primaryID = entry.id.identifier;
   entry.label = entry.id.label || entry.id.identifier;
   let at = await addAttributes(entry.type, entry.primaryID);
-  debug(`ATTRS ${JSON.stringify(at)}`)
   entry.attributes = at;
   entry.semanticType = entry.type[0].split(":")[1]; // get first semantic type without biolink prefix
   entry._leafSemanticType = entry.semanticType;
@@ -101,7 +100,6 @@ async function ResolvableEntry(SRIEntry): Promise<SRIBioEntity>{
   })
   entry.dbIDs.name = names;
   entry._dbIDs = entry.dbIDs;
-  debug(`ENTRY ${JSON.stringify(entry)}`);
   return entry;
 }
 
