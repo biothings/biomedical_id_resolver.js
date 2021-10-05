@@ -178,25 +178,35 @@ export class AttributeHandler {
     }
 }
 
-export async function addAttributes(semanticType: string, entityID: string) : Promise<any> {
-    let supported = APIMETA[semanticType];
-    if (supported !== undefined) {
+function findSupportedType(semanticTypes: string[]) : any {
+    let types = semanticTypes.map( type => type.includes(':') ? type.split(":")[1] : type);
+    //look for immediate match
+    for (const type of types) {
+        if (Object.hasOwnProperty.call(APIMETA, type)) {
+            return type;
+        }
+    }
+    return false;
+}
+
+export async function addAttributes(semanticTypes: string[], entityID: string) : Promise<any> {
+    let supportedSemanticType = findSupportedType(semanticTypes);
+    if (supportedSemanticType) {
         let prefix = entityID.includes(":") ? entityID.split(":")[0] : false;
         if (!prefix) {
-            debug(`Could not find ID prefix of "${semanticType}"-${prefix}:${entityID}.`);
+            debug(`Could not find ID prefix of "${supportedSemanticType}"-${prefix}:${entityID}.`);
             return {};
         }
         entityID = entityID.split(":")[1];
-        // debug(`Adding entity attributes of "${semanticType}"-${prefix}:${entityID}`);
         try {
             const handler = new AttributeHandler();
-            return await handler.getAttributesFor(semanticType, prefix, entityID);
+            return await handler.getAttributesFor(supportedSemanticType, prefix, entityID);
         } catch (error) {
-            debug(`Getting attributes of "${semanticType}"-${prefix}:${entityID} failed.`);
+            debug(`Getting attributes of "${supportedSemanticType}"-${prefix}:${entityID} failed.`);
             return {};
         }
     }else{
-        debug(`"${semanticType}" is not available in attribute getter.`);
+        debug(`"${semanticTypes}" is/are not available in attribute getter.`);
         return {};
     }
 }
