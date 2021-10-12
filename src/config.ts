@@ -136,7 +136,7 @@ export const APIMETA: MetaDataItemsObject = {
       name: ['chembl.pref_name', 'drugbank.name', 'umls.name', 'ginas.preferred_name', 'pharmgkb.name', 'chebi.name'],
     },
     additional_attributes_mapping: {
-      chembl_max_phase: ['chembl.max_phase'],
+      'biolink:highest_FDA_approval_status': ['chembl.max_phase'],
       chembl_molecule_type: ['chembl.molecule_type'],
       drugbank_drug_category: ['drugbank.categories.category'],
       drugbank_taxonomy_class: ['drugbank.taxonomy.class'],
@@ -205,7 +205,7 @@ export const APIMETA: MetaDataItemsObject = {
       name: ['chembl.pref_name', 'drugbank.name', 'umls.name', 'ginas.preferred_name', 'pharmgkb.name', 'chebi.name'],
     },
     additional_attributes_mapping: {
-      chembl_max_phase: ['chembl.max_phase'],
+      'biolink:highest_FDA_approval_status': ['chembl.max_phase'],
       chembl_molecule_type: ['chembl.molecule_type'],
       drugbank_drug_category: ['drugbank.categories.category'],
       drugbank_taxonomy_class: ['drugbank.taxonomy.class'],
