@@ -179,6 +179,10 @@ export class AttributeHandler {
 }
 
 function findSupportedType(semanticTypes: string[]) : any {
+    if (semanticTypes[0] == null || semanticTypes[0] == undefined) {
+        return false;
+    }
+    // debug(`MAP ${JSON.stringify(semanticTypes)}`)
     let types = semanticTypes.map( type => type.includes(':') ? type.split(":")[1] : type);
     //look for immediate match
     for (const type of types) {
