@@ -35,8 +35,9 @@ async function query(api_input: string[]) {
 }
 
 //build id resolution object for curies that couldn't be resolved
-function UnresolvableEntry(curie: string, semanticType: string): SRIBioEntity {
+async function UnresolvableEntry(curie: string, semanticType: string): Promise<SRIBioEntity> {
   let id_type = curie.split(":")[0];
+  let at = await addAttributes([semanticType], curie);
   return {
     id: {
       identifier: curie,
@@ -49,7 +50,7 @@ function UnresolvableEntry(curie: string, semanticType: string): SRIBioEntity {
     primaryID: curie,
     label: curie,
     curies: [curie],
-    attributes: {},
+    attributes: at,
     semanticType: semanticType,
     _leafSemanticType: semanticType,
     type: [semanticType],
@@ -110,7 +111,7 @@ async function transformResults(results): Promise<SRIResolverOutput> {
     const key = Object.keys(results)[i];
     let entry = results[key];
     if (entry === null) { //handle unresolvable entities
-      entry = UnresolvableEntry(key, null);
+      entry = await UnresolvableEntry(key, null);
     } else {
       entry = await ResolvableEntry(entry);
     }
