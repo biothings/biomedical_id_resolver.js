@@ -1,42 +1,18 @@
-import { addAttributes } from '../../src/attr';
+import { getAttributes } from '../../src/index';
+
 
 describe("Test Attribute Getter", () => {
+    
+    test("getting attributes batch", async () => {
 
-    test("getting attributes of Gene", async () => {
-
-        let semanticType = "Gene";
-        let entityId = "NCBIGene:9604";
-        const res = await addAttributes([semanticType], entityId);
-        expect(res).toHaveProperty('interpro');
-        expect(res).toHaveProperty('type_of_gene');
-        expect(res['type_of_gene']).toContain('protein-coding')
+        let ids = {
+            "Gene":["NCBIGene:23221"],
+            "SmallMolecule":["PUBCHEM.COMPOUND:387447","PUBCHEM.COMPOUND:3121"]
+        } ;
+        const res = await getAttributes(ids);
+        expect(res).toHaveProperty('NCBIGene:23221');
+        expect(res).toHaveProperty('PUBCHEM.COMPOUND:3121');
+        expect(res).toHaveProperty('PUBCHEM.COMPOUND:387447');
     });
 
-    test("getting attributes of SmallMolecule", async () => {
-
-        let semanticType = "SmallMolecule";
-        let entityId = "CHEMBL.COMPOUND:CHEMBL433";
-        const res = await addAttributes([semanticType], entityId);
-        expect(res).toHaveProperty('chembl_max_phase');
-        expect(res).toHaveProperty('fda_epc_pharmacology_class');
-        expect(res['fda_epc_pharmacology_class']).toContain('Anti-epileptic Agent')
-    });
-
-    test("getting attributes of Disease", async () => {
-        // should work but doesn't return anything...
-        let semanticType = "Disease";
-        let entityId = "MONDO:0019188";
-        const res = await addAttributes([semanticType], entityId);
-        //not found
-        expect(res).toStrictEqual({});
-    });
-
-    test("invalid entity", async () => {
-
-        let semanticType = "Gene";
-        let entityId = "MONDO:1234";
-        const res = await addAttributes([semanticType], entityId);
-        //not found
-        expect(res).toStrictEqual(undefined);
-    });
 });

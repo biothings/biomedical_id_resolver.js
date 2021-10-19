@@ -4,7 +4,6 @@ import { SRIResolverOutput, ResolverInput, SRIBioEntity } from './common/types';
 import Debug from 'debug';
 import _ from 'lodash';
 const debug = Debug('bte:biomedical-id-resolver:SRI');
-import {addAttributes} from './attr';
 
 //convert object of arrays into array of unique IDs
 function combineInputs(userInput: ResolverInput): string[] {
@@ -35,9 +34,8 @@ async function query(api_input: string[]) {
 }
 
 //build id resolution object for curies that couldn't be resolved
-async function UnresolvableEntry(curie: string, semanticType: string): Promise<SRIBioEntity> {
+function UnresolvableEntry(curie: string, semanticType: string): SRIBioEntity {
   let id_type = curie.split(":")[0];
-  let at = await addAttributes([semanticType], curie);
   return {
     id: {
       identifier: curie,
@@ -50,7 +48,7 @@ async function UnresolvableEntry(curie: string, semanticType: string): Promise<S
     primaryID: curie,
     label: curie,
     curies: [curie],
-    attributes: at,
+    attributes: {},
     semanticType: semanticType,
     _leafSemanticType: semanticType,
     type: [semanticType],
@@ -67,14 +65,13 @@ async function UnresolvableEntry(curie: string, semanticType: string): Promise<S
 }
 
 //build id resolution object for curies that were successfully resolved by SRI
-async function ResolvableEntry(SRIEntry): Promise<SRIBioEntity>{
+function ResolvableEntry(SRIEntry): SRIBioEntity{
   let entry = SRIEntry;
   
   //add fields included in biomedical-id-resolver
   entry.primaryID = entry.id.identifier;
   entry.label = entry.id.label || entry.id.identifier;
-  let at = await addAttributes(entry.type, entry.primaryID);
-  entry.attributes = at;
+  entry.attributes = {};
   entry.semanticType = entry.type[0].split(":")[1]; // get first semantic type without biolink prefix
   entry._leafSemanticType = entry.semanticType;
   entry.semanticTypes = entry.type;
@@ -105,15 +102,15 @@ async function ResolvableEntry(SRIEntry): Promise<SRIBioEntity>{
 }
 
 //transform output from SRI into original resolver shape
-async function transformResults(results): Promise<SRIResolverOutput> {
+function transformResults(results): SRIResolverOutput {
   //forEach does not wait for async calls
   for (let i = 0; i < Object.keys(results).length; i++) {
     const key = Object.keys(results)[i];
     let entry = results[key];
     if (entry === null) { //handle unresolvable entities
-      entry = await UnresolvableEntry(key, null);
+      entry = UnresolvableEntry(key, null);
     } else {
-      entry = await ResolvableEntry(entry);
+      entry = ResolvableEntry(entry);
     }
     results[key] = [entry];
   }
@@ -158,7 +155,7 @@ export async function _resolveSRI(userInput: ResolverInput): Promise<SRIResolver
 
   let queryResults = await query(uniqueInputIDs);
 
-  queryResults = await transformResults(queryResults);
+  queryResults = transformResults(queryResults);
 
   queryResults = mapInputSemanticTypes(userInput, queryResults);
 
