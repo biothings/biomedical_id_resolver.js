@@ -16,15 +16,12 @@ function combineInputs(userInput: ResolverInput): string[] {
 //input: array of curies
 //handles querying and batching of inputs
 async function query(api_input: string[]) {
-  let url: URL = new URL('https://nodenormalization-sri.renci.org/1.2/get_normalized_nodes');
+  let url = 'https://nodenormalization-sri.renci.org/1.2/get_normalized_nodes';
 
-  //SRI returns a 414 error if the length of the url query is greater than 65536, split into chunks of 1500 curies to be on the safe side (lower number if still running into 414 errors)
-  let chunked_input = _.chunk(api_input, 1500); 
+  let chunked_input = _.chunk(api_input, 10000);
 
   let axios_queries = chunked_input.map((input) => {
-    //@ts-ignore
-    url.search = new URLSearchParams(input.map(curie => ["curie", curie]));
-    return axios.get(url.toString());
+    return axios.post(url, {curies: input});
   });
 
   //convert res array into single object with all curies

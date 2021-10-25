@@ -106,13 +106,14 @@ describe("Test SRI Resolver", () => {
   });
 
   test("Test large batch of inputs should be correctly resolved and should not give an error", async () => {
-    const fakeNCBIGeneInputs = [...Array(5000).keys()].map(item => 'NCBIGene:' + item.toString());
+    const fakeNCBIGeneInputs = [...Array(15000).keys()].map(item => 'NCBIGene:' + item.toString());
     let input = {
       Gene: fakeNCBIGeneInputs,
     };
     const res = await resolveSRI(input);
 
     expect(Object.keys(res)).toHaveLength(fakeNCBIGeneInputs.length);
+    expect(res["NCBIGene:1"]).toEqual(expect.any(Array));
   })
 
 });
