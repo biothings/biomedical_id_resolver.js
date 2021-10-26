@@ -86,14 +86,21 @@ function getAttributesHelper(records: BioThingsAPIQueryResponse[], semanticType:
 
 function getDBIDs(prefix: string, semanticType: string, response: BioThingsAPIQueryResponse[]): any {
     const grpedResponse = groupResultByQuery(response);
+    let final_res = {}
     for (const query in grpedResponse) {
         const curie = generateCurie(prefix, query);
         if (!('notfound' in grpedResponse[query][0])) {
-            return getAttributesHelper(grpedResponse[query], semanticType, curie);
-        } else {
-            return {};
+            let attributes = getAttributesHelper(grpedResponse[query], semanticType, curie);
+            if (Object.keys(attributes).length) {
+                final_res = {
+                    ...final_res, 
+                    ...attributes
+                }
+            }
         }
     }
+    //combined attributes collected for this prefix IDs
+    return final_res;
 }
 
 function buildOneQuery(metadata: MetaDataObject, prefix: string, inputs: string[], semanticType: string): Promise<IndividualResolverOutput> {
@@ -104,32 +111,29 @@ function buildOneQuery(metadata: MetaDataObject, prefix: string, inputs: string[
     }
     const returnFields = idReturnFields + attrReturnFields;
     const scopes = getInputScopes(metadata.mapping, prefix);
-    const biothingsQuery = 'q={inputs}&scopes={scopes}&fields={fields}&dotfield=true&species=human'
-        .replace('{inputs}', inputs.join(','))
-        .replace('{scopes}', scopes)
-        .replace('{fields}', returnFields);
-        debug(
-        `One Axios Query is built--- method: post, url: ${metadata.url}, timeout: ${TIMEOUT}, data: ${biothingsQuery}, inputs: ${inputs}`,
-        );
-        return axios({
+    debug(`inputs ${inputs}`)
+    return axios({
         method: 'post',
         url: metadata.url,
         timeout: TIMEOUT,
         params: {
             fields: returnFields,
             dotfield: true,
-            species: 'human',
         },
         data: {
             q: inputs,
             scopes: scopes,
         },
         headers: { 'content-type': 'application/json' },
-        }).then((response) => getDBIDs(prefix, semanticType, response.data));
+    }).then((response) => getDBIDs(prefix, semanticType, response.data));
 }
 
 function buildQueries(metadata: MetaDataObject, prefix: string, inputs: string[], semanticType: string) {
-    return _.chunk(inputs, MAX_BIOTHINGS_INPUT_SIZE).map((batch) => buildOneQuery(metadata, prefix, batch, semanticType));
+    if (inputs.length > MAX_BIOTHINGS_INPUT_SIZE) {
+        return _.chunk(inputs, MAX_BIOTHINGS_INPUT_SIZE).map((batch) => buildOneQuery(metadata, prefix, batch, semanticType));
+    }else{
+        return [buildOneQuery(metadata, prefix, inputs, semanticType)];
+    }
 }
 
 function getAPIMetaData(semanticType: string) {
