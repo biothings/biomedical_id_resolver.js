@@ -18,7 +18,7 @@ function combineInputs(userInput: ResolverInput): string[] {
 async function query(api_input: string[]) {
   let url = 'https://nodenormalization-sri.renci.org/1.2/get_normalized_nodes';
 
-  let chunked_input = _.chunk(api_input, 10000);
+  let chunked_input = _.chunk(api_input, 1500);
 
   let axios_queries = chunked_input.map((input) => {
     return axios.post(url, {curies: input});
@@ -102,6 +102,7 @@ function ResolvableEntry(SRIEntry): SRIBioEntity {
 
 //transform output from SRI into original resolver shape
 function transformResults(results): SRIResolverOutput {
+  debug(`Starting transformResults`);
   Object.keys(results).forEach((key) => {
     let entry = results[key];
     if (entry === null) { //handle unresolvable entities
@@ -149,13 +150,29 @@ function mapInputSemanticTypes(originalInput: ResolverInput, result: SRIResolver
 }
 
 export async function _resolveSRI(userInput: ResolverInput): Promise<SRIResolverOutput> {
+  let startTime = performance.now();
+
   let uniqueInputIDs = combineInputs(userInput);
+
+  let endTime = performance.now();
+
+  debug(`Querying SRI for ${uniqueInputIDs.length} IDs. Took ${endTime - startTime}ms to calculate unique ids.`)
 
   let queryResults = await query(uniqueInputIDs);
 
+  let endTime1 = performance.now();
+
+  debug(`Querying SRI for ${uniqueInputIDs.length} IDs took ${endTime1 - endTime} milliseconds.`);
+
   queryResults = transformResults(queryResults);
 
+  debug(`Finished transformResults.`);
+
   queryResults = mapInputSemanticTypes(userInput, queryResults);
+
+  let endTime2 = performance.now();
+
+  debug(`Took ${endTime2 - endTime}ms to process results. ${endTime2 - startTime}ms total.`);
 
   return queryResults;
 }
