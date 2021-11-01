@@ -96,7 +96,7 @@ describe("Test Validator Class", () => {
         })
     })
 
-    describe("Test handleUndefinedIDs function", () => {
+    describe.skip("Test handleUndefinedIDs function", () => {
         test("id appear in config should be mapped to the correct semantic type", () => {
             const test_data = { "undefined": ["NCBIGene:1017", "kkk:1323"] };
             const vd = new DefaultValidator(test_data);
@@ -115,7 +115,7 @@ describe("Test Validator Class", () => {
         })
     })
 
-    describe("Test validate function", () => {
+    describe.skip("Test validate function", () => {
         test("valid answers can be retrieved through valid property of the class", () => {
             const test_data = { "Gene": ["NCBIGene:1017", "kkk:1323"], "SmallMolecule": ["DRUGBANK:DB0001"] };
             const vd = new DefaultValidator(test_data);

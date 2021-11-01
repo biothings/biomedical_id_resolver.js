@@ -1,6 +1,6 @@
 import BioLinkBasedValidator from '../../src/validate/biolink_based_validator';
 
-describe("Integration test for BioLink Based Validator", () => {
+describe.skip("Integration test for BioLink Based Validator", () => {
     test("Semantic Type and Prefix defined in BioLink and config should appear in resolvable", () => {
         const input = {
             Disease: ["MONDO:1234"]
