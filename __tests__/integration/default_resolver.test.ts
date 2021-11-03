@@ -3,7 +3,7 @@ import { ResolvableBioEntity } from '../../src/bioentity/valid_bioentity';
 import { IrresolvableBioEntity } from '../../src/bioentity/irresolvable_bioentity';
 
 jest.setTimeout(30000)
-describe("Test ID Resolver", () => {
+describe.skip("Test ID Resolver", () => {
     test("Test valid inputs should be corretly resolved", async () => {
         const resolver = new DefaultIDResolver();
         const res = await resolver.resolve({ "Gene": ["NCBIGene:1017"] });

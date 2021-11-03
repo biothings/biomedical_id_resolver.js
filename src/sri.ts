@@ -62,7 +62,7 @@ function UnresolvableEntry(curie: string, semanticType: string): SRIBioEntity {
 }
 
 //build id resolution object for curies that were successfully resolved by SRI
-function ResolvableEntry(SRIEntry): SRIBioEntity {
+function ResolvableEntry(SRIEntry): SRIBioEntity{
   let entry = SRIEntry;
   
   //add fields included in biomedical-id-resolver
@@ -94,24 +94,23 @@ function ResolvableEntry(SRIEntry): SRIBioEntity {
     }
   })
   entry.dbIDs.name = names;
-
   entry._dbIDs = entry.dbIDs;
-
   return entry;
 }
 
 //transform output from SRI into original resolver shape
 function transformResults(results): SRIResolverOutput {
-  Object.keys(results).forEach((key) => {
+  //forEach does not wait for async calls
+  for (let i = 0; i < Object.keys(results).length; i++) {
+    const key = Object.keys(results)[i];
     let entry = results[key];
     if (entry === null) { //handle unresolvable entities
       entry = UnresolvableEntry(key, null);
     } else {
       entry = ResolvableEntry(entry);
     }
-    
     results[key] = [entry];
-  });
+  }
   return results;
 }
 

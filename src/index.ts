@@ -4,6 +4,7 @@ import DefaultResolver from './resolve/default_resolver';
 import { APIMETA } from './config';
 import generateInvalid from './fake';
 import { _resolveSRI } from './sri';
+import { _getAttributes } from './attrs';
 
 export class Resolver implements IResolver {
   private _resolver: IResolver;
@@ -30,6 +31,10 @@ export class Resolver implements IResolver {
 
 export async function resolveSRI(userInput: ResolverInput): Promise<SRIResolverOutput> {
   return await _resolveSRI(userInput);
+}
+
+export async function getAttributes(idsByType: object): Promise<any> {
+  return await _getAttributes(idsByType);
 }
 
 export const METADATA = APIMETA;

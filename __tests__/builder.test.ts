@@ -4,8 +4,8 @@ import { IrresolvableBioEntity } from '../src/bioentity/irresolvable_bioentity';
 import { APIMETA } from '../src/config';
 
 
-describe("Test BioThingsQueryBuilder Class", () => {
-    describe("Test getDBIDs function", () => {
+describe.skip("Test BioThingsQueryBuilder Class", () => {
+    describe.skip("Test getDBIDs function", () => {
         test("BioThings API Response are correctly parsed", () => {
             const response = [
                 {
@@ -50,7 +50,7 @@ describe("Test BioThingsQueryBuilder Class", () => {
         })
     })
 
-    describe("test buildOneQuery function", () => {
+    describe.skip("test buildOneQuery function", () => {
         test("test with gene inputs", async () => {
             const builder = new BioThingsQueryBuilder("Gene", ["NCBIGene:1017", "NCBIGene:1018"]);
             const res = await builder.buildOneQuery(APIMETA.Gene, "NCBIGene", ["1017", "1018"]);
@@ -58,7 +58,7 @@ describe("Test BioThingsQueryBuilder Class", () => {
         })
     })
 
-    describe("test buildQueries function", () => {
+    describe.skip("test buildQueries function", () => {
         test("Inputs with less than 1000 ids should return one promise", async () => {
             const builder = new BioThingsQueryBuilder("Gene", ["NCBIGene:1017", "NCBIGene:1018"]);
             const res = builder.buildQueries(APIMETA.Gene, "NCBIGene", ["1017", "1018"]);
@@ -74,7 +74,7 @@ describe("Test BioThingsQueryBuilder Class", () => {
         })
     })
 
-    describe("test build function", () => {
+    describe.skip("test build function", () => {
         test("Inputs with a mix of ids with different prefixes", async () => {
             const builder = new BioThingsQueryBuilder("Gene", ["NCBIGene:1017", "OMIM:1018"]);
             const res = builder.build();

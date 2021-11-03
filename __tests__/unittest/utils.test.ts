@@ -134,8 +134,7 @@ describe("Test Utils Module", () => {
     describe("Test generateIDTypeDict function", () => {
         test("Test generateIDTypeDict function", () => {
             const res = generateIDTypeDict();
-            expect(res).toHaveProperty('NCBIGene', ['Gene'])
-            expect(res).toHaveProperty('OMIM', ['Gene', 'Disease'])
+            expect(res['CHEBI']).toContain('SmallMolecule');
         })
     })
 })
