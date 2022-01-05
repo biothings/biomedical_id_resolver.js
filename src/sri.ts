@@ -19,9 +19,14 @@ async function query(api_input: string[]) {
   let url = 'https://nodenormalization-sri.renci.org/1.2/get_normalized_nodes';
 
   let chunked_input = _.chunk(api_input, 10000);
+  const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${process.platform}`
 
   let axios_queries = chunked_input.map((input) => {
-    return axios.post(url, {curies: input});
+    return axios.post(
+      url,
+      { curies: input },
+      { headers: { "User-Agent": userAgent } },
+    );
   });
 
   //convert res array into single object with all curies
@@ -64,7 +69,7 @@ function UnresolvableEntry(curie: string, semanticType: string): SRIBioEntity {
 //build id resolution object for curies that were successfully resolved by SRI
 function ResolvableEntry(SRIEntry): SRIBioEntity{
   let entry = SRIEntry;
-  
+
   //add fields included in biomedical-id-resolver
   entry.primaryID = entry.id.identifier;
   entry.label = entry.id.label || entry.id.identifier;
@@ -117,7 +122,7 @@ function transformResults(results): SRIResolverOutput {
 //add entries with original semantic types if they don't match the SRI resolved types
 function mapInputSemanticTypes(originalInput: ResolverInput, result: SRIResolverOutput): SRIResolverOutput {
   Object.keys(originalInput).forEach((semanticType) => {
-    if (semanticType === 'unknown' || semanticType === 'undefined' || 
+    if (semanticType === 'unknown' || semanticType === 'undefined' ||
       semanticType === 'NamedThing') { //rely on SRI type if input is unknown, undefined, or NamedThing
       return;
     }

@@ -93,7 +93,7 @@ function getDBIDs(prefix: string, semanticType: string, response: BioThingsAPIQu
             let attributes = getAttributesHelper(grpedResponse[query], semanticType, curie);
             if (Object.keys(attributes).length) {
                 final_res = {
-                    ...final_res, 
+                    ...final_res,
                     ...attributes
                 }
             }
@@ -112,6 +112,7 @@ function buildOneQuery(metadata: MetaDataObject, prefix: string, inputs: string[
     const returnFields = idReturnFields + attrReturnFields;
     const scopes = getInputScopes(metadata.mapping, prefix);
     debug(`inputs ${inputs}`)
+    const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${process.platform}`;
     return axios({
         method: 'post',
         url: metadata.url,
@@ -124,7 +125,10 @@ function buildOneQuery(metadata: MetaDataObject, prefix: string, inputs: string[
             q: inputs,
             scopes: scopes,
         },
-        headers: { 'content-type': 'application/json' },
+        headers: {
+            'content-type': 'application/json',
+            'User-Agent': userAgent,
+        },
     }).then((response) => getDBIDs(prefix, semanticType, response.data));
 }
 
