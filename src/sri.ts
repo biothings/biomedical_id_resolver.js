@@ -18,7 +18,7 @@ function combineInputs(userInput: ResolverInput): string[] {
 async function query(api_input: string[]) {
   let url = 'https://nodenormalization-sri.renci.org/1.2/get_normalized_nodes';
 
-  let chunked_input = _.chunk(api_input, 10000);
+  let chunked_input = _.chunk(api_input, 5000);
   try {
     const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${process.platform}`;
     let axios_queries = chunked_input.map((input) => {
