@@ -19,20 +19,23 @@ async function query(api_input: string[]) {
   let url = 'https://nodenormalization-sri.renci.org/1.2/get_normalized_nodes';
 
   let chunked_input = _.chunk(api_input, 10000);
-  const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${process.platform}`
-
-  let axios_queries = chunked_input.map((input) => {
-    return axios.post(
-      url,
-      { curies: input },
-      { headers: { "User-Agent": userAgent } },
-    );
-  });
-
-  //convert res array into single object with all curies
-  let res = await Promise.all(axios_queries);
-  res = res.map(r => r.data);
-  return Object.assign({}, ...res);
+  try {
+    const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${process.platform}`;
+    let axios_queries = chunked_input.map((input) => {
+      return axios.post(
+        url,
+        {curies: input},
+        { headers: { "User-Agent": userAgent } },
+      );
+    });
+    //convert res array into single object with all curies
+    let res = await Promise.all(axios_queries);
+    res = res.map(r => r.data);
+    return Object.assign({}, ...res);
+  } catch (err) {
+    err.message = `SRI resolver failed: ${err.message}`;
+    throw err;
+  }
 }
 
 //build id resolution object for curies that couldn't be resolved
