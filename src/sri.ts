@@ -20,8 +20,13 @@ async function query(api_input: string[]) {
 
   let chunked_input = _.chunk(api_input, 10000);
   try {
+    const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${process.platform}`;
     let axios_queries = chunked_input.map((input) => {
-      return axios.post(url, {curies: input});
+      return axios.post(
+        url,
+        {curies: input},
+        { headers: { "User-Agent": userAgent } },
+      );
     });
     //convert res array into single object with all curies
     let res = await Promise.all(axios_queries);
@@ -31,7 +36,6 @@ async function query(api_input: string[]) {
     err.message = `SRI resolver failed: ${err.message}`;
     throw err;
   }
-
 }
 
 //build id resolution object for curies that couldn't be resolved
