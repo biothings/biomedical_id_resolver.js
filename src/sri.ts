@@ -30,7 +30,11 @@ async function query(api_input: string[]) {
     });
     //convert res array into single object with all curies
     let res = await Promise.all(axios_queries);
-    res = res.map(r => r.data);
+    res = res.map((r, i) => {
+      return Object.keys(r.data).length
+        ? r.data
+        : Object.fromEntries(chunked_input[i].map(curie => [curie, null]));
+  });
     return Object.assign({}, ...res);
   } catch (err) {
     err.message = `SRI resolver failed: ${err.message}`;
