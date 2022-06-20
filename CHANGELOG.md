@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.11.0](https://github.com/biothings/biomedical_id_resolver.js/compare/v3.10.0...v3.11.0) (2022-06-20)
+
+
+### Features
+
+* :unicorn_face: add biothings apis node attributes during id resoltuion ([4d0a345](https://github.com/biothings/biomedical_id_resolver.js/commit/4d0a34527aae0e75dec1f325083e90ec3335bb31))
+* add resolver using SRI ([6302a7e](https://github.com/biothings/biomedical_id_resolver.js/commit/6302a7ed21227c241029cfc973e818da14586978))
+* identify BTE via User-Agent ([e20d2fb](https://github.com/biothings/biomedical_id_resolver.js/commit/e20d2fb943e192d61e784ee23bde7ba138039c40))
+* re-throw SRI resolver errors with more informative msg ([cc266b9](https://github.com/biothings/biomedical_id_resolver.js/commit/cc266b9c0a3a40985f77b4136754f74d8baa265b))
+* refactor SRI resolver to minimize queries made ([6783b4e](https://github.com/biothings/biomedical_id_resolver.js/commit/6783b4e1b155cc58cebbb11bad57b50999d33734))
+
+
+### Bug Fixes
+
+* :bug: check for empty list of semantic types given to attr module ([a865c1c](https://github.com/biothings/biomedical_id_resolver.js/commit/a865c1ca2b9dca32c4550aaa746b33eb834d2730))
+* :bug: only the first id of each prefix was returned ([1dd555c](https://github.com/biothings/biomedical_id_resolver.js/commit/1dd555cfda5b18c43b709cc6760a2d24269e64db))
+* :sparkles: add attrs to unresolvable entities ([5981e50](https://github.com/biothings/biomedical_id_resolver.js/commit/5981e5076536eb03d0ffa8255b6247add7e1e9c6))
+* :sparkles: remove debug logs ([0ee21a2](https://github.com/biothings/biomedical_id_resolver.js/commit/0ee21a2fe2e8ea78adce6b2cde14e9577cab59cb))
+* :sparkles: rename chemblmax phase field to FDA approved ([27ce8fd](https://github.com/biothings/biomedical_id_resolver.js/commit/27ce8fdd8f4fd91d93612d7180e60524665c697d))
+* :sparkles: restructure add attr module, supports batch, new call signature ([2ad62c9](https://github.com/biothings/biomedical_id_resolver.js/commit/2ad62c9bd4b883a984d14f651f3451fbd37343f1))
+* :sparkles: skip tests not relevant to current prod, update relevant to use ChemicalEntity ([aed0a04](https://github.com/biothings/biomedical_id_resolver.js/commit/aed0a049cf31220ef693dc651507d718c2797d0c))
+* :sparkles: update location where addattributes gets called, update method signature to allow for list of semantic types vs one ([2954410](https://github.com/biothings/biomedical_id_resolver.js/commit/29544105594bb34a4475e4bee158b8dc933943f6))
+* :sparkles: update max_phase mapped to drug_regulatory_status_world_wide ([1032533](https://github.com/biothings/biomedical_id_resolver.js/commit/1032533a21db1a2d5d1e09219b457d8599ba358c))
+* add _leafSemanticType and _dbIDs fields ([c9e74bc](https://github.com/biothings/biomedical_id_resolver.js/commit/c9e74bcff2c3dc6bd6f9fed612d046927402d72f))
+* add batching to sri query to fix 414 errors ([326fca6](https://github.com/biothings/biomedical_id_resolver.js/commit/326fca6f055f8bb0315075e38c089b8551a99751))
+* add names to curies array in sri resolver ([92062b3](https://github.com/biothings/biomedical_id_resolver.js/commit/92062b32958f0cdb39883ce72ffc07196e908302))
+* change CLINVAR id from RCV to Variant ID ([53d403a](https://github.com/biothings/biomedical_id_resolver.js/commit/53d403a3f1cda20fafb13df0dfa0c38d445e2a96))
+* change id priorities to match biolink's ([aae97c5](https://github.com/biothings/biomedical_id_resolver.js/commit/aae97c596f5d335fc28d7551c3e83bbc722be33d))
+* comment out semantic types that aren't used ([347bb82](https://github.com/biothings/biomedical_id_resolver.js/commit/347bb82053336dec5f8d140f8c8e61d886dc3d3d))
+* fix problem with unresolved id response shape ([a3c561c](https://github.com/biothings/biomedical_id_resolver.js/commit/a3c561c3dac2b61be50c1e70cd17bffba43dff30))
+* fix results merging ([502e4ff](https://github.com/biothings/biomedical_id_resolver.js/commit/502e4ff6ddcbefc84d853cf8b4b01bdcc9e8bf86))
+* handle empty responses from node normalizer ([8172b4a](https://github.com/biothings/biomedical_id_resolver.js/commit/8172b4a0748f86e9389175479a1de5ffb56c08a5))
+* normalizer queries in 5k chunks ([1c18cc0](https://github.com/biothings/biomedical_id_resolver.js/commit/1c18cc0b2011da8479b64713df2a52b7b15029bd))
+* query using post instead of get ([58fffec](https://github.com/biothings/biomedical_id_resolver.js/commit/58fffeccb86763a3e4116877bc6cc825de5fda07))
+* remove dbnsfp field mapping for clinvar id namespace ([04ac54c](https://github.com/biothings/biomedical_id_resolver.js/commit/04ac54c97859a00ba0fe06cc016b965fa1575ee5))
+* remove names from curies ([942c93e](https://github.com/biothings/biomedical_id_resolver.js/commit/942c93eb95c50de78645a36788ba5df0ff8cd06a))
+* return semantic type when curie is unresolvable ([fc5632a](https://github.com/biothings/biomedical_id_resolver.js/commit/fc5632a3e1b0b249788ca2115d54e3e8cf80e40b))
+* shorten debug statement ([94e7197](https://github.com/biothings/biomedical_id_resolver.js/commit/94e719763465beb2801728452920bba3a05b6ec2))
+* update sri endpoint to prod ([fdc3ebb](https://github.com/biothings/biomedical_id_resolver.js/commit/fdc3ebb1ace120ae2f41c78ef37f752cd273b406))
+* update tests with new signature ([5bd7ae0](https://github.com/biothings/biomedical_id_resolver.js/commit/5bd7ae030ffb68fdca68a9ddac26ac61cd194f5d))
+* use input semantic type instead of sri resolved type ([5854a77](https://github.com/biothings/biomedical_id_resolver.js/commit/5854a77b2aaa0e0f88ccf274be1f718698636b48))
+* use sri resolved type when input type is unknown ([30f465c](https://github.com/biothings/biomedical_id_resolver.js/commit/30f465cc4012a98a9b4b9577cde21c77ef466d65))
+
 ## [3.10.0](https://github.com/biothings/biomedical_id_resolver.js/compare/v3.9.1...v3.10.0) (2021-08-16)
 
 
