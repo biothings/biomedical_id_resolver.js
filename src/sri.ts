@@ -16,7 +16,7 @@ function combineInputs(userInput: ResolverInput): string[] {
 //input: array of curies
 //handles querying and batching of inputs
 async function query(api_input: string[]) {
-  let url = 'https://nodenormalization-sri.renci.org/1.2/get_normalized_nodes';
+  let url = 'https://nodenormalization-sri.renci.org/1.3/get_normalized_nodes';
 
   let chunked_input = _.chunk(api_input, 5000);
   try {
