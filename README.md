@@ -1,5 +1,5 @@
-![Test Coveralls](https://github.com/biothings/biomedical_id_resolver.js/workflows/Test%20Coveralls/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/biothings/biomedical_id_resolver.js/badge.svg?branch=main)](https://coveralls.io/github/biothings/biomedical_id_resolver.js?branch=main)
+[![Test Codecov](https://github.com/biothings/biomedical_id_resolver.js/actions/workflows/test_cov.yml/badge.svg)](https://github.com/biothings/biomedical_id_resolver.js/actions/workflows/test_cov.yml)
+[![codecov](https://codecov.io/github/biothings/biomedical_id_resolver.js/branch/main/graph/badge.svg?token=E2LDAGC7K9)](https://codecov.io/github/biothings/biomedical_id_resolver.js)
 ![npm](https://img.shields.io/npm/dw/biomedical_id_resolver)
 ![GitHub issues](https://img.shields.io/github/issues/biothings/biomedical_id_resolver.js)
 ![NPM](https://img.shields.io/npm/l/biomedical_id_resolver)
