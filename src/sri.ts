@@ -3,6 +3,7 @@ import { CURIE } from './config';
 import { SRIResolverOutput, ResolverInput, SRIBioEntity } from './common/types';
 import Debug from 'debug';
 import _ from 'lodash';
+import SRIResolverFailiure from './exceptions/sri_resolver_failiure';
 const debug = Debug('bte:biomedical-id-resolver:SRI');
 
 //convert object of arrays into array of unique IDs
@@ -37,8 +38,7 @@ async function query(api_input: string[]) {
   });
     return Object.assign({}, ...res);
   } catch (err) {
-    err.message = `SRI resolver failed: ${err.message}`;
-    throw err;
+    throw new SRIResolverFailiure(`SRI resolver failed: ${err.message}`);
   }
 }
 
