@@ -153,16 +153,35 @@ export interface IDOBject {
   identifier: string;
   label: string;
 }
-export interface SRIBioEntity extends IBioEntity {
-  _leafSemanticType: string; // @deprecated use semanticType instead
-  _dbIDs: DBIdsObject; // @deprecated use dbIDs instead
-  id: IDOBject;
-  equivalent_identifiers: IDOBject[];
+export interface SRIBioEntity {
+  primaryID: string; // SRI-preferred curie for this entity
+  equivalentIDs: string[]; // curies that also resolve to this entity
+  label: string; // SRI-preffered entity label
+  labelAliases: string[]; // other labels for this entity
+  // "main" semantic types for this entity, first is always the SRI-preferred type
+  primaryTypes: string[];
+  semanticTypes: string[]; // all types for this entity, up the hierarchy
+  attributes: DBIdsObject; // attributes attached to this entity
+}
+
+export interface IdentifierObject {
+  identifier: string;
+  label?: string;
+}
+
+export interface SRIResponseEntity {
+  id: IdentifierObject;
+  equivalent_identifiers: IdentifierObject[];
   type: string[];
+  information_content: number;
+}
+
+export interface SRIResponse {
+  [curie: string]: SRIResponseEntity;
 }
 
 export interface SRIResolverOutput {
-  [curie: string]: SRIBioEntity[];
+  [curie: string]: SRIBioEntity;
 }
 
 export interface ResolverInput {
