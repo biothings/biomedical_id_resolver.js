@@ -161,7 +161,7 @@ export interface SRIBioEntity {
   // "main" semantic types for this entity, first is always the SRI-preferred type
   primaryTypes: string[];
   semanticTypes: string[]; // all types for this entity, up the hierarchy
-  attributes: DBIdsObject; // attributes attached to this entity
+  attributes?: DBIdsObject; // attributes attached to this entity
 }
 
 export interface IdentifierObject {
