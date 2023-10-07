@@ -1,15 +1,15 @@
-export default class SRIResolverFailiure extends Error {
+export default class SRINodeNormFailure extends Error {
 
   constructor(message = 'SRI Resolver Failed.', ...params) {
     super(...params);
     
-    Object.setPrototypeOf(this, SRIResolverFailiure.prototype);
+    Object.setPrototypeOf(this, SRINodeNormFailure.prototype);
     
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, SRIResolverFailiure);
+      Error.captureStackTrace(this, SRINodeNormFailure);
     }
 
-    this.name = 'SRIResolverFailiure';
+    this.name = 'SRINodeNormFailure';
     this.message = message;
   }
 }
