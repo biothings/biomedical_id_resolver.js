@@ -62,6 +62,8 @@ function UnresolvableEntry(curie: string, semanticType: string): SRIBioEntity {
 
 /** Build id resolution object for curies that were successfully resolved by SRI */
 function ResolvableEntry(SRIEntry: SRIResponseEntity): SRIBioEntity {
+  // Temporary fix for https://github.com/biothings/biothings_explorer/issues/652
+  if (SRIEntry.type?.[0].includes('NamedThing')) SRIEntry.type.reverse();
   return {
     primaryID: SRIEntry.id.identifier,
     equivalentIDs: [
