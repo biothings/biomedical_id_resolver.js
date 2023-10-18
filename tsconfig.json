@@ -9,7 +9,10 @@
     "esModuleInterop": true,
     "strict": false,
     "composite": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "paths": {
+      "biolink-model": ["../biolink-model"]
+    }
   },
   "include": [
     "./src/**/*"

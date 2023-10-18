@@ -8,7 +8,7 @@ const debug = Debug('bte:biomedical-id-resolver:SRI');
 
 /** convert object of arrays into array of unique IDs */
 function combineInputs(userInput: ResolverInput): string[] {
-  let result = Object.keys(userInput).reduce(function (r, k) {
+  const result = Object.keys(userInput).reduce(function(r, k) {
     return r.concat(userInput[k]);
   }, []);
   return [...new Set(result)];
@@ -19,14 +19,13 @@ function combineInputs(userInput: ResolverInput): string[] {
  * handles querying and batching of inputs
  */
 async function query(api_input: string[]) {
-  let url = 'https://nodenorm.transltr.io/get_normalized_nodes';
+  const url = 'https://nodenorm.transltr.io/get_normalized_nodes';
 
-  let chunked_input = _.chunk(api_input, 1000);
+  const chunked_input = _.chunk(api_input, 1000);
   try {
-    const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${
-      process.platform
-    }`;
-    let axios_queries = chunked_input.map((input) => {
+    const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${process.platform
+      }`;
+    const axios_queries = chunked_input.map((input) => {
       return axios.post(url, { curies: input }, { headers: { 'User-Agent': userAgent } });
     });
     //convert res array into single object with all curies
@@ -95,11 +94,7 @@ function mapInputSemanticTypes(originalInput: ResolverInput, result: SRIResolver
     const uniqueInputs = [...new Set(originalCuries)];
     uniqueInputs.forEach((curie) => {
       const entry = result[curie];
-      const primaryTypesMissing = [
-        !entry.primaryTypes,
-        !entry.primaryTypes[0],
-        entry.primaryTypes.length === 0,
-      ];
+      const primaryTypesMissing = [!entry.primaryTypes, !entry.primaryTypes[0], entry.primaryTypes.length === 0];
       if (primaryTypesMissing.some((condition) => condition)) {
         entry.primaryTypes = [semanticType];
         entry.semanticTypes = [semanticType];
@@ -119,7 +114,7 @@ function mapInputSemanticTypes(originalInput: ResolverInput, result: SRIResolver
 }
 
 export async function _resolveSRI(userInput: ResolverInput): Promise<SRIResolverOutput> {
-  let uniqueInputIDs = combineInputs(userInput);
+  const uniqueInputIDs = combineInputs(userInput);
 
   let queryResults = await query(uniqueInputIDs);
 
