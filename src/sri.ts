@@ -8,7 +8,7 @@ const debug = Debug('bte:biomedical-id-resolver:SRI');
 
 /** convert object of arrays into array of unique IDs */
 function combineInputs(userInput: ResolverInput): string[] {
-  const result = Object.keys(userInput).reduce(function(r, k) {
+  const result = Object.keys(userInput).reduce(function (r, k) {
     return r.concat(userInput[k]);
   }, []);
   return [...new Set(result)];
@@ -23,8 +23,9 @@ async function query(api_input: string[]) {
 
   const chunked_input = _.chunk(api_input, 1000);
   try {
-    const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${process.platform
-      }`;
+    const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${
+      process.platform
+    }`;
     const axios_queries = chunked_input.map((input) => {
       return axios.post(url, { curies: input }, { headers: { 'User-Agent': userAgent } });
     });

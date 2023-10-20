@@ -185,5 +185,5 @@ export interface SRIResolverOutput {
 }
 
 export interface ResolverInput {
-  [type: string]: string[]
+  [type: string]: string[];
 }
