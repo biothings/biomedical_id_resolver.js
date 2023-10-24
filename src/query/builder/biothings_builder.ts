@@ -129,7 +129,9 @@ export class BioThingsQueryBuilder extends QueryBuilder {
     debug(
       `One Axios Query is built--- method: post, url: ${metadata.url}, timeout: ${TIMEOUT}, data: ${biothingsQuery}, inputs: ${inputs}`,
     );
-    const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${process.platform}`
+    const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${
+      process.platform
+    }`;
     return axios({
       method: 'post',
       url: metadata.url,

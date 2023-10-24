@@ -14,7 +14,7 @@ js library for resolving biological ids to their equivalent ids in batch
 ## Install
 
 ```
-$ npm i biomedical_id_resolver
+$ pnpm i biomedical_id_resolver
 ```
 
 ## Usage

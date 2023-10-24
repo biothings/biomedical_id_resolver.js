@@ -7,6 +7,8 @@ import { _resolveSRI } from './sri';
 import { _getAttributes } from './attrs';
 import SRINodeNormFailureImport from './exceptions/sri_resolver_failiure';
 
+export * from './common/types';
+
 export class Resolver implements IResolver {
   private _resolver: IResolver;
   constructor(type: string = undefined) {
