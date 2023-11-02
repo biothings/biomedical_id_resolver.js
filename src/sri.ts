@@ -1,10 +1,17 @@
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
 import { CURIE } from './config';
 import { SRIResolverOutput, ResolverInput, SRIBioEntity, SRIResponseEntity, SRIResponse } from './common/types';
 import Debug from 'debug';
 import _ from 'lodash';
-import SRIResolverFailiure from './exceptions/sri_resolver_failiure';
+import SRINodeNormFailure from './exceptions/sri_resolver_failiure';
 const debug = Debug('bte:biomedical-id-resolver:SRI');
+
+/** sets up request retry policy (weird typescript b/c old axios version) */
+// @ts-ignore
+axiosRetry(axios, { retries: 3, retryDelay: axiosRetry.exponentialDelay, retryCondition: (err) => {
+    return axiosRetry.isNetworkOrIdempotentRequestError(err) || err.response?.status >= 500;
+} })
 
 /** convert object of arrays into array of unique IDs */
 function combineInputs(userInput: ResolverInput): string[] {
@@ -36,7 +43,7 @@ async function query(api_input: string[]) {
     });
     return Object.assign({}, ...res);
   } catch (err) {
-    throw new SRIResolverFailiure(`SRI resolver failed: ${err.message}`);
+    throw new SRINodeNormFailure(`SRI resolver failed: ${err.message}`);
   }
 }
 
