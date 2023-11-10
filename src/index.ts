@@ -8,6 +8,8 @@ import { _getAttributes } from './attrs';
 import SRINodeNormFailureImport from './exceptions/sri_resolver_failiure';
 
 export * from './common/types';
+export * from './bioentity/valid_bioentity';
+export * from './bioentity/irresolvable_bioentity';
 
 export class Resolver implements IResolver {
   private _resolver: IResolver;
