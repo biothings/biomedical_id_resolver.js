@@ -35,7 +35,7 @@ async function query(api_input: string[]) {
     ci: 'https://nodenorm.ci.transltr.io/1.3/get_normalized_nodes',
     test: 'https://nodenorm.test.transltr.io/1.3/get_normalized_nodes',
     prod: 'https://nodenorm.transltr.io/1.3/get_normalized_nodes',
-  }[process.env.NODE_ENV ?? 'prod'];
+  }[process.env.INSTANCE_ENV ?? 'prod'];
 
   const chunked_input = _.chunk(api_input, 1000);
   try {
