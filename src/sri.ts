@@ -9,13 +9,17 @@ const debug = Debug('bte:biomedical-id-resolver:SRI');
 
 /** sets up request retry policy (weird typescript b/c old axios version) */
 // @ts-ignore
-axiosRetry(axios, { retries: 3, retryDelay: axiosRetry.exponentialDelay, retryCondition: (err) => {
+axiosRetry(axios, {
+  retries: 3,
+  retryDelay: axiosRetry.exponentialDelay,
+  retryCondition: (err) => {
     return axiosRetry.isNetworkOrIdempotentRequestError(err) || err.response?.status >= 500;
-} })
+  },
+});
 
 /** convert object of arrays into array of unique IDs */
 function combineInputs(userInput: ResolverInput): string[] {
-  const result = Object.keys(userInput).reduce(function (r, k) {
+  const result = Object.keys(userInput).reduce(function(r, k) {
     return r.concat(userInput[k]);
   }, []);
   return [...new Set(result)];
@@ -26,13 +30,19 @@ function combineInputs(userInput: ResolverInput): string[] {
  * handles querying and batching of inputs
  */
 async function query(api_input: string[]) {
-  const url = 'https://nodenorm.transltr.io/get_normalized_nodes';
+  const url = {
+    dev: 'https://nodenormalization-sri.renci.org/get_normalized_nodes',
+    ci: 'https://nodenorm.ci.transltr.io/1.3/get_normalized_nodes',
+    test: 'https://nodenorm.test.transltr.io/1.3/get_normalized_nodes',
+    prod: 'https://nodenorm.transltr.io/1.3/get_normalized_nodes',
+  }[process.env.NODE_ENV ?? 'prod'];
 
   const chunked_input = _.chunk(api_input, 1000);
   try {
-    const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${
-      process.platform
-    }`;
+    const userAgent = [
+      `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'}`,
+      `Node/${process.version} ${process.platform}`,
+    ].join(' ');
     const axios_queries = chunked_input.map((input) => {
       return axios.post(url, { curies: input }, { headers: { 'User-Agent': userAgent } });
     });
