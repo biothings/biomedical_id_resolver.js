@@ -44,7 +44,11 @@ async function query(api_input: string[]) {
       `Node/${process.version} ${process.platform}`,
     ].join(' ');
     const axios_queries = chunked_input.map((input) => {
-      return axios.post(url, { curies: input }, { headers: { 'User-Agent': userAgent } });
+      return axios.post(
+        url,
+        { curies: input, conflate: true, drug_chemical_conflate: true },
+        { headers: { 'User-Agent': userAgent } },
+      );
     });
     //convert res array into single object with all curies
     let res = await Promise.all(axios_queries);
