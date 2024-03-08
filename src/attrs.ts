@@ -117,9 +117,8 @@ function buildOneQuery(
   const returnFields = idReturnFields + attrReturnFields;
   const scopes = getInputScopes(metadata.mapping, prefix);
   debug(`inputs ${inputs}`);
-  const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${
-    process.platform
-  }`;
+  const userAgent = `BTE/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'} Node/${process.version} ${process.platform
+    }`;
   return axios({
     method: 'post',
     url: metadata.url,
@@ -136,10 +135,17 @@ function buildOneQuery(
       'content-type': 'application/json',
       'User-Agent': userAgent,
     },
-  }).then((response) => getDBIDs(prefix, semanticType, response.data));
+  })
+    .then((response) => getDBIDs(prefix, semanticType, response.data))
+    .catch(() => undefined);
 }
 
-function buildQueries(metadata: MetaDataObject, prefix: string, inputs: string[], semanticType: string) {
+function buildQueries(
+  metadata: MetaDataObject,
+  prefix: string,
+  inputs: string[],
+  semanticType: string,
+): Promise<IndividualResolverOutput>[] {
   if (inputs.length > MAX_BIOTHINGS_INPUT_SIZE) {
     return _.chunk(inputs, MAX_BIOTHINGS_INPUT_SIZE).map((batch) =>
       buildOneQuery(metadata, prefix, batch, semanticType),
@@ -153,9 +159,9 @@ function getAPIMetaData(semanticType: string) {
   return APIMETA[semanticType];
 }
 
-function build(semanticType: string, curies: string[]) {
+function build(semanticType: string, curies: string[]): Promise<IndividualResolverOutput>[] {
   const grped = groupCuriesByPrefix(curies);
-  return Object.keys(grped).reduce((prev, current) => {
+  return Object.keys(grped).reduce((prev: Promise<IndividualResolverOutput>[], current) => {
     prev = [...prev, ...buildQueries(getAPIMetaData(semanticType), current, grped[current], semanticType)];
     return prev;
   }, []);
@@ -177,7 +183,7 @@ function getSupportedType(category: string): string {
 
 export async function _getAttributes(idsByType: object): Promise<any> {
   debug(`Adding attributes of ${JSON.stringify(idsByType)}`);
-  let promises = [];
+  let promises: Promise<IndividualResolverOutput>[] = [];
   for (const type in idsByType) {
     const ids = idsByType[type];
     const supportedType = getSupportedType(type);
@@ -190,9 +196,10 @@ export async function _getAttributes(idsByType: object): Promise<any> {
       }
     }
   }
-  let res: any = await Promise.all(promises);
+  let res: IndividualResolverOutput[] = await Promise.all(promises);
   let merged = {};
   res.forEach((res_obj) => {
+    if (typeof res_obj === 'undefined') return;
     merged = {
       ...merged,
       ...res_obj,
