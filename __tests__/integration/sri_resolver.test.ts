@@ -86,12 +86,12 @@ describe("Test SRI Resolver", () => {
 
   test("Test handling semantic type conflicts", async () => {
     let input = {
-      "SmallMolecule": ["PUBCHEM.COMPOUND:23680530"]
+      "MolecularMixture": ["PUBCHEM.COMPOUND:23680530"]
     };
     const res = await resolveSRI(input);
 
     expect(res["PUBCHEM.COMPOUND:23680530"].primaryTypes.length).toBe(2);
-    expect(res["PUBCHEM.COMPOUND:23680530"].primaryTypes).toEqual(["MolecularMixture", "SmallMolecule"])
+    expect(res["PUBCHEM.COMPOUND:23680530"].primaryTypes).toEqual(["SmallMolecule", "MolecularMixture"])
   });
 
   test("Test large batch of inputs should be correctly resolved and should not give an error", async () => {
