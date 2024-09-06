@@ -108,6 +108,7 @@ function buildOneQuery(
   prefix: string,
   inputs: string[],
   semanticType: string,
+  abortSignal?: AbortSignal
 ): Promise<IndividualResolverOutput> {
   const idReturnFields = getReturnFields(metadata.mapping);
   let attrReturnFields = '';
@@ -135,8 +136,9 @@ function buildOneQuery(
       'content-type': 'application/json',
       'User-Agent': userAgent,
     },
+    signal: abortSignal,
   })
-    .then((response) => getDBIDs(prefix, semanticType, response.data))
+    .then((response) => getDBIDs(prefix, semanticType, response.data as any))
     .catch(() => undefined);
 }
 
@@ -145,13 +147,14 @@ function buildQueries(
   prefix: string,
   inputs: string[],
   semanticType: string,
+  abortSignal?: AbortSignal
 ): Promise<IndividualResolverOutput>[] {
   if (inputs.length > MAX_BIOTHINGS_INPUT_SIZE) {
     return _.chunk(inputs, MAX_BIOTHINGS_INPUT_SIZE).map((batch) =>
-      buildOneQuery(metadata, prefix, batch, semanticType),
+      buildOneQuery(metadata, prefix, batch, semanticType, abortSignal),
     );
   } else {
-    return [buildOneQuery(metadata, prefix, inputs, semanticType)];
+    return [buildOneQuery(metadata, prefix, inputs, semanticType, abortSignal)];
   }
 }
 
@@ -159,10 +162,10 @@ function getAPIMetaData(semanticType: string) {
   return APIMETA[semanticType];
 }
 
-function build(semanticType: string, curies: string[]): Promise<IndividualResolverOutput>[] {
+function build(semanticType: string, curies: string[], abortSignal?: AbortSignal): Promise<IndividualResolverOutput>[] {
   const grped = groupCuriesByPrefix(curies);
   return Object.keys(grped).reduce((prev: Promise<IndividualResolverOutput>[], current) => {
-    prev = [...prev, ...buildQueries(getAPIMetaData(semanticType), current, grped[current], semanticType)];
+    prev = [...prev, ...buildQueries(getAPIMetaData(semanticType), current, grped[current], semanticType, abortSignal)];
     return prev;
   }, []);
 }
@@ -181,7 +184,7 @@ function getSupportedType(category: string): string {
   return '';
 }
 
-export async function _getAttributes(idsByType: object): Promise<any> {
+export async function _getAttributes(idsByType: object, abortSignal?: AbortSignal): Promise<any> {
   debug(`Adding attributes of ${JSON.stringify(idsByType)}`);
   let promises: Promise<IndividualResolverOutput>[] = [];
   for (const type in idsByType) {
@@ -190,7 +193,7 @@ export async function _getAttributes(idsByType: object): Promise<any> {
     if (ids) {
       if (supportedType) {
         debug(`Processing attributes of: ${JSON.stringify(type)}`);
-        promises = [...promises, ...build(supportedType, ids)];
+        promises = [...promises, ...build(supportedType, ids, abortSignal)];
       } else {
         debug(`Cannot get attributes of type: ${JSON.stringify(type)}`);
       }
