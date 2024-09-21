@@ -34,12 +34,12 @@ export class Resolver implements IResolver {
   }
 }
 
-export async function resolveSRI(userInput: ResolverInput): Promise<SRIResolverOutput> {
-  return await _resolveSRI(userInput);
+export async function resolveSRI(userInput: ResolverInput, abortSignal?: AbortSignal): Promise<SRIResolverOutput> {
+  return await _resolveSRI(userInput, abortSignal);
 }
 
-export async function getAttributes(idsByType: object): Promise<any> {
-  return await _getAttributes(idsByType);
+export async function getAttributes(idsByType: object, abortSignal?: AbortSignal): Promise<any> {
+  return await _getAttributes(idsByType, abortSignal);
 }
 
 export const METADATA = APIMETA;
