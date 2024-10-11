@@ -29,7 +29,7 @@ function combineInputs(userInput: ResolverInput): string[] {
  * input: array of curies
  * handles querying and batching of inputs
  */
-async function query(api_input: string[]) {
+async function query(api_input: string[], abortSignal?: AbortSignal) {
   const url = {
     dev: 'https://nodenormalization-sri.renci.org/get_normalized_nodes',
     ci: 'https://nodenorm.ci.transltr.io/get_normalized_nodes',
@@ -47,7 +47,7 @@ async function query(api_input: string[]) {
       return axios.post(
         url,
         { curies: input, conflate: true, drug_chemical_conflate: true },
-        { headers: { 'User-Agent': userAgent } },
+        { headers: { 'User-Agent': userAgent }, signal: abortSignal },
       );
     });
     //convert res array into single object with all curies
@@ -57,7 +57,8 @@ async function query(api_input: string[]) {
     });
     return Object.assign({}, ...res);
   } catch (err) {
-    throw new SRINodeNormFailure(`SRI resolver failed: ${err.message}`);
+    // throw new SRINodeNormFailure(`SRI resolver failed: ${err.message}`);
+    return Object.fromEntries(api_input.map((curie) => [curie, null]));
   }
 }
 
@@ -135,10 +136,10 @@ function mapInputSemanticTypes(originalInput: ResolverInput, result: SRIResolver
   return result;
 }
 
-export async function _resolveSRI(userInput: ResolverInput): Promise<SRIResolverOutput> {
+export async function _resolveSRI(userInput: ResolverInput, abortSignal?: AbortSignal): Promise<SRIResolverOutput> {
   const uniqueInputIDs = combineInputs(userInput);
 
-  let queryResults = await query(uniqueInputIDs);
+  let queryResults = await query(uniqueInputIDs, abortSignal);
 
   queryResults = transformResults(queryResults);
 
